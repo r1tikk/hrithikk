@@ -2,969 +2,882 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Solo Leveling System</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:linear-gradient(135deg,#0a0a0f,#0d0d1a,#080810);font-family:'Segoe UI',sans-serif;color:#e2e8f0;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 50%,rgba(139,92,246,0.08),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(59,130,246,0.06),transparent 60%);z-index:0}
+:root{
+  --bg:#04040a;--bg2:#080814;--bg3:#0c0c1e;
+  --purple:#7c3aed;--purple-light:#a78bfa;--purple-dim:rgba(124,58,237,0.15);--purple-border:rgba(124,58,237,0.35);
+  --cyan:#06b6d4;--cyan-dim:rgba(6,182,212,0.10);--cyan-border:rgba(6,182,212,0.3);
+  --gold:#f59e0b;--red:#ef4444;--green:#22c55e;
+  --text:#e2e8f0;--text-muted:#64748b;--text-sub:#94a3b8;
+  --border:rgba(124,58,237,0.18);--card:rgba(8,8,20,0.92);--radius:14px;
+  --font-d:'Orbitron',monospace;--font-b:'Rajdhani',sans-serif;--font-m:'Share Tech Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);font-family:var(--font-b);color:var(--text);font-size:15px}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 55% 40% at 15% 20%,rgba(124,58,237,0.07),transparent 70%),
+             radial-gradient(ellipse 45% 35% at 85% 80%,rgba(6,182,212,0.05),transparent 70%),
+             repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(124,58,237,0.012) 81px),
+             repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(124,58,237,0.012) 81px)}
 
-/* ONBOARDING */
-#onboarding{position:fixed;inset:0;z-index:2000;background:linear-gradient(135deg,#0a0a0f,#0d0d1a);display:flex;align-items:center;justify-content:center;padding:20px}
-#onboarding.hidden{display:none}
-.ob-card{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(10,10,25,0.95));border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:32px 28px;max-width:440px;width:100%;box-shadow:0 0 60px rgba(139,92,246,0.15)}
-.ob-step{display:none}.ob-step.active{display:block}
-.ob-title{font-size:22px;font-weight:900;color:#8b5cf6;letter-spacing:2px;margin-bottom:6px;text-align:center}
-.ob-sub{color:#94a3b8;font-size:13px;text-align:center;margin-bottom:24px;line-height:1.5}
-.ob-logo{text-align:center;font-size:56px;margin-bottom:12px;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{text-shadow:0 0 20px rgba(139,92,246,0.5)}50%{text-shadow:0 0 40px rgba(139,92,246,0.9),0 0 80px rgba(139,92,246,0.3)}}
-.ob-field{margin-bottom:16px}
-.ob-label{font-size:11px;color:#8b5cf6;font-weight:700;letter-spacing:1.5px;margin-bottom:6px;display:block}
-.ob-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:12px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color 0.2s}
-.ob-input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,0.15)}
-.ob-input::placeholder{color:#475569}
-.ob-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ob-select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:12px 14px;color:#e2e8f0;font-size:14px;outline:none;cursor:pointer;appearance:none}
-.ob-select option{background:#0d0d1a;color:#e2e8f0}
-.ob-btn{width:100%;padding:14px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px;transition:opacity 0.2s,transform 0.1s}
-.ob-btn:hover{opacity:0.9;transform:translateY(-1px)}
-.ob-btn-outline{background:transparent;border:1px solid rgba(139,92,246,0.4);color:#8b5cf6;margin-top:8px}
-.ob-progress{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
-.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(139,92,246,0.3);transition:background 0.3s}
-.ob-dot.active{background:#8b5cf6;box-shadow:0 0 8px rgba(139,92,246,0.6)}
-.ob-goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.ob-goal-btn{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);border-radius:10px;padding:12px 8px;color:#94a3b8;cursor:pointer;font-size:12px;font-weight:600;text-align:center;transition:all 0.2s}
-.ob-goal-btn.selected{background:rgba(139,92,246,0.2);border-color:#8b5cf6;color:#c4b5fd}
-.ob-goal-btn .goal-emoji{font-size:22px;display:block;margin-bottom:4px}
-
-/* MAIN APP */
-#app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:16px 12px 80px;display:none}
-#app.visible{display:block}
+#root{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto}
+#scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 12px 4px}
+#scroll-area::-webkit-scrollbar{width:3px}
+#scroll-area::-webkit-scrollbar-thumb{background:var(--purple-border);border-radius:3px}
 
 /* HEADER */
-.header-card{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(10,10,25,0.9));border:1px solid rgba(139,92,246,0.4);border-radius:16px;padding:20px;margin-bottom:16px;animation:fadeSlideIn 0.5s ease}
-@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start}
-.rank-badge{display:inline-block;font-weight:900;font-size:11px;padding:2px 10px;border-radius:20px;color:#000;letter-spacing:1px}
-.bar-label{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-bottom:3px}
-.bar-track{height:7px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;margin-bottom:10px}
-.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease}
-.xp-fill{background:linear-gradient(90deg,#8b5cf6,#3b82f6);box-shadow:0 0 8px rgba(139,92,246,0.5)}
-.hp-fill{background:#ef4444}
-.mp-fill{background:#3b82f6}
-.bars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:20px;margin-bottom:12px}
-.section-title{color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.stat-box{background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:10px 6px;text-align:center}
-.stat-key{font-size:10px;color:#8b5cf6;letter-spacing:1px}
-.stat-val{font-size:22px;font-weight:900}
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.action-btn{border-radius:10px;padding:14px;font-weight:700;cursor:pointer;font-size:13px;border:1px solid;transition:opacity 0.2s,transform 0.1s}
-.action-btn:hover{opacity:0.8;transform:translateY(-1px)}
+.hdr{background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(8,8,20,0.95));border:1px solid var(--purple-border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;position:relative;overflow:hidden}
+.hdr::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple),transparent)}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.hdr-name{font-family:var(--font-d);font-size:17px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;cursor:pointer;min-height:28px}
+.hdr-name-input{background:rgba(255,255,255,0.08);border:1px solid var(--purple);border-radius:6px;padding:3px 8px;color:#fff;font-family:var(--font-d);font-size:14px;outline:none;width:140px}
+.hdr-name-confirm{background:var(--purple);border:none;border-radius:6px;padding:3px 10px;color:#fff;cursor:pointer;font-weight:700}
+.hdr-meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
+.badge-rank{font-family:var(--font-d);font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:1px;color:#000}
+.badge-lv{font-size:12px;color:var(--text-sub);font-family:var(--font-m)}
+.badge-streak{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.35);border-radius:20px;padding:2px 8px;font-size:11px;color:var(--gold);font-weight:600}
+.hdr-right{text-align:right}
+.gold-val{font-family:var(--font-d);font-size:16px;font-weight:700;color:var(--gold)}
+.gold-lbl{font-size:10px;color:var(--text-muted);letter-spacing:1px}
+.bar-wrap{margin-bottom:6px}
+.bar-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:3px;font-family:var(--font-m)}
+.bar-track{height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width 0.5s cubic-bezier(.4,0,.2,1)}
+.bar-xp{background:linear-gradient(90deg,var(--purple),#3b82f6);box-shadow:0 0 10px rgba(124,58,237,0.5)}
+.bar-hp{background:linear-gradient(90deg,#b91c1c,var(--red))}
+.bar-mp{background:linear-gradient(90deg,#1d4ed8,#3b82f6)}
+.bars-duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
 
-/* QUESTS */
-.quest-item{border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(139,92,246,0.25);transition:all 0.2s}
-.quest-item.done{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.3)}
-.quest-item.pending{background:rgba(10,10,25,0.85)}
-.quest-item.habit{background:rgba(6,182,212,0.06);border-color:rgba(6,182,212,0.25)}
-.quest-item.habit.done{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.3)}
-.quest-header{display:flex;justify-content:space-between;align-items:flex-start}
-.quest-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-.tag{padding:2px 8px;border-radius:12px;font-size:11px}
-.tag-xp{background:rgba(139,92,246,0.2);color:#c4b5fd}
-.tag-gold{background:rgba(245,158,11,0.2);color:#fcd34d}
-.tag-stat{background:rgba(59,130,246,0.2);color:#93c5fd}
-.tag-habit{background:rgba(6,182,212,0.2);color:#67e8f9}
-.complete-btn{background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:8px;padding:8px 12px;color:#fff;font-weight:700;cursor:pointer;font-size:12px;margin-left:10px;white-space:nowrap;transition:opacity 0.2s}
-.complete-btn:hover{opacity:0.85}
-.delete-btn{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:4px 8px;color:#fca5a5;cursor:pointer;font-size:11px;margin-left:6px;transition:opacity 0.2s}
-.delete-btn:hover{opacity:0.8}
+/* TAB BAR */
+#tab-bar{display:flex;background:rgba(4,4,10,0.98);border-top:1px solid var(--border)}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px 6px;border:none;background:none;color:var(--text-muted);cursor:pointer;border-top:2px solid transparent;transition:all 0.2s;gap:2px;font-family:var(--font-b)}
+.tab-btn.on{color:var(--purple-light);border-top-color:var(--purple);background:rgba(124,58,237,0.12)}
+.tab-icon{font-size:16px;line-height:1}
+.tab-lbl{font-size:9px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
 
-/* ADD HABIT FORM */
-.add-habit-form{background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:16px;margin-bottom:12px}
-.habit-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:10px 12px;color:#e2e8f0;font-size:13px;outline:none;margin-bottom:10px;transition:border-color 0.2s}
-.habit-input:focus{border-color:#06b6d4;box-shadow:0 0 0 3px rgba(6,182,212,0.1)}
-.habit-input::placeholder{color:#475569}
-.habit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.habit-select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:9px 12px;color:#e2e8f0;font-size:13px;outline:none;cursor:pointer;appearance:none}
-.habit-select option{background:#0d0d1a;color:#e2e8f0}
-.add-habit-btn{width:100%;padding:10px;background:linear-gradient(135deg,#06b6d4,#0284c7);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:opacity 0.2s}
-.add-habit-btn:hover{opacity:0.85}
-.toggle-habit-form{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:10px 16px;color:#67e8f9;font-weight:700;cursor:pointer;font-size:12px;margin-bottom:12px;width:100%;text-align:center;transition:opacity 0.2s}
-.toggle-habit-form:hover{opacity:0.8}
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple-border),transparent);opacity:0.5}
+.sec-title{font-family:var(--font-d);font-size:10px;font-weight:700;color:var(--purple-light);letter-spacing:2px;margin-bottom:12px;text-transform:uppercase}
+.tab-sec-hdr{font-family:var(--font-d);font-size:10px;font-weight:700;color:var(--purple-light);letter-spacing:2px;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.tab-sec-hdr::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat-box{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:10px 6px;text-align:center}
+.stat-k{font-size:9px;color:var(--purple-light);letter-spacing:1.5px;font-family:var(--font-d);font-weight:700}
+.stat-v{font-size:24px;font-weight:900;font-family:var(--font-d);line-height:1.2}
+
+/* ACTION BUTTONS */
+.act-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.act-btn{border-radius:10px;padding:13px 10px;font-weight:700;cursor:pointer;font-size:13px;border:1px solid;transition:all 0.18s;font-family:var(--font-b);text-align:center}
+.act-btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.act-btn:active{transform:translateY(0)}
+
+/* QUEST ITEMS */
+.q-item{background:rgba(8,8,20,0.85);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:13px;margin-bottom:8px;transition:border-color 0.2s}
+.q-item.done{background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.25)}
+.q-item.habit-t{background:rgba(6,182,212,0.04);border-color:var(--cyan-border)}
+.q-item.habit-t.done{background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.25)}
+.q-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.q-info{flex:1;min-width:0}
+.q-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:3px}
+.q-title.done-c{color:var(--green)}
+.q-desc{font-size:12px;color:var(--text-sub);margin-bottom:6px}
+.q-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;font-family:var(--font-m)}
+.tag-xp{background:rgba(124,58,237,0.18);color:var(--purple-light)}
+.tag-gold{background:rgba(245,158,11,0.15);color:var(--gold)}
+.tag-stat{background:rgba(59,130,246,0.18);color:#93c5fd}
+.tag-habit{background:var(--cyan-dim);color:var(--cyan)}
+.q-btns{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.btn-done{background:linear-gradient(135deg,var(--purple),#5b21b6);border:none;border-radius:7px;padding:7px 11px;color:#fff;font-weight:700;cursor:pointer;font-size:12px;white-space:nowrap;transition:opacity 0.2s;font-family:var(--font-b)}
+.btn-done:hover{opacity:0.85}
+.btn-del{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);border-radius:6px;padding:4px 8px;color:#fca5a5;cursor:pointer;font-size:11px;transition:opacity 0.2s}
+.btn-del:hover{opacity:0.8}
+.done-ck{color:var(--green);font-size:20px;padding:4px 8px}
+
+/* HABIT FORM */
+.btn-toggle{width:100%;background:var(--cyan-dim);border:1px solid var(--cyan-border);border-radius:8px;padding:10px;color:var(--cyan);font-weight:700;cursor:pointer;font-size:12px;margin-bottom:10px;font-family:var(--font-d);letter-spacing:1px;transition:opacity 0.2s}
+.btn-toggle:hover{opacity:0.8}
+.habit-form{background:var(--cyan-dim);border:1px solid var(--cyan-border);border-radius:12px;padding:14px;margin-bottom:10px}
+.h-inp{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--cyan-border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;margin-bottom:8px;font-family:var(--font-b);transition:border-color 0.2s}
+.h-inp:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(6,182,212,0.1)}
+.h-inp::placeholder{color:var(--text-muted)}
+.h-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.h-sel{width:100%;background:rgba(8,8,20,0.8);border:1px solid var(--cyan-border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;outline:none;cursor:pointer;font-family:var(--font-b)}
+.h-sel option{background:#08081a}
+.btn-add{width:100%;padding:10px;background:linear-gradient(135deg,var(--cyan),#0284c7);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:opacity 0.2s;font-family:var(--font-b)}
+.btn-add:hover{opacity:0.88}
+
+/* STAT BARS */
+.sbar{margin-bottom:10px}
+.sbar-hdr{display:flex;justify-content:space-between;margin-bottom:4px}
+.sbar-k{font-family:var(--font-d);font-size:11px;font-weight:700}
+.sbar-v{font-family:var(--font-m);font-size:12px;font-weight:700}
+.sbar-track{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:4px;transition:width 0.5s}
+.cp-big{font-family:var(--font-d);font-size:36px;font-weight:900;text-align:center;margin:4px 0}
+.cp-sub{text-align:center;font-size:11px;color:var(--text-muted);letter-spacing:1px;font-family:var(--font-m)}
 
 /* SHADOWS */
-.shadow-item{border-radius:10px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.shop-item{background:rgba(10,10,25,0.85);border-radius:10px;padding:14px;text-align:center}
-.buy-btn{border-radius:6px;padding:6px 0;font-weight:700;font-size:12px;width:100%;cursor:pointer;border:1px solid;transition:opacity 0.2s}
-.buy-btn:hover:not(:disabled){opacity:0.8}
-.buy-btn:disabled{cursor:not-allowed}
-.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.inv-item{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.25);border-radius:10px;padding:12px;text-align:center}
-.empty-inv{text-align:center;padding:40px;color:#64748b;border:1px dashed rgba(139,92,246,0.2);border-radius:12px}
+.s-card{background:rgba(8,8,20,0.85);border-radius:10px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border:1px solid}
+.s-em{font-size:30px;flex-shrink:0}
+.s-info{flex:1;min-width:0}
+.s-name{font-weight:700;font-size:15px;font-family:var(--font-d)}
+.s-sub{font-size:11px;color:var(--text-sub);margin-top:2px}
+.s-badges{display:flex;gap:6px;margin-top:5px}
+.s-badge{padding:1px 8px;border-radius:10px;font-size:10px;font-weight:700;font-family:var(--font-m)}
 
-/* PROFILE TAB */
-.profile-card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:20px;margin-bottom:12px}
-.profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;box-shadow:0 0 20px rgba(139,92,246,0.4)}
-.profile-stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(139,92,246,0.1)}
-.profile-stat-row:last-child{border-bottom:none}
-.profile-stat-label{color:#94a3b8;font-size:13px}
-.profile-stat-val{font-weight:700;color:#e2e8f0;font-size:14px}
-.profile-edit-btn{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:8px 16px;color:#c4b5fd;font-weight:700;cursor:pointer;font-size:12px;width:100%;margin-top:12px;transition:opacity 0.2s}
-.profile-edit-btn:hover{opacity:0.8}
-.bmi-card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center}
-.bmi-value{font-size:36px;font-weight:900;margin:8px 0 4px}
-.bmi-label{font-size:12px;color:#94a3b8}
-.goal-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.goal-chip{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:20px;padding:4px 12px;font-size:11px;color:#c4b5fd;font-weight:600}
+/* SHOP */
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shop-card{background:var(--card);border-radius:10px;padding:14px;text-align:center;border:1px solid}
+.shop-em{font-size:28px;margin-bottom:6px}
+.shop-name{font-weight:700;font-size:13px;margin-bottom:3px}
+.shop-eff{color:var(--text-sub);font-size:11px;margin-bottom:4px}
+.shop-type{font-size:9px;font-weight:700;letter-spacing:1px;font-family:var(--font-d);margin-bottom:8px}
+.btn-buy{width:100%;border-radius:6px;padding:7px;font-weight:700;font-size:12px;cursor:pointer;border:1px solid;transition:opacity 0.2s;font-family:var(--font-m)}
+.btn-buy:hover:not(:disabled){opacity:0.8}
+.btn-buy:disabled{cursor:not-allowed;opacity:0.45}
 
-/* NAV */
-#bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(5,5,15,0.97);border-top:1px solid rgba(139,92,246,0.3);display:flex;z-index:100}
-.nav-btn{flex:1;padding:10px 2px 8px;background:none;border:none;border-top:2px solid transparent;color:#64748b;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all 0.2s}
-.nav-btn.active{background:rgba(139,92,246,0.2);border-top-color:#8b5cf6;color:#a78bfa}
-.nav-icon{font-size:17px}
-.nav-label{font-size:7px;font-weight:700;letter-spacing:0.5px}
+/* INVENTORY */
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inv-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.inv-em{font-size:26px;margin-bottom:5px}
+.inv-name{font-weight:700;font-size:12px}
+.inv-eff{color:var(--text-sub);font-size:11px;margin-top:3px}
+.inv-empty{text-align:center;padding:40px 20px;color:var(--text-muted);border:1px dashed var(--border);border-radius:12px}
+
+/* PROFILE */
+.prof-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+.prof-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--purple),#3b82f6);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;box-shadow:0 0 24px rgba(124,58,237,0.4)}
+.prof-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(124,58,237,0.08)}
+.prof-row:last-child{border-bottom:none}
+.prof-lbl{font-size:12px;color:var(--text-sub)}
+.prof-val{font-weight:700;font-size:13px;font-family:var(--font-m)}
+.btn-ep{width:100%;background:rgba(124,58,237,0.12);border:1px solid var(--purple-border);border-radius:8px;padding:9px;color:var(--purple-light);font-weight:700;cursor:pointer;font-size:12px;margin-top:12px;font-family:var(--font-d);letter-spacing:1px;transition:opacity 0.2s}
+.btn-ep:hover{opacity:0.8}
+.bmi-box{text-align:center;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px}
+.bmi-num{font-size:40px;font-weight:900;font-family:var(--font-d);margin:6px 0 3px}
+.goal-chip{background:rgba(124,58,237,0.12);border:1px solid var(--purple-border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--purple-light);font-weight:600;display:inline-block;margin:3px}
 
 /* MODALS */
-.modal-overlay{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85)}
-.modal-overlay.show{display:flex}
-.modal-box{text-align:center;padding:40px;border-radius:20px;max-width:340px;width:90%}
-.modal-levelup{border:2px solid #8b5cf6;background:rgba(10,10,30,0.97);box-shadow:0 0 60px rgba(139,92,246,0.6)}
-.modal-penalty{border:2px solid #ef4444;background:rgba(20,5,5,0.98);box-shadow:0 0 60px rgba(239,68,68,0.5)}
+.modal-bg{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px)}
+.modal-bg.open{display:flex}
+.modal{background:rgba(8,8,20,0.99);border-radius:18px;padding:36px 28px;max-width:320px;width:90%;text-align:center;position:relative}
+.modal-lv{border:2px solid var(--purple);box-shadow:0 0 60px rgba(124,58,237,0.5)}
+.modal-pen{border:2px solid var(--red);box-shadow:0 0 60px rgba(239,68,68,0.4)}
+.modal-edit{max-width:380px;width:92%;text-align:left;max-height:90vh;overflow-y:auto;padding:24px 20px}
+.m-icon{font-size:56px;margin-bottom:8px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.pulse{animation:pulse 1.2s ease infinite}
+.m-title{font-family:var(--font-d);font-size:26px;font-weight:900;letter-spacing:3px}
+.m-sub{margin:10px 0;font-size:14px;color:var(--text-sub);line-height:1.6}
+.m-lv{font-family:var(--font-d);font-size:20px;margin-top:6px}
+.m-rank{font-family:var(--font-d);font-size:16px;font-weight:700;margin-top:2px}
+.btn-accept{margin-top:16px;padding:11px 32px;background:var(--red);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;font-family:var(--font-d);letter-spacing:1px}
+
+/* Edit modal */
+.e-field{margin-bottom:14px}
+.e-lbl{font-size:10px;color:var(--purple-light);font-weight:700;letter-spacing:1.5px;margin-bottom:5px;display:block;font-family:var(--font-d)}
+.e-inp{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--purple-border);border-radius:9px;padding:10px 13px;color:var(--text);font-size:14px;outline:none;font-family:var(--font-b);transition:border-color 0.2s}
+.e-inp:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,0.12)}
+.e-sel{width:100%;background:rgba(8,8,20,0.9);border:1px solid var(--purple-border);border-radius:9px;padding:10px 13px;color:var(--text);font-size:14px;outline:none;cursor:pointer;font-family:var(--font-b)}
+.e-sel option{background:#08081a}
+.e-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-save{width:100%;padding:13px;background:linear-gradient(135deg,var(--purple),#5b21b6);border:none;border-radius:9px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px;font-family:var(--font-d);letter-spacing:1px;transition:opacity 0.2s}
+.btn-save:hover{opacity:0.9}
+.btn-cancel{width:100%;padding:11px;background:transparent;border:1px solid var(--purple-border);border-radius:9px;color:var(--purple-light);font-weight:700;font-size:14px;cursor:pointer;margin-top:8px;font-family:var(--font-b);transition:opacity 0.2s}
+.btn-cancel:hover{opacity:0.8}
+.m-et{font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--purple-light);letter-spacing:2px;text-align:center;margin-bottom:18px}
 
 /* TOASTS */
-#toasts{position:fixed;top:16px;right:16px;z-index:1000;display:flex;flex-direction:column;gap:6px;pointer-events:none}
-.toast{background:rgba(10,10,20,0.95);border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;animation:slideIn 0.3s ease,fadeOut 0.5s ease 2.5s forwards}
-@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes fadeOut{from{opacity:1}to{opacity:0}}
-.stat-row{margin-bottom:12px}
-.stat-row-header{display:flex;justify-content:space-between;margin-bottom:4px}
-.stat-bar-track{height:7px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
-.stat-bar-fill{height:100%;border-radius:4px;transition:width 0.4s}
-.name-edit{display:flex;gap:8px}
-.name-input{background:rgba(255,255,255,0.1);border:1px solid #8b5cf6;border-radius:6px;padding:4px 8px;color:#fff;font-size:15px;outline:none}
-.name-confirm{background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;cursor:pointer}
-.edit-btn{background:none;border:none;color:#8b5cf6;cursor:pointer;font-size:14px}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.4);border-radius:4px}
-.streak-badge{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:2px 8px;font-size:11px;color:#fcd34d;font-weight:700}
+#toasts{position:fixed;top:12px;right:12px;z-index:600;display:flex;flex-direction:column;gap:6px;pointer-events:none;max-width:260px}
+.toast{background:rgba(8,8,20,0.97);border-radius:8px;padding:8px 13px;font-weight:600;font-size:13px;font-family:var(--font-m);border-left:3px solid;animation:tIn 0.25s ease,tOut 0.4s ease 2.6s forwards}
+@keyframes tIn{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes tOut{from{opacity:1}to{opacity:0}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.tab-panel{animation:fadeUp 0.2s ease}
+
+.sys-center{text-align:center;padding:16px 8px}
+.sys-rank{font-family:var(--font-d);font-size:24px;font-weight:900;letter-spacing:2px;margin-bottom:4px}
+.sys-sub{font-size:12px;color:var(--text-sub);font-family:var(--font-m)}
 </style>
 </head>
 <body>
 
-<!-- ═══ ONBOARDING ═══ -->
-<div id="onboarding">
-  <div class="ob-card">
-    <!-- Step 0: Welcome -->
-    <div class="ob-step active" id="step-0">
-      <div class="ob-logo">⚡</div>
-      <div class="ob-title">SYSTEM AWAKENED</div>
-      <div class="ob-sub">You have been chosen by the System.<br/>Complete your Hunter Registration to begin your journey.</div>
-      <button class="ob-btn" onclick="nextStep(1)">BEGIN REGISTRATION →</button>
-    </div>
-    <!-- Step 1: Basic Info -->
-    <div class="ob-step" id="step-1">
-      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-      <div class="ob-title">HUNTER IDENTITY</div>
-      <div class="ob-sub">Tell the System who you are.</div>
-      <div class="ob-field">
-        <label class="ob-label">YOUR NAME</label>
-        <input class="ob-input" id="ob-name" type="text" placeholder="Enter your name..." maxlength="30"/>
-      </div>
-      <div class="ob-row">
-        <div class="ob-field">
-          <label class="ob-label">AGE</label>
-          <input class="ob-input" id="ob-age" type="number" placeholder="Age" min="5" max="120"/>
-        </div>
-        <div class="ob-field">
-          <label class="ob-label">GENDER</label>
-          <select class="ob-select" id="ob-gender">
-            <option value="">Select...</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-      </div>
-      <button class="ob-btn" onclick="validateStep1()">NEXT →</button>
-    </div>
-    <!-- Step 2: Body Stats -->
-    <div class="ob-step" id="step-2">
-      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-      <div class="ob-title">BODY MEASUREMENTS</div>
-      <div class="ob-sub">The System requires your physical data to calibrate your stats.</div>
-      <div class="ob-row">
-        <div class="ob-field">
-          <label class="ob-label">HEIGHT (cm)</label>
-          <input class="ob-input" id="ob-height" type="number" placeholder="e.g. 175" min="50" max="300"/>
-        </div>
-        <div class="ob-field">
-          <label class="ob-label">WEIGHT (kg)</label>
-          <input class="ob-input" id="ob-weight" type="number" placeholder="e.g. 70" min="10" max="500"/>
-        </div>
-      </div>
-      <div class="ob-field">
-        <label class="ob-label">FITNESS LEVEL</label>
-        <select class="ob-select" id="ob-fitness">
-          <option value="Beginner">Beginner (E-Rank)</option>
-          <option value="Intermediate">Intermediate (C-Rank)</option>
-          <option value="Advanced">Advanced (A-Rank)</option>
-          <option value="Elite">Elite (S-Rank)</option>
-        </select>
-      </div>
-      <button class="ob-btn" onclick="validateStep2()">NEXT →</button>
-      <button class="ob-btn ob-btn-outline" onclick="nextStep(1)">← BACK</button>
-    </div>
-    <!-- Step 3: Goals -->
-    <div class="ob-step" id="step-3">
-      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
-      <div class="ob-title">CHOOSE YOUR PATH</div>
-      <div class="ob-sub">Select your goals. The System will calibrate your daily quests.</div>
-      <div class="ob-goal-grid" id="goal-grid">
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'💪 Build Muscle')"><span class="goal-emoji">💪</span>Build Muscle</button>
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'🏃 Lose Weight')"><span class="goal-emoji">🏃</span>Lose Weight</button>
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'🧘 Mental Focus')"><span class="goal-emoji">🧘</span>Mental Focus</button>
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'⚡ Increase Stamina')"><span class="goal-emoji">⚡</span>Increase Stamina</button>
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'📚 Study / Learn')"><span class="goal-emoji">📚</span>Study / Learn</button>
-        <button class="ob-goal-btn" onclick="toggleGoal(this,'😴 Better Sleep')"><span class="goal-emoji">😴</span>Better Sleep</button>
-      </div>
-      <button class="ob-btn" onclick="validateStep3()">NEXT →</button>
-      <button class="ob-btn ob-btn-outline" onclick="nextStep(2)">← BACK</button>
-    </div>
-    <!-- Step 4: Confirm -->
-    <div class="ob-step" id="step-4">
-      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div></div>
-      <div class="ob-logo" style="font-size:48px;margin-bottom:8px">🎯</div>
-      <div class="ob-title">REGISTRATION COMPLETE</div>
-      <div id="ob-summary" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:16px;margin:16px 0;text-align:left;font-size:13px;line-height:2"></div>
-      <button class="ob-btn" onclick="finishOnboarding()">⚡ ENTER THE SYSTEM</button>
-    </div>
-  </div>
-</div>
+<div id="root">
+  <div id="scroll-area">
 
-<!-- ═══ TOASTS ═══ -->
-<div id="toasts"></div>
-
-<!-- Level Up Modal -->
-<div class="modal-overlay" id="modal-levelup">
-  <div class="modal-box modal-levelup">
-    <div style="font-size:60px">⚡</div>
-    <div style="font-size:36px;font-weight:900;color:#8b5cf6;letter-spacing:4px;margin-top:4px">LEVEL UP!</div>
-    <div style="font-size:22px;margin-top:8px" id="modal-level-text">Level 2</div>
-    <div style="font-weight:700;font-size:18px;margin-top:4px" id="modal-rank-text"></div>
-  </div>
-</div>
-
-<!-- Penalty Modal -->
-<div class="modal-overlay" id="modal-penalty">
-  <div class="modal-box modal-penalty">
-    <div style="font-size:60px">⚠️</div>
-    <div style="font-size:28px;font-weight:900;color:#ef4444;letter-spacing:3px;margin-top:4px">PENALTY ZONE</div>
-    <div style="color:#fca5a5;margin:12px 0;line-height:1.6">You failed your daily quests.<br/>The System does not forgive weakness.</div>
-    <div style="color:#ef4444;font-weight:700">-3 ALL STATS | -200 HP</div>
-    <button onclick="closePenalty()" style="margin-top:16px;padding:10px 28px;background:#ef4444;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px">ACCEPT PUNISHMENT</button>
-  </div>
-</div>
-
-<!-- ═══ MAIN APP ═══ -->
-<div id="app">
-  <!-- Header -->
-  <div class="header-card">
-    <div class="header-top">
-      <div>
-        <div id="name-display" style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px;font-weight:900" id="player-name">Hunter</span>
-          <button class="edit-btn" onclick="startEditName()">✏️</button>
+    <!-- HEADER -->
+    <div class="hdr">
+      <div class="hdr-top">
+        <div>
+          <div id="name-disp" class="hdr-name" onclick="startEditName()">
+            <span id="player-name">Hunter</span>
+            <span style="font-size:12px;color:var(--text-muted)">✏️</span>
+          </div>
+          <div id="name-edit" style="display:none;gap:6px;margin-top:4px;align-items:center">
+            <input id="name-inp" class="hdr-name-input" type="text" maxlength="24" placeholder="Name..."/>
+            <button class="hdr-name-confirm" onclick="confirmName()">✓</button>
+          </div>
+          <div class="hdr-meta">
+            <span class="badge-rank" id="rank-badge">E-Rank</span>
+            <span class="badge-lv" id="lv-badge">Lv.1</span>
+            <span class="badge-streak" id="streak-badge">🔥 0 days</span>
+          </div>
         </div>
-        <div id="name-edit" class="name-edit" style="display:none">
-          <input class="name-input" id="name-input" type="text"/>
-          <button class="name-confirm" onclick="confirmName()">✓</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
-          <span class="rank-badge" id="rank-badge">E-Rank</span>
-          <span style="color:#94a3b8;font-size:13px" id="level-text">Lv.1</span>
-          <span class="streak-badge" id="streak-badge">🔥 0 day streak</span>
+        <div class="hdr-right">
+          <div class="gold-val" id="gold-disp">💰 200</div>
+          <div class="gold-lbl">GOLD</div>
         </div>
       </div>
-      <div style="text-align:right">
-        <div style="color:#f59e0b;font-weight:700;font-size:16px" id="gold-display">💰 200</div>
-        <div style="color:#94a3b8;font-size:11px">Gold</div>
+      <div class="bar-wrap">
+        <div class="bar-lbl"><span>EXP</span><span id="xp-lbl">0/200</span></div>
+        <div class="bar-track"><div class="bar-fill bar-xp" id="xp-bar" style="width:0%"></div></div>
+      </div>
+      <div class="bars-duo">
+        <div class="bar-wrap" style="margin:0">
+          <div class="bar-lbl"><span>❤️ HP</span><span id="hp-lbl">1000/1000</span></div>
+          <div class="bar-track"><div class="bar-fill bar-hp" id="hp-bar" style="width:100%"></div></div>
+        </div>
+        <div class="bar-wrap" style="margin:0">
+          <div class="bar-lbl"><span>💙 MP</span><span id="mp-lbl">500/500</span></div>
+          <div class="bar-track"><div class="bar-fill bar-mp" id="mp-bar" style="width:100%"></div></div>
+        </div>
       </div>
     </div>
-    <div style="margin-top:14px">
-      <div class="bar-label"><span>EXP</span><span id="xp-label">0 / 200</span></div>
-      <div class="bar-track"><div class="bar-fill xp-fill" id="xp-bar" style="width:0%"></div></div>
-    </div>
-    <div class="bars-grid">
-      <div>
-        <div class="bar-label"><span>❤️ HP</span><span id="hp-label">1000/1000</span></div>
-        <div class="bar-track" style="margin-bottom:0"><div class="bar-fill hp-fill" id="hp-bar" style="width:100%"></div></div>
-      </div>
-      <div>
-        <div class="bar-label"><span>💙 MP</span><span id="mp-label">500/500</span></div>
-        <div class="bar-track" style="margin-bottom:0"><div class="bar-fill mp-fill" id="mp-bar" style="width:100%"></div></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- SYSTEM TAB -->
-  <div id="tab-system">
-    <div class="card" style="text-align:center">
-      <div style="font-size:12px;color:#8b5cf6;letter-spacing:3px;margin-bottom:8px">⚡ SYSTEM AWAKENED ⚡</div>
-      <div style="font-size:28px;font-weight:900" id="sys-rank">E-Rank Hunter</div>
-      <div style="color:#94a3b8;font-size:13px;margin-top:4px" id="sys-sub">Level 1 • 1 Shadows</div>
-      <div class="stats-grid" id="stats-grid"></div>
-    </div>
-    <div class="action-grid">
-      <button class="action-btn" style="background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#93c5fd" onclick="resetDailies()">🔄 Reset Dailies</button>
-      <button class="action-btn" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);color:#fca5a5" onclick="triggerPenalty()">⚠️ Trigger Penalty</button>
-      <button class="action-btn" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#86efac" onclick="restoreAll()">💊 Restore HP/MP</button>
-      <button class="action-btn" style="background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.4);color:#c4b5fd" onclick="train()">⚡ Train (+100 XP)</button>
-    </div>
-  </div>
+    <!-- TAB PANELS -->
 
-  <!-- QUESTS TAB -->
-  <div id="tab-quests" style="display:none">
-    <!-- Add Habit -->
-    <div style="margin-top:4px">
-      <button class="toggle-habit-form" onclick="toggleHabitForm()" id="habit-toggle-btn">+ ADD CUSTOM HABIT</button>
-      <div id="habit-form" style="display:none">
-        <div class="add-habit-form">
-          <div style="color:#06b6d4;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px">✨ NEW HABIT</div>
-          <input class="habit-input" id="habit-name" type="text" placeholder="Habit name (e.g. Drink 2L water)..." maxlength="50"/>
-          <input class="habit-input" id="habit-desc" type="text" placeholder="Description (optional)..." maxlength="80"/>
-          <div class="habit-row">
+    <!-- SYSTEM -->
+    <div id="tab-system" class="tab-panel">
+      <div class="card">
+        <div class="sys-center">
+          <div style="font-size:11px;color:var(--purple-light);letter-spacing:3px;font-family:var(--font-d);margin-bottom:6px">⚡ SYSTEM AWAKENED ⚡</div>
+          <div class="sys-rank" id="sys-rank-name">E-Rank Hunter</div>
+          <div class="sys-sub" id="sys-sub">Level 1 · 1 Shadow</div>
+          <div class="stat-grid" id="stat-grid"></div>
+        </div>
+      </div>
+      <div class="act-grid">
+        <button class="act-btn" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.35);color:#93c5fd" onclick="resetDailies()">🔄 Reset Dailies</button>
+        <button class="act-btn" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.35);color:#fca5a5" onclick="triggerPenalty()">⚠️ Penalty Check</button>
+        <button class="act-btn" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.35);color:#86efac" onclick="restoreAll()">💊 Restore HP/MP</button>
+        <button class="act-btn" style="background:var(--purple-dim);border-color:var(--purple-border);color:var(--purple-light)" onclick="train()">⚡ Train (+100 XP)</button>
+      </div>
+    </div>
+
+    <!-- QUESTS -->
+    <div id="tab-quests" class="tab-panel" style="display:none">
+      <button class="btn-toggle" id="habit-toggle" onclick="toggleHabitForm()">+ ADD CUSTOM HABIT</button>
+      <div id="habit-form-wrap" style="display:none">
+        <div class="habit-form">
+          <div style="font-family:var(--font-d);font-size:10px;color:var(--cyan);letter-spacing:2px;margin-bottom:12px">✨ NEW HABIT</div>
+          <input class="h-inp" id="h-name" type="text" placeholder="Habit name..." maxlength="50"/>
+          <input class="h-inp" id="h-desc" type="text" placeholder="Description (optional)..." maxlength="80"/>
+          <div class="h-row">
             <div>
-              <div style="font-size:10px;color:#06b6d4;font-weight:700;letter-spacing:1px;margin-bottom:5px">XP REWARD</div>
-              <select class="habit-select" id="habit-xp">
-                <option value="50">50 XP (Easy)</option>
-                <option value="100" selected>100 XP (Normal)</option>
-                <option value="150">150 XP (Hard)</option>
-                <option value="200">200 XP (Epic)</option>
+              <div style="font-size:9px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:5px;font-family:var(--font-d)">XP REWARD</div>
+              <select class="h-sel" id="h-xp">
+                <option value="50">50 XP — Easy</option>
+                <option value="100" selected>100 XP — Normal</option>
+                <option value="150">150 XP — Hard</option>
+                <option value="200">200 XP — Epic</option>
               </select>
             </div>
             <div>
-              <div style="font-size:10px;color:#06b6d4;font-weight:700;letter-spacing:1px;margin-bottom:5px">STAT BOOST</div>
-              <select class="habit-select" id="habit-stat">
-                <option value="STR">STR (Strength)</option>
-                <option value="AGI">AGI (Agility)</option>
-                <option value="VIT">VIT (Vitality)</option>
-                <option value="INT">INT (Intelligence)</option>
-                <option value="PER">PER (Perception)</option>
-                <option value="LUK">LUK (Luck)</option>
+              <div style="font-size:9px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:5px;font-family:var(--font-d)">STAT BOOST</div>
+              <select class="h-sel" id="h-stat">
+                <option value="STR">STR — Strength</option>
+                <option value="AGI">AGI — Agility</option>
+                <option value="VIT">VIT — Vitality</option>
+                <option value="INT">INT — Intelligence</option>
+                <option value="PER">PER — Perception</option>
+                <option value="LUK">LUK — Luck</option>
               </select>
             </div>
           </div>
-          <button class="add-habit-btn" onclick="addHabit()">⚡ ADD HABIT TO SYSTEM</button>
+          <button class="btn-add" onclick="addHabit()">⚡ ADD TO SYSTEM</button>
         </div>
       </div>
-    </div>
-    <!-- Custom Habits -->
-    <div id="custom-habits-section" style="display:none">
-      <div style="color:#06b6d4;font-weight:700;font-size:12px;letter-spacing:2px;margin:8px 0 8px">✨ MY HABITS</div>
-      <div id="custom-habits"></div>
-    </div>
-    <!-- Daily Quests -->
-    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin:12px 0 8px">📋 DAILY QUESTS</div>
-    <div id="daily-quests"></div>
-    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin:16px 0 8px">⚔️ MAIN QUESTS</div>
-    <div id="main-quests"></div>
-  </div>
-
-  <!-- STATS TAB -->
-  <div id="tab-stats" style="display:none">
-    <div class="card">
-      <div class="section-title">📊 PLAYER STATS</div>
-      <div id="stat-bars"></div>
-    </div>
-    <div class="card">
-      <div class="section-title">🏆 COMBAT POWER</div>
-      <div style="font-size:32px;font-weight:900;text-align:center" id="cp-value">0</div>
-      <div style="color:#94a3b8;text-align:center;font-size:12px;margin-top:4px">Overall Combat Power</div>
-    </div>
-  </div>
-
-  <!-- SHADOWS TAB -->
-  <div id="tab-shadows" style="display:none">
-    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="shadow-title">👥 SHADOW ARMY — 1/8</div>
-    <div id="shadow-list"></div>
-  </div>
-
-  <!-- SHOP TAB -->
-  <div id="tab-shop" style="display:none">
-    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="shop-title">🏪 SYSTEM SHOP</div>
-    <div class="shop-grid" id="shop-grid"></div>
-  </div>
-
-  <!-- INVENTORY TAB -->
-  <div id="tab-inventory" style="display:none">
-    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="inv-title">🎒 INVENTORY — 0 items</div>
-    <div id="inv-grid"></div>
-  </div>
-
-  <!-- PROFILE TAB -->
-  <div id="tab-profile" style="display:none">
-    <div class="profile-card">
-      <div class="profile-avatar" id="profile-avatar">🧑</div>
-      <div style="text-align:center;margin-bottom:16px">
-        <div style="font-size:18px;font-weight:900" id="profile-name-display">Hunter</div>
-        <div style="color:#94a3b8;font-size:12px;margin-top:2px" id="profile-rank-display">E-Rank • Level 1</div>
+      <div id="habits-section" style="display:none">
+        <div class="tab-sec-hdr">✨ MY HABITS</div>
+        <div id="habits-list"></div>
       </div>
-      <div class="profile-stat-row"><span class="profile-stat-label">👤 Name</span><span class="profile-stat-val" id="p-name">—</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">🎂 Age</span><span class="profile-stat-val" id="p-age">—</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">⚧ Gender</span><span class="profile-stat-val" id="p-gender">—</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">📏 Height</span><span class="profile-stat-val" id="p-height">—</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">⚖️ Weight</span><span class="profile-stat-val" id="p-weight">—</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">💪 Fitness Level</span><span class="profile-stat-val" id="p-fitness">—</span></div>
-      <button class="profile-edit-btn" onclick="openEditProfile()">✏️ EDIT PROFILE</button>
+      <div class="tab-sec-hdr">📋 DAILY QUESTS</div>
+      <div id="daily-list"></div>
+      <div class="tab-sec-hdr">⚔️ MAIN QUESTS</div>
+      <div id="main-list"></div>
     </div>
-    <div class="bmi-card" id="bmi-card">
-      <div class="section-title" style="text-align:center">📊 BODY STATS</div>
-      <div class="bmi-value" id="bmi-value">—</div>
-      <div class="bmi-label" id="bmi-label">BMI</div>
-      <div style="color:#94a3b8;font-size:11px;margin-top:4px" id="bmi-status">Enter height & weight to calculate</div>
+
+    <!-- STATS -->
+    <div id="tab-stats" class="tab-panel" style="display:none">
+      <div class="card">
+        <div class="sec-title">📊 Player Statistics</div>
+        <div id="stat-bars"></div>
+      </div>
+      <div class="card">
+        <div class="sec-title">🏆 Combat Power</div>
+        <div class="cp-big" id="cp-val">0</div>
+        <div class="cp-sub">TOTAL COMBAT POWER</div>
+      </div>
     </div>
-    <div class="profile-card">
-      <div class="section-title">🎯 MY GOALS</div>
-      <div class="goal-chips" id="goal-chips"></div>
+
+    <!-- SHADOWS -->
+    <div id="tab-shadows" class="tab-panel" style="display:none">
+      <div class="tab-sec-hdr" id="shadow-hdr">👥 SHADOW ARMY — 1/8</div>
+      <div id="shadow-list"></div>
     </div>
-    <div class="profile-card">
-      <div class="section-title">📈 PROGRESS SUMMARY</div>
-      <div class="profile-stat-row"><span class="profile-stat-label">✅ Quests Done</span><span class="profile-stat-val" id="p-quests-done">0</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">🔥 Habit Streak</span><span class="profile-stat-val" id="p-streak">0 days</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">👥 Shadows</span><span class="profile-stat-val" id="p-shadows">1/8</span></div>
-      <div class="profile-stat-row"><span class="profile-stat-label">💰 Gold Earned</span><span class="profile-stat-val" id="p-gold-total">0</span></div>
+
+    <!-- SHOP -->
+    <div id="tab-shop" class="tab-panel" style="display:none">
+      <div class="tab-sec-hdr" id="shop-hdr">🏪 SYSTEM SHOP</div>
+      <div class="shop-grid" id="shop-grid"></div>
     </div>
+
+    <!-- INVENTORY -->
+    <div id="tab-inventory" class="tab-panel" style="display:none">
+      <div class="tab-sec-hdr" id="inv-hdr">🎒 INVENTORY</div>
+      <div id="inv-content"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="tab-profile" class="tab-panel" style="display:none">
+      <div class="prof-card">
+        <div class="prof-avatar" id="prof-avatar">🧑</div>
+        <div style="text-align:center;margin-bottom:14px">
+          <div style="font-family:var(--font-d);font-size:17px;font-weight:700" id="prof-name">Hunter</div>
+          <div style="font-size:11px;margin-top:3px;font-family:var(--font-m)" id="prof-rank-lv">E-Rank · Level 1</div>
+        </div>
+        <div class="prof-row"><span class="prof-lbl">👤 Name</span><span class="prof-val" id="p-name">—</span></div>
+        <div class="prof-row"><span class="prof-lbl">🎂 Age</span><span class="prof-val" id="p-age">—</span></div>
+        <div class="prof-row"><span class="prof-lbl">⚧ Gender</span><span class="prof-val" id="p-gender">—</span></div>
+        <div class="prof-row"><span class="prof-lbl">📏 Height</span><span class="prof-val" id="p-height">—</span></div>
+        <div class="prof-row"><span class="prof-lbl">⚖️ Weight</span><span class="prof-val" id="p-weight">—</span></div>
+        <div class="prof-row"><span class="prof-lbl">💪 Fitness</span><span class="prof-val" id="p-fitness">—</span></div>
+        <button class="btn-ep" onclick="openEditProfile()">✏️ EDIT PROFILE</button>
+      </div>
+      <div class="bmi-box">
+        <div class="sec-title" style="text-align:center">📊 BODY ANALYSIS</div>
+        <div class="bmi-num" id="bmi-num">—</div>
+        <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-m)">BMI</div>
+        <div style="font-size:12px;color:var(--text-sub);margin-top:4px" id="bmi-status">Set height &amp; weight in profile</div>
+      </div>
+      <div class="prof-card">
+        <div class="sec-title">🎯 GOALS</div>
+        <div id="goal-chips" style="margin-top:4px"></div>
+      </div>
+      <div class="prof-card">
+        <div class="sec-title">📈 PROGRESS</div>
+        <div class="prof-row"><span class="prof-lbl">✅ Quests Completed</span><span class="prof-val" id="p-quests">0</span></div>
+        <div class="prof-row"><span class="prof-lbl">🔥 Current Streak</span><span class="prof-val" id="p-streak">0 days</span></div>
+        <div class="prof-row"><span class="prof-lbl">👥 Shadows</span><span class="prof-val" id="p-shadows">1/8</span></div>
+        <div class="prof-row"><span class="prof-lbl">💰 Total Gold</span><span class="prof-val" id="p-gold">0</span></div>
+      </div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- TAB BAR -->
+  <div id="tab-bar">
+    <button class="tab-btn on" data-tab="system" onclick="switchTab('system',this)"><span class="tab-icon">⚡</span><span class="tab-lbl">System</span></button>
+    <button class="tab-btn" data-tab="quests" onclick="switchTab('quests',this)"><span class="tab-icon">📋</span><span class="tab-lbl">Quests</span></button>
+    <button class="tab-btn" data-tab="stats" onclick="switchTab('stats',this)"><span class="tab-icon">📊</span><span class="tab-lbl">Stats</span></button>
+    <button class="tab-btn" data-tab="shadows" onclick="switchTab('shadows',this)"><span class="tab-icon">👥</span><span class="tab-lbl">Shadows</span></button>
+    <button class="tab-btn" data-tab="shop" onclick="switchTab('shop',this)"><span class="tab-icon">🏪</span><span class="tab-lbl">Shop</span></button>
+    <button class="tab-btn" data-tab="inventory" onclick="switchTab('inventory',this)"><span class="tab-icon">🎒</span><span class="tab-lbl">Bag</span></button>
+    <button class="tab-btn" data-tab="profile" onclick="switchTab('profile',this)"><span class="tab-icon">👤</span><span class="tab-lbl">Profile</span></button>
   </div>
 </div>
 
-<!-- Edit Profile Modal -->
-<div class="modal-overlay" id="modal-profile-edit">
-  <div style="background:rgba(10,10,25,0.98);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:28px;max-width:380px;width:90%;max-height:90vh;overflow-y:auto">
-    <div style="font-size:16px;font-weight:900;color:#8b5cf6;letter-spacing:2px;margin-bottom:20px;text-align:center">✏️ EDIT PROFILE</div>
-    <div class="ob-field"><label class="ob-label">NAME</label><input class="ob-input" id="edit-name" type="text"/></div>
-    <div class="ob-row">
-      <div class="ob-field"><label class="ob-label">AGE</label><input class="ob-input" id="edit-age" type="number" min="5" max="120"/></div>
-      <div class="ob-field"><label class="ob-label">GENDER</label><select class="ob-select" id="edit-gender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
-    </div>
-    <div class="ob-row">
-      <div class="ob-field"><label class="ob-label">HEIGHT (cm)</label><input class="ob-input" id="edit-height" type="number" min="50" max="300"/></div>
-      <div class="ob-field"><label class="ob-label">WEIGHT (kg)</label><input class="ob-input" id="edit-weight" type="number" min="10" max="500"/></div>
-    </div>
-    <div class="ob-field"><label class="ob-label">FITNESS LEVEL</label><select class="ob-select" id="edit-fitness"><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option><option value="Elite">Elite</option></select></div>
-    <button class="ob-btn" onclick="saveProfileEdit()" style="margin-top:4px">SAVE CHANGES</button>
-    <button class="ob-btn ob-btn-outline" onclick="closeProfileEdit()">CANCEL</button>
+<!-- TOASTS -->
+<div id="toasts"></div>
+
+<!-- LEVEL UP MODAL -->
+<div class="modal-bg" id="modal-lv" onclick="if(event.target===this)closeModal('modal-lv')">
+  <div class="modal modal-lv">
+    <div class="m-icon pulse">⚡</div>
+    <div class="m-title" style="color:var(--purple-light)">LEVEL UP!</div>
+    <div class="m-lv" id="m-lv-txt">Level 2</div>
+    <div class="m-rank" id="m-rank-txt"></div>
   </div>
 </div>
 
-<!-- Bottom Nav -->
-<nav id="bottom-nav">
-  <button class="nav-btn active" onclick="switchTab('system',this)"><span class="nav-icon">⚡</span><span class="nav-label">SYSTEM</span></button>
-  <button class="nav-btn" onclick="switchTab('quests',this)"><span class="nav-icon">📋</span><span class="nav-label">QUESTS</span></button>
-  <button class="nav-btn" onclick="switchTab('stats',this)"><span class="nav-icon">📊</span><span class="nav-label">STATS</span></button>
-  <button class="nav-btn" onclick="switchTab('shadows',this)"><span class="nav-icon">👥</span><span class="nav-label">SHADOWS</span></button>
-  <button class="nav-btn" onclick="switchTab('shop',this)"><span class="nav-icon">🏪</span><span class="nav-label">SHOP</span></button>
-  <button class="nav-btn" onclick="switchTab('inventory',this)"><span class="nav-icon">🎒</span><span class="nav-label">BAG</span></button>
-  <button class="nav-btn" onclick="switchTab('profile',this)"><span class="nav-icon">👤</span><span class="nav-label">PROFILE</span></button>
-</nav>
+<!-- PENALTY MODAL -->
+<div class="modal-bg" id="modal-pen" onclick="if(event.target===this)closeModal('modal-pen')">
+  <div class="modal modal-pen">
+    <div class="m-icon">⚠️</div>
+    <div class="m-title" style="color:var(--red)">PENALTY ZONE</div>
+    <div class="m-sub">You failed your daily quests.<br/>The System does not forgive weakness.</div>
+    <div style="color:var(--red);font-weight:700;font-family:var(--font-m)">−3 ALL STATS · −200 HP</div>
+    <button class="btn-accept" onclick="closeModal('modal-pen')">ACCEPT PUNISHMENT</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL -->
+<div class="modal-bg" id="modal-edit" onclick="if(event.target===this)closeModal('modal-edit')">
+  <div class="modal modal-edit">
+    <div class="m-et">✏️ EDIT PROFILE</div>
+    <div class="e-field"><label class="e-lbl">NAME</label><input class="e-inp" id="e-name" type="text" maxlength="30"/></div>
+    <div class="e-row">
+      <div class="e-field"><label class="e-lbl">AGE</label><input class="e-inp" id="e-age" type="number" min="5" max="120"/></div>
+      <div class="e-field"><label class="e-lbl">GENDER</label>
+        <select class="e-sel" id="e-gender"><option>Male</option><option>Female</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="e-row">
+      <div class="e-field"><label class="e-lbl">HEIGHT (cm)</label><input class="e-inp" id="e-height" type="number" min="50" max="300"/></div>
+      <div class="e-field"><label class="e-lbl">WEIGHT (kg)</label><input class="e-inp" id="e-weight" type="number" min="10" max="500"/></div>
+    </div>
+    <div class="e-field">
+      <label class="e-lbl">FITNESS LEVEL</label>
+      <select class="e-sel" id="e-fitness"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Elite</option></select>
+    </div>
+    <div class="e-field">
+      <label class="e-lbl">GOALS (comma separated)</label>
+      <input class="e-inp" id="e-goals" type="text" placeholder="e.g. 💪 Build Muscle, 🏃 Lose Weight"/>
+    </div>
+    <button class="btn-save" onclick="saveProfile()">SAVE CHANGES</button>
+    <button class="btn-cancel" onclick="closeModal('modal-edit')">CANCEL</button>
+  </div>
+</div>
 
 <script>
-// ═══ CONSTANTS ═══
-const RANK_COLORS={E:"#9ca3af",D:"#22c55e",C:"#3b82f6",B:"#a855f7",A:"#f59e0b",S:"#ef4444",SS:"#f97316",SSS:"#ec4899",NL:"#06b6d4",SM:"#8b5cf6"};
-const RANK_LABELS={E:"E",D:"D",C:"C",B:"B",A:"A",S:"S",SS:"SS",SSS:"SSS",NL:"National Level",SM:"Shadow Monarch"};
-const STAT_COLORS={STR:"#ef4444",AGI:"#22c55e",VIT:"#f59e0b",INT:"#3b82f6",PER:"#06b6d4",LUK:"#ec4899"};
-const TYPE_COLORS={consumable:"#22c55e",weapon:"#ef4444",special:"#8b5cf6",stat:"#3b82f6",legendary:"#ec4899"};
+/* =============================================
+   DATA
+   ============================================= */
+const RANKS=[
+  {min:0,  key:'E',  label:'E',             color:'#9ca3af'},
+  {min:5,  key:'D',  label:'D',             color:'#22c55e'},
+  {min:10, key:'C',  label:'C',             color:'#3b82f6'},
+  {min:15, key:'B',  label:'B',             color:'#a855f7'},
+  {min:20, key:'A',  label:'A',             color:'#f59e0b'},
+  {min:30, key:'S',  label:'S',             color:'#ef4444'},
+  {min:40, key:'SS', label:'SS',            color:'#f97316'},
+  {min:50, key:'SSS',label:'SSS',           color:'#ec4899'},
+  {min:70, key:'NL', label:'National Level',color:'#06b6d4'},
+  {min:90, key:'SM', label:'Shadow Monarch',color:'#8b5cf6'},
+];
+const SC={STR:'#ef4444',AGI:'#22c55e',VIT:'#f59e0b',INT:'#3b82f6',PER:'#06b6d4',LUK:'#ec4899'};
+const TC={consumable:'#22c55e',weapon:'#ef4444',special:'#8b5cf6',stat:'#3b82f6',legendary:'#ec4899'};
 
-const SHADOWS_DATA=[
-  {id:1,name:"Igris",rank:"Marshal",grade:"S",power:9200,type:"Knight",emoji:"⚔️",unlocked:false},
-  {id:2,name:"Beru",rank:"Marshal",grade:"S",power:9800,type:"Assassin",emoji:"🦂",unlocked:false},
-  {id:3,name:"Tank",rank:"General",grade:"A",power:7400,type:"Tank",emoji:"🛡️",unlocked:false},
-  {id:4,name:"Iron",rank:"General",grade:"A",power:7200,type:"Tank",emoji:"🪖",unlocked:false},
-  {id:5,name:"Greed",rank:"Knight",grade:"B",power:5600,type:"Mage",emoji:"💎",unlocked:false},
-  {id:6,name:"Kaisel",rank:"Knight",grade:"B",power:6100,type:"Mount",emoji:"🐉",unlocked:false},
-  {id:7,name:"Fangs",rank:"Soldier",grade:"C",power:3200,type:"Wolf",emoji:"🐺",unlocked:false},
-  {id:8,name:"Shadow Soldier",rank:"Soldier",grade:"E",power:800,type:"Basic",emoji:"👤",unlocked:true},
+const SHADOWS_INIT=[
+  {id:1,name:'Igris',         rank:'Marshal',grade:'S', power:9200,type:'Knight',  emoji:'⚔️', unlocked:false},
+  {id:2,name:'Beru',          rank:'Marshal',grade:'S', power:9800,type:'Assassin',emoji:'🦂', unlocked:false},
+  {id:3,name:'Tank',          rank:'General',grade:'A', power:7400,type:'Tank',    emoji:'🛡️',unlocked:false},
+  {id:4,name:'Iron',          rank:'General',grade:'A', power:7200,type:'Tank',    emoji:'🪖', unlocked:false},
+  {id:5,name:'Greed',         rank:'Knight', grade:'B', power:5600,type:'Mage',    emoji:'💎', unlocked:false},
+  {id:6,name:'Kaisel',        rank:'Knight', grade:'B', power:6100,type:'Mount',   emoji:'🐉', unlocked:false},
+  {id:7,name:'Fangs',         rank:'Soldier',grade:'C', power:3200,type:'Wolf',    emoji:'🐺', unlocked:false},
+  {id:8,name:'Shadow Soldier',rank:'Soldier',grade:'E', power:800, type:'Basic',   emoji:'👤', unlocked:true},
+];
+const SHOP_ITEMS=[
+  {id:1,name:'HP Potion',          emoji:'🧪',cost:50,  effect:'+500 HP',       type:'consumable'},
+  {id:2,name:'MP Potion',          emoji:'💙',cost:50,  effect:'+300 MP',       type:'consumable'},
+  {id:3,name:"Demon King's Sword", emoji:'⚔️',cost:500, effect:'+150 ATK',      type:'weapon'},
+  {id:4,name:'Shadow Essence',     emoji:'🌑',cost:300, effect:'Unlock Shadow', type:'special'},
+  {id:5,name:'Elixir of Strength', emoji:'💪',cost:200, effect:'+10 STR',       type:'stat'},
+  {id:6,name:'Agility Crystal',    emoji:'💨',cost:200, effect:'+10 AGI',       type:'stat'},
+  {id:7,name:'Shadow Core',        emoji:'🫀',cost:1000,effect:'Unlock Elite',  type:'special'},
+  {id:8,name:"Ruler's Authority",  emoji:'👑',cost:2000,effect:'+50 All Stats', type:'legendary'},
+];
+const QUESTS_INIT=[
+  {id:1,title:'100 Push-ups',    desc:'Complete 100 push-ups',   xp:120, gold:30,  stat:'STR',gain:2, type:'daily',done:false},
+  {id:2,title:'10km Run',        desc:'Run 10 kilometers',       xp:150, gold:40,  stat:'AGI',gain:2, type:'daily',done:false},
+  {id:3,title:'100 Sit-ups',     desc:'Complete 100 sit-ups',    xp:100, gold:25,  stat:'VIT',gain:1, type:'daily',done:false},
+  {id:4,title:'Meditate 30 mins',desc:'Concentrate your mana',  xp:80,  gold:20,  stat:'INT',gain:2, type:'daily',done:false},
+  {id:5,title:'Enter the Dungeon',desc:'Complete a hidden dungeon',xp:500,gold:200,stat:'ALL',gain:5, type:'main', done:false},
+  {id:6,title:'Defeat Gate Boss', desc:'S-Rank gate boss awaits', xp:1000,gold:500,stat:'ALL',gain:10,type:'main', done:false},
 ];
 
-const SHOP_DATA=[
-  {id:1,name:"HP Potion",emoji:"🧪",cost:50,effect:"+500 HP",type:"consumable"},
-  {id:2,name:"MP Potion",emoji:"💙",cost:50,effect:"+300 MP",type:"consumable"},
-  {id:3,name:"Demon King's Sword",emoji:"⚔️",cost:500,effect:"+150 ATK",type:"weapon"},
-  {id:4,name:"Shadow Essence",emoji:"🌑",cost:300,effect:"Unlock Shadow",type:"special"},
-  {id:5,name:"Elixir of Strength",emoji:"💪",cost:200,effect:"+10 STR",type:"stat"},
-  {id:6,name:"Agility Crystal",emoji:"💨",cost:200,effect:"+10 AGI",type:"stat"},
-  {id:7,name:"Shadow Core",emoji:"🫀",cost:1000,effect:"Unlock Elite Shadow",type:"special"},
-  {id:8,name:"Ruler's Authority",emoji:"👑",cost:2000,effect:"+50 all stats",type:"legendary"},
-];
-
-const QUESTS_DATA=[
-  {id:1,title:"100 Push-ups",desc:"Complete 100 push-ups",xp:120,gold:30,stat:"STR",gain:2,type:"daily",done:false},
-  {id:2,title:"10km Run",desc:"Run 10 kilometers",xp:150,gold:40,stat:"AGI",gain:2,type:"daily",done:false},
-  {id:3,title:"100 Sit-ups",desc:"Complete 100 sit-ups",xp:100,gold:25,stat:"VIT",gain:1,type:"daily",done:false},
-  {id:4,title:"Meditate 30 mins",desc:"Focus your mana",xp:80,gold:20,stat:"INT",gain:2,type:"daily",done:false},
-  {id:5,title:"Enter the Dungeon",desc:"Complete a hidden dungeon",xp:500,gold:200,stat:"ALL",gain:5,type:"main",done:false},
-  {id:6,title:"Defeat Gate Boss",desc:"S-Rank gate boss awaits",xp:1000,gold:500,stat:"ALL",gain:10,type:"main",done:false},
-];
-
-// ═══ STATE ═══
-let state={
-  name:"Hunter",level:1,xp:0,gold:200,hp:1000,mp:500,streak:0,totalGoldEarned:0,questsDone:0,
+/* =============================================
+   STATE
+   ============================================= */
+let S={
+  name:'Hunter',level:1,xp:0,gold:200,hp:1000,mp:500,streak:0,questsDone:0,totalGold:0,
   stats:{STR:10,AGI:10,VIT:10,INT:10,PER:10,LUK:5},
-  quests:JSON.parse(JSON.stringify(QUESTS_DATA)),
-  customHabits:[],
-  shadows:JSON.parse(JSON.stringify(SHADOWS_DATA)),
+  quests:JSON.parse(JSON.stringify(QUESTS_INIT)),
+  habits:[],
+  shadows:JSON.parse(JSON.stringify(SHADOWS_INIT)),
   inventory:[],
-  profile:{name:'',age:'',gender:'',height:'',weight:'',fitness:'Beginner',goals:[]},
+  profile:{name:'Hunter',age:'',gender:'',height:'',weight:'',fitness:'Beginner',goals:[]},
 };
-let selectedGoals=[];
-let currentObStep=0;
 
-// ═══ ONBOARDING ═══
-function nextStep(n){
-  document.getElementById('step-'+currentObStep).classList.remove('active');
-  currentObStep=n;
-  document.getElementById('step-'+n).classList.add('active');
+/* =============================================
+   HELPERS
+   ============================================= */
+function getRank(lv){let r=RANKS[0];for(const x of RANKS){if(lv>=x.min)r=x;}return r;}
+function maxHp(){return 1000+S.stats.VIT*10;}
+function maxMp(){return 500+S.stats.INT*5;}
+function xpNeeded(){return S.level*200;}
+
+function addXP(n){
+  S.xp+=n;let lv=false;
+  while(S.xp>=xpNeeded()){S.xp-=xpNeeded();S.level++;lv=true;}
+  if(lv)showLevelUp();
 }
 
-function validateStep1(){
-  const name=document.getElementById('ob-name').value.trim();
-  const age=document.getElementById('ob-age').value;
-  if(!name){notify('Please enter your name!','#ef4444');return;}
-  state.profile.name=name;
-  state.profile.age=age||'—';
-  state.profile.gender=document.getElementById('ob-gender').value||'—';
-  state.name=name;
-  nextStep(2);
+function toast(msg,color='#a78bfa'){
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  t.style.borderLeftColor=color;t.style.color=color;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>t.remove(),3200);
 }
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-function validateStep2(){
-  state.profile.height=document.getElementById('ob-height').value||'—';
-  state.profile.weight=document.getElementById('ob-weight').value||'—';
-  state.profile.fitness=document.getElementById('ob-fitness').value;
-  // Apply fitness bonus
-  const bonuses={Beginner:0,Intermediate:5,Advanced:10,Elite:20};
-  const bonus=bonuses[state.profile.fitness]||0;
-  if(bonus>0) Object.keys(state.stats).forEach(k=>{if(k!=='LUK')state.stats[k]+=bonus;});
-  nextStep(3);
-}
-
-function toggleGoal(btn,goal){
-  btn.classList.toggle('selected');
-  if(btn.classList.contains('selected')){
-    if(!selectedGoals.includes(goal))selectedGoals.push(goal);
-  }else{
-    selectedGoals=selectedGoals.filter(g=>g!==goal);
-  }
-}
-
-function validateStep3(){
-  state.profile.goals=selectedGoals.length?selectedGoals:['💪 Build Muscle'];
-  // Show summary
-  const h=state.profile.height!=='—'?state.profile.height+'cm':'?';
-  const w=state.profile.weight!=='—'?state.profile.weight+'kg':'?';
-  document.getElementById('ob-summary').innerHTML=
-    `<div>👤 <b style="color:#c4b5fd">${state.profile.name}</b> &nbsp;|&nbsp; ${state.profile.age} yrs &nbsp;|&nbsp; ${state.profile.gender}</div>`+
-    `<div>📏 Height: <b style="color:#c4b5fd">${h}</b> &nbsp;|&nbsp; ⚖️ Weight: <b style="color:#c4b5fd">${w}</b></div>`+
-    `<div>💪 Fitness: <b style="color:#c4b5fd">${state.profile.fitness}</b></div>`+
-    `<div>🎯 Goals: <b style="color:#c4b5fd">${state.profile.goals.join(', ')}</b></div>`;
-  nextStep(4);
-}
-
-function finishOnboarding(){
-  document.getElementById('onboarding').classList.add('hidden');
-  document.getElementById('app').classList.add('visible');
-  // Apply HP/MP based on stats
-  state.hp=getMaxHp(); state.mp=getMaxMp();
-  renderAll();
-  notify('⚡ System Activated! Welcome, '+state.name+'!','#8b5cf6');
-}
-
-// ═══ HABIT FORM ═══
-function toggleHabitForm(){
-  const form=document.getElementById('habit-form');
-  const btn=document.getElementById('habit-toggle-btn');
-  const visible=form.style.display!=='none';
-  form.style.display=visible?'none':'block';
-  btn.textContent=visible?'+ ADD CUSTOM HABIT':'✕ CLOSE HABIT FORM';
-}
-
-function addHabit(){
-  const name=document.getElementById('habit-name').value.trim();
-  if(!name){notify('Please enter a habit name!','#ef4444');return;}
-  const desc=document.getElementById('habit-desc').value.trim();
-  const xp=parseInt(document.getElementById('habit-xp').value);
-  const stat=document.getElementById('habit-stat').value;
-  const gold=Math.floor(xp/4);
-  const habit={
-    id:Date.now(),title:name,desc:desc||'Custom habit',xp,gold,stat,gain:1,
-    type:'habit',done:false,streak:0
-  };
-  state.customHabits.push(habit);
-  document.getElementById('habit-name').value='';
-  document.getElementById('habit-desc').value='';
-  toggleHabitForm();
-  notify(`✨ Habit "${name}" added to System!`,'#06b6d4');
-  renderAll();
-}
-
-function deleteHabit(id){
-  state.customHabits=state.customHabits.filter(h=>h.id!==id);
-  notify('🗑️ Habit removed','#94a3b8');
-  renderAll();
-}
-
-// ═══ RENDER ═══
-function renderAll(){
-  renderHeader();renderSystem();renderQuests();renderStats();
+/* =============================================
+   RENDER
+   ============================================= */
+function render(){
+  renderHeader();renderSystem();renderQuests();renderStatBars();
   renderShadows();renderShop();renderInventory();renderProfile();
 }
 
 function renderHeader(){
-  const r=getRank(state.level),rc=RANK_COLORS[r],mhp=getMaxHp(),mmp=getMaxMp(),xpn=getXpNeeded();
-  document.getElementById('player-name').textContent=state.name;
-  document.getElementById('name-input').value=state.name;
-  const b=document.getElementById('rank-badge');
-  b.textContent=RANK_LABELS[r]+'-Rank';b.style.background=rc;
-  document.getElementById('level-text').textContent='Lv.'+state.level;
-  document.getElementById('gold-display').textContent='💰 '+state.gold.toLocaleString();
-  document.getElementById('streak-badge').textContent='🔥 '+state.streak+' day streak';
-  document.getElementById('xp-label').textContent=state.xp+' / '+xpn;
-  document.getElementById('xp-bar').style.width=Math.min((state.xp/xpn)*100,100)+'%';
-  document.getElementById('hp-label').textContent=state.hp+'/'+mhp;
-  document.getElementById('hp-bar').style.width=Math.min((state.hp/mhp)*100,100)+'%';
-  document.getElementById('mp-label').textContent=state.mp+'/'+mmp;
-  document.getElementById('mp-bar').style.width=Math.min((state.mp/mmp)*100,100)+'%';
+  const r=getRank(S.level),mhp=maxHp(),mmp=maxMp(),xpn=xpNeeded();
+  document.getElementById('player-name').textContent=S.name;
+  document.getElementById('name-inp').value=S.name;
+  const rb=document.getElementById('rank-badge');
+  rb.textContent=r.label+'-Rank';rb.style.background=r.color;
+  document.getElementById('lv-badge').textContent='Lv.'+S.level;
+  document.getElementById('streak-badge').textContent='🔥 '+S.streak+' day'+(S.streak!==1?'s':'');
+  document.getElementById('gold-disp').textContent='💰 '+S.gold.toLocaleString();
+  document.getElementById('xp-lbl').textContent=S.xp+'/'+xpn;
+  document.getElementById('xp-bar').style.width=Math.min(S.xp/xpn*100,100)+'%';
+  document.getElementById('hp-lbl').textContent=S.hp+'/'+mhp;
+  document.getElementById('hp-bar').style.width=Math.min(S.hp/mhp*100,100)+'%';
+  document.getElementById('mp-lbl').textContent=S.mp+'/'+mmp;
+  document.getElementById('mp-bar').style.width=Math.min(S.mp/mmp*100,100)+'%';
 }
 
 function renderSystem(){
-  const r=getRank(state.level),rc=RANK_COLORS[r];
-  const sr=document.getElementById('sys-rank');
-  sr.textContent=RANK_LABELS[r]+'-Rank Hunter';sr.style.color=rc;
-  document.getElementById('sys-sub').textContent='Level '+state.level+' • '+state.shadows.filter(s=>s.unlocked).length+' Shadows';
-  const g=document.getElementById('stats-grid');g.innerHTML='';
-  for(const[k,v]of Object.entries(state.stats))
-    g.innerHTML+=`<div class="stat-box"><div class="stat-key">${k}</div><div class="stat-val">${v}</div></div>`;
+  const r=getRank(S.level);
+  const sn=document.getElementById('sys-rank-name');
+  sn.textContent=r.label+'-Rank Hunter';sn.style.color=r.color;
+  const ul=S.shadows.filter(s=>s.unlocked).length;
+  document.getElementById('sys-sub').textContent=`Level ${S.level} · ${ul} Shadow${ul!==1?'s':''}`;
+  document.getElementById('stat-grid').innerHTML=
+    Object.entries(S.stats).map(([k,v])=>
+      `<div class="stat-box"><div class="stat-k">${k}</div><div class="stat-v" style="color:${SC[k]||'#fff'}">${v}</div></div>`
+    ).join('');
 }
 
 function renderQuests(){
-  // Custom habits
-  const ch=document.getElementById('custom-habits');
-  const cs=document.getElementById('custom-habits-section');
-  cs.style.display=state.customHabits.length?'block':'none';
-  ch.innerHTML='';
-  state.customHabits.forEach(h=>{
-    ch.innerHTML+=`<div class="quest-item habit ${h.done?'done':''}">
-      <div class="quest-header">
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:14px;color:${h.done?'#86efac':'#e2e8f0'}">${h.done?'✅':'✨'} ${h.title}</div>
-          <div style="color:#94a3b8;font-size:12px;margin-top:3px">${h.desc}</div>
-          <div class="quest-tags">
+  // Habits
+  const hs=document.getElementById('habits-section');
+  hs.style.display=S.habits.length?'block':'none';
+  document.getElementById('habits-list').innerHTML=S.habits.map(h=>`
+    <div class="q-item habit-t ${h.done?'done':''}">
+      <div class="q-row">
+        <div class="q-info">
+          <div class="q-title ${h.done?'done-c':''}">${h.done?'✅':'✨'} ${h.title}</div>
+          ${h.desc?`<div class="q-desc">${h.desc}</div>`:''}
+          <div class="q-tags">
             <span class="tag tag-xp">+${h.xp} XP</span>
-            <span class="tag tag-gold">+${h.gold} 💰</span>
+            <span class="tag tag-gold">+${h.gold}💰</span>
             <span class="tag tag-stat">+1 ${h.stat}</span>
             <span class="tag tag-habit">HABIT</span>
-            ${h.streak>0?`<span class="streak-badge">🔥 ${h.streak}</span>`:''}
+            ${h.streak>0?`<span class="tag" style="background:rgba(245,158,11,0.15);color:var(--gold)">🔥${h.streak}</span>`:''}
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          ${!h.done?`<button class="complete-btn" onclick="completeHabit(${h.id})">DONE</button>`:'<span style="color:#86efac;font-size:20px;margin-left:10px">✓</span>'}
-          <button class="delete-btn" onclick="deleteHabit(${h.id})">🗑️</button>
+        <div class="q-btns">
+          ${!h.done?`<button class="btn-done" onclick="completeHabit(${h.id})">DONE</button>`:`<span class="done-ck">✓</span>`}
+          <button class="btn-del" onclick="deleteHabit(${h.id})">🗑</button>
         </div>
       </div>
-    </div>`;
-  });
-  // System quests
+    </div>`).join('');
+
   ['daily','main'].forEach(type=>{
-    const el=document.getElementById(type+'-quests');el.innerHTML='';
-    state.quests.filter(q=>q.type===type).forEach(q=>{
-      el.innerHTML+=`<div class="quest-item ${q.done?'done':'pending'}">
-        <div class="quest-header">
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:14px;color:${q.done?'#86efac':'#e2e8f0'}">${q.done?'✅':'◻️'} ${q.title}</div>
-            <div style="color:#94a3b8;font-size:12px;margin-top:3px">${q.desc}</div>
-            <div class="quest-tags">
-              <span class="tag tag-xp">+${q.xp} XP</span>
-              <span class="tag tag-gold">+${q.gold} 💰</span>
-              <span class="tag tag-stat">+${q.gain} ${q.stat}</span>
+    document.getElementById(type+'-list').innerHTML=
+      S.quests.filter(q=>q.type===type).map(q=>`
+        <div class="q-item ${q.done?'done':''}">
+          <div class="q-row">
+            <div class="q-info">
+              <div class="q-title ${q.done?'done-c':''}">${q.done?'✅':'◻️'} ${q.title}</div>
+              <div class="q-desc">${q.desc}</div>
+              <div class="q-tags">
+                <span class="tag tag-xp">+${q.xp} XP</span>
+                <span class="tag tag-gold">+${q.gold}💰</span>
+                <span class="tag tag-stat">+${q.gain} ${q.stat}</span>
+              </div>
             </div>
+            ${!q.done?`<div class="q-btns"><button class="btn-done" onclick="completeQuest(${q.id})">DONE</button></div>`:''}
           </div>
-          ${!q.done?`<button class="complete-btn" onclick="completeQuest(${q.id})">DONE</button>`:''}
-        </div>
-      </div>`;
-    });
+        </div>`).join('');
   });
 }
 
-function renderStats(){
-  const bars=document.getElementById('stat-bars');bars.innerHTML='';
-  for(const[k,v]of Object.entries(state.stats)){
-    const c=STAT_COLORS[k]||'#8b5cf6';
-    bars.innerHTML+=`<div class="stat-row">
-      <div class="stat-row-header"><span style="font-weight:700;font-size:13px;color:${c}">${k}</span><span style="font-weight:700">${v}</span></div>
-      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.min((v/999)*100,100)}%;background:${c};box-shadow:0 0 6px ${c}88"></div></div>
-    </div>`;
-  }
-  const cp=Object.values(state.stats).reduce((a,b)=>a+b,0)*state.level*12;
-  const cpEl=document.getElementById('cp-value');
-  cpEl.textContent=cp.toLocaleString();cpEl.style.color=RANK_COLORS[getRank(state.level)];
+function renderStatBars(){
+  document.getElementById('stat-bars').innerHTML=
+    Object.entries(S.stats).map(([k,v])=>{
+      const c=SC[k]||'#8b5cf6';
+      return `<div class="sbar">
+        <div class="sbar-hdr"><span class="sbar-k" style="color:${c}">${k}</span><span class="sbar-v" style="color:${c}">${v}</span></div>
+        <div class="sbar-track"><div class="sbar-fill" style="width:${Math.min(v/200*100,100)}%;background:${c};box-shadow:0 0 8px ${c}66"></div></div>
+      </div>`;
+    }).join('');
+  const cp=Object.values(S.stats).reduce((a,b)=>a+b,0)*S.level*12;
+  const ce=document.getElementById('cp-val');
+  ce.textContent=cp.toLocaleString();ce.style.color=getRank(S.level).color;
 }
 
 function renderShadows(){
-  const unlocked=state.shadows.filter(s=>s.unlocked).length;
-  document.getElementById('shadow-title').textContent=`👥 SHADOW ARMY — ${unlocked}/${state.shadows.length}`;
-  const list=document.getElementById('shadow-list');list.innerHTML='';
-  state.shadows.forEach(s=>{
-    const gc=RANK_COLORS[s.grade]||'#9ca3af';
-    list.innerHTML+=`<div class="shadow-item" style="background:${s.unlocked?'rgba(10,10,30,0.9)':'rgba(5,5,10,0.7)'};border:1px solid ${s.unlocked?gc+'55':'rgba(255,255,255,0.08)'};opacity:${s.unlocked?1:0.5};filter:${s.unlocked?'none':'grayscale(70%)'}">
-      <div style="font-size:32px">${s.unlocked?s.emoji:'❓'}</div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:15px;color:${s.unlocked?'#e2e8f0':'#64748b'}">${s.unlocked?s.name:'???'}</div>
-        <div style="color:#94a3b8;font-size:12px">${s.type} • ${s.rank}</div>
-        ${s.unlocked?`<div style="display:flex;gap:6px;margin-top:4px">
-          <span style="background:${gc}33;color:${gc};padding:1px 8px;border-radius:10px;font-size:11px;font-weight:700">${s.grade}</span>
-          <span style="background:rgba(139,92,246,0.2);color:#c4b5fd;padding:1px 8px;border-radius:10px;font-size:11px">PWR: ${s.power.toLocaleString()}</span>
+  const ul=S.shadows.filter(s=>s.unlocked).length;
+  document.getElementById('shadow-hdr').textContent=`👥 SHADOW ARMY — ${ul}/${S.shadows.length}`;
+  document.getElementById('shadow-list').innerHTML=S.shadows.map(s=>{
+    const gc=RANKS.find(r=>r.key===s.grade)?.color||'#9ca3af';
+    return `<div class="s-card" style="border-color:${s.unlocked?gc+'44':'rgba(255,255,255,0.06)'};opacity:${s.unlocked?1:0.45}">
+      <div class="s-em">${s.unlocked?s.emoji:'❓'}</div>
+      <div class="s-info">
+        <div class="s-name" style="color:${s.unlocked?'#fff':'var(--text-muted)'}">${s.unlocked?s.name:'???'}</div>
+        <div class="s-sub">${s.type} · ${s.rank}</div>
+        ${s.unlocked?`<div class="s-badges">
+          <span class="s-badge" style="background:${gc}22;color:${gc}">${s.grade}</span>
+          <span class="s-badge" style="background:rgba(124,58,237,0.15);color:var(--purple-light)">PWR ${s.power.toLocaleString()}</span>
         </div>`:''}
       </div>
-      ${!s.unlocked?'<div style="color:#64748b;font-size:22px">🔒</div>':''}
+      ${!s.unlocked?'<span style="font-size:18px;color:var(--text-muted)">🔒</span>':''}
     </div>`;
-  });
+  }).join('');
 }
 
 function renderShop(){
-  document.getElementById('shop-title').textContent=`🏪 SYSTEM SHOP — 💰 ${state.gold.toLocaleString()}`;
-  const grid=document.getElementById('shop-grid');grid.innerHTML='';
-  SHOP_DATA.forEach(item=>{
-    const c=TYPE_COLORS[item.type]||'#94a3b8',can=state.gold>=item.cost;
-    grid.innerHTML+=`<div class="shop-item" style="border:1px solid ${c}33">
-      <div style="font-size:30px;margin-bottom:6px">${item.emoji}</div>
-      <div style="font-weight:700;font-size:13px">${item.name}</div>
-      <div style="color:#94a3b8;font-size:11px;margin:4px 0 6px">${item.effect}</div>
-      <div style="font-size:10px;font-weight:700;color:${c};margin-bottom:8px">${item.type.toUpperCase()}</div>
-      <button class="buy-btn" onclick="buyItem(${item.id})" ${can?'':'disabled'}
-        style="background:${can?c+'22':'rgba(255,255,255,0.04)'};border-color:${can?c:'rgba(255,255,255,0.1)'};color:${can?c:'#64748b'}">
+  document.getElementById('shop-hdr').textContent=`🏪 SYSTEM SHOP — 💰 ${S.gold.toLocaleString()}`;
+  document.getElementById('shop-grid').innerHTML=SHOP_ITEMS.map(item=>{
+    const c=TC[item.type]||'#94a3b8',can=S.gold>=item.cost;
+    return `<div class="shop-card" style="border-color:${c}33">
+      <div class="shop-em">${item.emoji}</div>
+      <div class="shop-name">${item.name}</div>
+      <div class="shop-eff">${item.effect}</div>
+      <div class="shop-type" style="color:${c}">${item.type}</div>
+      <button class="btn-buy" onclick="buyItem(${item.id})" ${can?'':'disabled'}
+        style="background:${can?c+'18':'rgba(255,255,255,0.03)'};border-color:${can?c:'rgba(255,255,255,0.08)'};color:${can?c:'var(--text-muted)'}">
         💰 ${item.cost}
       </button>
     </div>`;
-  });
+  }).join('');
 }
 
 function renderInventory(){
-  document.getElementById('inv-title').textContent=`🎒 INVENTORY — ${state.inventory.length} items`;
-  const grid=document.getElementById('inv-grid');
-  if(!state.inventory.length){
-    grid.innerHTML=`<div class="empty-inv"><div style="font-size:40px;margin-bottom:12px">🎒</div><div>Your inventory is empty.<br/>Buy items from the shop.</div></div>`;
+  document.getElementById('inv-hdr').textContent=`🎒 INVENTORY — ${S.inventory.length} item${S.inventory.length!==1?'s':''}`;
+  const el=document.getElementById('inv-content');
+  if(!S.inventory.length){
+    el.innerHTML=`<div class="inv-empty"><div style="font-size:36px;margin-bottom:10px">🎒</div><div>Inventory empty.<br/>Buy items from the Shop.</div></div>`;
     return;
   }
-  grid.innerHTML='';
-  state.inventory.forEach(item=>{
-    grid.innerHTML+=`<div class="inv-item"><div style="font-size:28px">${item.emoji}</div><div style="font-weight:700;font-size:12px;margin-top:4px">${item.name}</div><div style="color:#94a3b8;font-size:11px;margin-top:2px">${item.effect}</div></div>`;
-  });
+  el.innerHTML=`<div class="inv-grid">${S.inventory.map(i=>`
+    <div class="inv-card"><div class="inv-em">${i.emoji}</div><div class="inv-name">${i.name}</div><div class="inv-eff">${i.effect}</div></div>`
+  ).join('')}</div>`;
 }
 
 function renderProfile(){
-  const r=getRank(state.level),rc=RANK_COLORS[r];
-  const p=state.profile;
-  document.getElementById('profile-name-display').textContent=p.name||state.name;
-  document.getElementById('profile-rank-display').textContent=RANK_LABELS[r]+'-Rank • Level '+state.level;
-  document.getElementById('profile-rank-display').style.color=rc;
-  // Avatar emoji based on gender
-  const avatarMap={Male:'🧑',Female:'👩',Other:'🧑'};
-  document.getElementById('profile-avatar').textContent=avatarMap[p.gender]||'🧑';
-  document.getElementById('p-name').textContent=p.name||'—';
-  document.getElementById('p-age').textContent=p.age?p.age+' years':'—';
-  document.getElementById('p-gender').textContent=p.gender||'—';
-  document.getElementById('p-height').textContent=p.height&&p.height!=='—'?p.height+' cm':'—';
-  document.getElementById('p-weight').textContent=p.weight&&p.weight!=='—'?p.weight+' kg':'—';
+  const r=getRank(S.level),p=S.profile;
+  const av={Male:'🧑',Female:'👩',Other:'🧑'};
+  document.getElementById('prof-avatar').textContent=av[p.gender]||'🧑';
+  document.getElementById('prof-name').textContent=p.name||S.name;
+  const prl=document.getElementById('prof-rank-lv');
+  prl.textContent=r.label+'-Rank · Level '+S.level;prl.style.color=r.color;
+  document.getElementById('p-name').textContent   =p.name   ||'—';
+  document.getElementById('p-age').textContent    =p.age    ?p.age+' yrs':'—';
+  document.getElementById('p-gender').textContent =p.gender ||'—';
+  document.getElementById('p-height').textContent =p.height ?p.height+' cm':'—';
+  document.getElementById('p-weight').textContent =p.weight ?p.weight+' kg':'—';
   document.getElementById('p-fitness').textContent=p.fitness||'—';
   // BMI
-  if(p.height&&p.weight&&p.height!=='—'&&p.weight!=='—'){
-    const hm=parseFloat(p.height)/100,wkg=parseFloat(p.weight);
-    if(hm>0&&wkg>0){
-      const bmi=(wkg/(hm*hm)).toFixed(1);
-      const bmiEl=document.getElementById('bmi-value');
-      bmiEl.textContent=bmi;
-      let status='',color='#e2e8f0';
-      if(bmi<18.5){status='Underweight';color='#3b82f6';}
-      else if(bmi<25){status='Normal ✓';color='#22c55e';}
-      else if(bmi<30){status='Overweight';color='#f59e0b';}
-      else{status='Obese';color='#ef4444';}
-      bmiEl.style.color=color;
-      document.getElementById('bmi-status').textContent=status;
-    }
-  }
+  const h=parseFloat(p.height),w=parseFloat(p.weight),be=document.getElementById('bmi-num');
+  if(h>0&&w>0){
+    const bmi=(w/((h/100)**2)).toFixed(1);be.textContent=bmi;
+    let st='Normal ✓',co='var(--green)';
+    if(bmi<18.5){st='Underweight';co='#3b82f6';}
+    else if(bmi>=25&&bmi<30){st='Overweight';co='var(--gold)';}
+    else if(bmi>=30){st='Obese';co='var(--red)';}
+    be.style.color=co;document.getElementById('bmi-status').textContent=st;
+  }else{be.textContent='—';document.getElementById('bmi-status').textContent='Set height & weight in profile';}
   // Goals
-  const gc=document.getElementById('goal-chips');gc.innerHTML='';
-  (p.goals||[]).forEach(g=>{gc.innerHTML+=`<span class="goal-chip">${g}</span>`;});
-  // Progress
-  const totalDone=state.quests.filter(q=>q.done).length+state.customHabits.filter(h=>h.done).length;
-  document.getElementById('p-quests-done').textContent=state.questsDone;
-  document.getElementById('p-streak').textContent=state.streak+' days';
-  document.getElementById('p-shadows').textContent=state.shadows.filter(s=>s.unlocked).length+'/'+state.shadows.length;
-  document.getElementById('p-gold-total').textContent=state.totalGoldEarned.toLocaleString();
+  const gc=document.getElementById('goal-chips');
+  gc.innerHTML=(p.goals&&p.goals.length)?p.goals.map(g=>`<span class="goal-chip">${g}</span>`).join('')
+    :'<span style="color:var(--text-muted);font-size:13px">No goals set</span>';
+  document.getElementById('p-quests').textContent  =S.questsDone;
+  document.getElementById('p-streak').textContent  =S.streak+' days';
+  document.getElementById('p-shadows').textContent =S.shadows.filter(s=>s.unlocked).length+'/8';
+  document.getElementById('p-gold').textContent    =S.totalGold.toLocaleString();
 }
 
-// ═══ ACTIONS ═══
+/* =============================================
+   ACTIONS
+   ============================================= */
 function completeQuest(id){
-  const q=state.quests.find(x=>x.id===id);if(!q||q.done)return;
-  state.gold+=q.gold;state.xp+=q.xp;state.totalGoldEarned+=q.gold;state.questsDone++;
-  let leveled=false;
-  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
-  if(q.stat==='ALL')Object.keys(state.stats).forEach(k=>{if(k!=='LUK')state.stats[k]+=q.gain;});
-  else if(state.stats[q.stat]!==undefined)state.stats[q.stat]+=q.gain;
-  q.done=true;
-  if(leveled)showLevelUp();
-  notify(`✅ +${q.xp} XP  +${q.gold} Gold`,'#22c55e');
-  renderAll();
+  const q=S.quests.find(x=>x.id===id);if(!q||q.done)return;
+  q.done=true;S.gold+=q.gold;S.totalGold+=q.gold;S.questsDone++;
+  if(q.stat==='ALL')Object.keys(S.stats).forEach(k=>{if(k!=='LUK')S.stats[k]+=q.gain;});
+  else if(S.stats[q.stat]!==undefined)S.stats[q.stat]+=q.gain;
+  addXP(q.xp);
+  toast(`✅ +${q.xp} XP · +${q.gold} Gold`,'var(--green)');render();
 }
 
 function completeHabit(id){
-  const h=state.customHabits.find(x=>x.id===id);if(!h||h.done)return;
-  state.gold+=h.gold;state.xp+=h.xp;state.totalGoldEarned+=h.gold;state.questsDone++;
-  state.streak++;
-  let leveled=false;
-  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
-  if(state.stats[h.stat]!==undefined)state.stats[h.stat]+=h.gain;
+  const h=S.habits.find(x=>x.id===id);if(!h||h.done)return;
   h.done=true;h.streak=(h.streak||0)+1;
-  if(leveled)showLevelUp();
-  notify(`✨ Habit done! +${h.xp} XP  🔥 ${state.streak} streak`,'#06b6d4');
-  renderAll();
+  S.gold+=h.gold;S.totalGold+=h.gold;S.questsDone++;S.streak++;
+  if(S.stats[h.stat]!==undefined)S.stats[h.stat]+=h.gain;
+  addXP(h.xp);
+  toast(`✨ +${h.xp} XP · 🔥 ${S.streak}-day streak`,'var(--cyan)');render();
+}
+
+function deleteHabit(id){
+  S.habits=S.habits.filter(h=>h.id!==id);
+  toast('Habit removed','var(--text-muted)');render();
+}
+
+function addHabit(){
+  const name=document.getElementById('h-name').value.trim();
+  if(!name){toast('Enter a habit name!','var(--red)');return;}
+  const xp=parseInt(document.getElementById('h-xp').value);
+  S.habits.push({
+    id:Date.now(),title:name,
+    desc:document.getElementById('h-desc').value.trim()||'',
+    xp,gold:Math.floor(xp/4),
+    stat:document.getElementById('h-stat').value,
+    gain:1,done:false,streak:0,
+  });
+  document.getElementById('h-name').value='';
+  document.getElementById('h-desc').value='';
+  toggleHabitForm();
+  toast('✨ Habit added to System!','var(--cyan)');render();
+}
+
+function toggleHabitForm(){
+  const f=document.getElementById('habit-form-wrap');
+  const b=document.getElementById('habit-toggle');
+  const showing=f.style.display==='block';
+  f.style.display=showing?'none':'block';
+  b.textContent=showing?'+ ADD CUSTOM HABIT':'✕ CLOSE FORM';
 }
 
 function buyItem(id){
-  const item=SHOP_DATA.find(x=>x.id===id);if(!item)return;
-  if(state.gold<item.cost){notify('❌ Not enough gold!','#ef4444');return;}
-  state.gold-=item.cost;
+  const item=SHOP_ITEMS.find(x=>x.id===id);if(!item)return;
+  if(S.gold<item.cost){toast('Not enough gold!','var(--red)');return;}
+  S.gold-=item.cost;
   if(item.type==='special'){
-    const locked=state.shadows.find(s=>!s.unlocked);
-    if(locked){locked.unlocked=true;notify(`👥 ${locked.name} extracted!`,'#8b5cf6');}
-    else{notify('All shadows already unlocked!','#f59e0b');state.gold+=item.cost;renderAll();return;}
+    const locked=S.shadows.find(s=>!s.unlocked);
+    if(locked){locked.unlocked=true;toast(`👥 ${locked.name} extracted!`,'#8b5cf6');}
+    else{toast('All shadows already unlocked!','var(--gold)');S.gold+=item.cost;render();return;}
+  }else if(item.type==='legendary'){
+    Object.keys(S.stats).forEach(k=>S.stats[k]+=50);
+    toast("👑 Ruler's Authority — +50 all stats!",'#ec4899');
   }else if(item.type==='stat'){
     const map={'Elixir of Strength':'STR','Agility Crystal':'AGI'};
-    const s=map[item.name];if(s)state.stats[s]+=10;
-    notify(`📈 ${item.effect}`,'#f59e0b');
-  }else if(item.type==='legendary'){
-    Object.keys(state.stats).forEach(k=>state.stats[k]+=50);
-    notify('👑 Legendary power obtained!','#ec4899');
+    const k=map[item.name];if(k)S.stats[k]+=10;
+    toast(`📈 ${item.effect}`,'var(--gold)');
   }else if(item.name==='HP Potion'){
-    state.hp=Math.min(state.hp+500,getMaxHp());notify('❤️ +500 HP!','#ef4444');
+    S.hp=Math.min(S.hp+500,maxHp());toast('❤️ +500 HP!','var(--red)');
   }else if(item.name==='MP Potion'){
-    state.mp=Math.min(state.mp+300,getMaxMp());notify('💙 +300 MP!','#3b82f6');
-  }else notify(`🛍️ Got ${item.name}!`,'#3b82f6');
-  state.inventory.push({...item,uid:Date.now()});
-  renderAll();
+    S.mp=Math.min(S.mp+300,maxMp());toast('💙 +300 MP!','#3b82f6');
+  }else{toast(`🛍 Got ${item.name}!`,'#3b82f6');}
+  S.inventory.push({...item,uid:Date.now()});render();
 }
 
 function resetDailies(){
-  state.quests.forEach(q=>{if(q.type==='daily')q.done=false;});
-  state.customHabits.forEach(h=>h.done=false);
-  notify('🔄 Daily quests & habits reset!','#06b6d4');renderAll();
+  S.quests.forEach(q=>{if(q.type==='daily')q.done=false;});
+  S.habits.forEach(h=>h.done=false);
+  toast('🔄 Dailies reset!','var(--cyan)');render();
 }
 
 function triggerPenalty(){
-  const inc=state.quests.filter(q=>q.type==='daily'&&!q.done);
-  const incH=state.customHabits.filter(h=>!h.done);
-  if(!inc.length&&!incH.length){notify('✅ No penalty! All done!','#22c55e');return;}
-  Object.keys(state.stats).forEach(k=>state.stats[k]=Math.max(1,state.stats[k]-3));
-  state.hp=Math.max(1,state.hp-200);state.streak=0;
-  document.getElementById('modal-penalty').classList.add('show');
-  notify('⚠️ PENALTY! Stats -3!','#ef4444');renderAll();
+  const inc=S.quests.filter(q=>q.type==='daily'&&!q.done).length+S.habits.filter(h=>!h.done).length;
+  if(!inc){toast('✅ All complete — no penalty!','var(--green)');return;}
+  Object.keys(S.stats).forEach(k=>S.stats[k]=Math.max(1,S.stats[k]-3));
+  S.hp=Math.max(1,S.hp-200);S.streak=0;
+  openModal('modal-pen');render();
 }
 
-function closePenalty(){document.getElementById('modal-penalty').classList.remove('show');}
-
 function restoreAll(){
-  state.hp=getMaxHp();state.mp=getMaxMp();
-  notify('💊 Fully restored!','#22c55e');renderAll();
+  S.hp=maxHp();S.mp=maxMp();
+  toast('💊 Fully restored!','var(--green)');render();
 }
 
 function train(){
-  state.xp+=100;let leveled=false;
-  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
-  if(leveled)showLevelUp();else notify('+100 XP gained!','#8b5cf6');
-  renderAll();
+  addXP(100);toast('⚡ +100 XP!','var(--purple-light)');render();
 }
 
-// ═══ PROFILE EDIT ═══
-function openEditProfile(){
-  const p=state.profile;
-  document.getElementById('edit-name').value=p.name||state.name;
-  document.getElementById('edit-age').value=p.age&&p.age!=='—'?p.age:'';
-  document.getElementById('edit-gender').value=p.gender||'Male';
-  document.getElementById('edit-height').value=p.height&&p.height!=='—'?p.height:'';
-  document.getElementById('edit-weight').value=p.weight&&p.weight!=='—'?p.weight:'';
-  document.getElementById('edit-fitness').value=p.fitness||'Beginner';
-  document.getElementById('modal-profile-edit').classList.add('show');
-}
-
-function closeProfileEdit(){document.getElementById('modal-profile-edit').classList.remove('show');}
-
-function saveProfileEdit(){
-  const name=document.getElementById('edit-name').value.trim();
-  if(name)state.profile.name=name,state.name=name;
-  state.profile.age=document.getElementById('edit-age').value||'—';
-  state.profile.gender=document.getElementById('edit-gender').value;
-  state.profile.height=document.getElementById('edit-height').value||'—';
-  state.profile.weight=document.getElementById('edit-weight').value||'—';
-  state.profile.fitness=document.getElementById('edit-fitness').value;
-  closeProfileEdit();
-  notify('✅ Profile updated!','#22c55e');
-  renderAll();
-}
-
-// ═══ HELPERS ═══
 function showLevelUp(){
-  const r=getRank(state.level),rc=RANK_COLORS[r];
-  document.getElementById('modal-level-text').textContent='Level '+state.level;
-  const mrt=document.getElementById('modal-rank-text');
-  mrt.textContent=RANK_LABELS[r]+'-Rank';mrt.style.color=rc;
-  document.getElementById('modal-levelup').classList.add('show');
-  setTimeout(()=>document.getElementById('modal-levelup').classList.remove('show'),2500);
+  const r=getRank(S.level);
+  document.getElementById('m-lv-txt').textContent='Level '+S.level;
+  const mr=document.getElementById('m-rank-txt');mr.textContent=r.label+'-Rank';mr.style.color=r.color;
+  openModal('modal-lv');
+  setTimeout(()=>closeModal('modal-lv'),2800);
 }
 
-function switchTab(tab,btn){
-  ['system','quests','stats','shadows','shop','inventory','profile'].forEach(t=>
-    document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderAll();
-}
-
-function notify(msg,color='#8b5cf6'){
-  const toasts=document.getElementById('toasts');
-  const t=document.createElement('div');
-  t.className='toast';t.textContent=msg;
-  t.style.border=`1px solid ${color}`;t.style.color=color;
-  t.style.boxShadow=`0 0 16px ${color}44`;
-  toasts.appendChild(t);
-  setTimeout(()=>t.remove(),3000);
-}
-
+/* =============================================
+   NAME EDIT
+   ============================================= */
 function startEditName(){
-  document.getElementById('name-display').style.display='none';
-  document.getElementById('name-edit').style.display='flex';
-  document.getElementById('name-input').focus();
+  document.getElementById('name-disp').style.display='none';
+  const ne=document.getElementById('name-edit');ne.style.display='flex';
+  document.getElementById('name-inp').focus();
 }
-
 function confirmName(){
-  const v=document.getElementById('name-input').value.trim();
-  if(v){state.name=v;state.profile.name=v;}
-  document.getElementById('name-display').style.display='flex';
+  const v=document.getElementById('name-inp').value.trim();
+  if(v){S.name=v;S.profile.name=v;}
+  document.getElementById('name-disp').style.display='flex';
   document.getElementById('name-edit').style.display='none';
-  renderAll();
+  render();
+}
+document.getElementById('name-inp').addEventListener('keydown',e=>{if(e.key==='Enter')confirmName();});
+
+/* =============================================
+   PROFILE EDIT
+   ============================================= */
+function openEditProfile(){
+  const p=S.profile;
+  document.getElementById('e-name').value  =p.name||S.name;
+  document.getElementById('e-age').value   =p.age||'';
+  document.getElementById('e-gender').value=p.gender||'Male';
+  document.getElementById('e-height').value=p.height||'';
+  document.getElementById('e-weight').value=p.weight||'';
+  document.getElementById('e-fitness').value=p.fitness||'Beginner';
+  document.getElementById('e-goals').value =(p.goals||[]).join(', ');
+  openModal('modal-edit');
+}
+function saveProfile(){
+  const name=document.getElementById('e-name').value.trim();
+  if(name){S.name=name;S.profile.name=name;}
+  S.profile.age    =document.getElementById('e-age').value||'';
+  S.profile.gender =document.getElementById('e-gender').value;
+  S.profile.height =document.getElementById('e-height').value||'';
+  S.profile.weight =document.getElementById('e-weight').value||'';
+  S.profile.fitness=document.getElementById('e-fitness').value;
+  const gr=document.getElementById('e-goals').value.trim();
+  S.profile.goals  =gr?gr.split(',').map(g=>g.trim()).filter(Boolean):[];
+  closeModal('modal-edit');toast('✅ Profile saved!','var(--green)');render();
 }
 
-document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmName();});
-
-const getMaxHp=()=>1000+state.stats.VIT*10;
-const getMaxMp=()=>500+state.stats.INT*5;
-const getXpNeeded=()=>state.level*200;
-function getRank(l){
-  if(l>=90)return"SM";if(l>=70)return"NL";if(l>=50)return"SSS";
-  if(l>=40)return"SS";if(l>=30)return"S";if(l>=20)return"A";
-  if(l>=15)return"B";if(l>=10)return"C";if(l>=5)return"D";return"E";
+/* =============================================
+   TAB SWITCHING
+   ============================================= */
+const ALL_TABS=['system','quests','stats','shadows','shop','inventory','profile'];
+function switchTab(tab,btn){
+  ALL_TABS.forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('scroll-area').scrollTop=0;
+  render();
 }
+
+/* =============================================
+   INIT
+   ============================================= */
+render();
 </script>
 </body>
 </html>
