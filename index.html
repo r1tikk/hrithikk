@@ -1,448 +1,970 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habit Tracker</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Solo Leveling System</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0a0f,#0d0d1a,#080810);font-family:'Segoe UI',sans-serif;color:#e2e8f0;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 50%,rgba(139,92,246,0.08),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(59,130,246,0.06),transparent 60%);z-index:0}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+/* ONBOARDING */
+#onboarding{position:fixed;inset:0;z-index:2000;background:linear-gradient(135deg,#0a0a0f,#0d0d1a);display:flex;align-items:center;justify-content:center;padding:20px}
+#onboarding.hidden{display:none}
+.ob-card{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(10,10,25,0.95));border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:32px 28px;max-width:440px;width:100%;box-shadow:0 0 60px rgba(139,92,246,0.15)}
+.ob-step{display:none}.ob-step.active{display:block}
+.ob-title{font-size:22px;font-weight:900;color:#8b5cf6;letter-spacing:2px;margin-bottom:6px;text-align:center}
+.ob-sub{color:#94a3b8;font-size:13px;text-align:center;margin-bottom:24px;line-height:1.5}
+.ob-logo{text-align:center;font-size:56px;margin-bottom:12px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{text-shadow:0 0 20px rgba(139,92,246,0.5)}50%{text-shadow:0 0 40px rgba(139,92,246,0.9),0 0 80px rgba(139,92,246,0.3)}}
+.ob-field{margin-bottom:16px}
+.ob-label{font-size:11px;color:#8b5cf6;font-weight:700;letter-spacing:1.5px;margin-bottom:6px;display:block}
+.ob-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:12px 14px;color:#e2e8f0;font-size:14px;outline:none;transition:border-color 0.2s}
+.ob-input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,0.15)}
+.ob-input::placeholder{color:#475569}
+.ob-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ob-select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:12px 14px;color:#e2e8f0;font-size:14px;outline:none;cursor:pointer;appearance:none}
+.ob-select option{background:#0d0d1a;color:#e2e8f0}
+.ob-btn{width:100%;padding:14px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px;transition:opacity 0.2s,transform 0.1s}
+.ob-btn:hover{opacity:0.9;transform:translateY(-1px)}
+.ob-btn-outline{background:transparent;border:1px solid rgba(139,92,246,0.4);color:#8b5cf6;margin-top:8px}
+.ob-progress{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(139,92,246,0.3);transition:background 0.3s}
+.ob-dot.active{background:#8b5cf6;box-shadow:0 0 8px rgba(139,92,246,0.6)}
+.ob-goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.ob-goal-btn{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);border-radius:10px;padding:12px 8px;color:#94a3b8;cursor:pointer;font-size:12px;font-weight:600;text-align:center;transition:all 0.2s}
+.ob-goal-btn.selected{background:rgba(139,92,246,0.2);border-color:#8b5cf6;color:#c4b5fd}
+.ob-goal-btn .goal-emoji{font-size:22px;display:block;margin-bottom:4px}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+/* MAIN APP */
+#app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:16px 12px 80px;display:none}
+#app.visible{display:block}
 
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-        }
+/* HEADER */
+.header-card{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(10,10,25,0.9));border:1px solid rgba(139,92,246,0.4);border-radius:16px;padding:20px;margin-bottom:16px;animation:fadeSlideIn 0.5s ease}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start}
+.rank-badge{display:inline-block;font-weight:900;font-size:11px;padding:2px 10px;border-radius:20px;color:#000;letter-spacing:1px}
+.bar-label{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-bottom:3px}
+.bar-track{height:7px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;margin-bottom:10px}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease}
+.xp-fill{background:linear-gradient(90deg,#8b5cf6,#3b82f6);box-shadow:0 0 8px rgba(139,92,246,0.5)}
+.hp-fill{background:#ef4444}
+.mp-fill{background:#3b82f6}
+.bars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:20px;margin-bottom:12px}
+.section-title{color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat-box{background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:10px 6px;text-align:center}
+.stat-key{font-size:10px;color:#8b5cf6;letter-spacing:1px}
+.stat-val{font-size:22px;font-weight:900}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action-btn{border-radius:10px;padding:14px;font-weight:700;cursor:pointer;font-size:13px;border:1px solid;transition:opacity 0.2s,transform 0.1s}
+.action-btn:hover{opacity:0.8;transform:translateY(-1px)}
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+/* QUESTS */
+.quest-item{border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(139,92,246,0.25);transition:all 0.2s}
+.quest-item.done{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.3)}
+.quest-item.pending{background:rgba(10,10,25,0.85)}
+.quest-item.habit{background:rgba(6,182,212,0.06);border-color:rgba(6,182,212,0.25)}
+.quest-item.habit.done{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.3)}
+.quest-header{display:flex;justify-content:space-between;align-items:flex-start}
+.quest-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.tag{padding:2px 8px;border-radius:12px;font-size:11px}
+.tag-xp{background:rgba(139,92,246,0.2);color:#c4b5fd}
+.tag-gold{background:rgba(245,158,11,0.2);color:#fcd34d}
+.tag-stat{background:rgba(59,130,246,0.2);color:#93c5fd}
+.tag-habit{background:rgba(6,182,212,0.2);color:#67e8f9}
+.complete-btn{background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:8px;padding:8px 12px;color:#fff;font-weight:700;cursor:pointer;font-size:12px;margin-left:10px;white-space:nowrap;transition:opacity 0.2s}
+.complete-btn:hover{opacity:0.85}
+.delete-btn{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:4px 8px;color:#fca5a5;cursor:pointer;font-size:11px;margin-left:6px;transition:opacity 0.2s}
+.delete-btn:hover{opacity:0.8}
 
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
+/* ADD HABIT FORM */
+.add-habit-form{background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:16px;margin-bottom:12px}
+.habit-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:10px 12px;color:#e2e8f0;font-size:13px;outline:none;margin-bottom:10px;transition:border-color 0.2s}
+.habit-input:focus{border-color:#06b6d4;box-shadow:0 0 0 3px rgba(6,182,212,0.1)}
+.habit-input::placeholder{color:#475569}
+.habit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.habit-select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:9px 12px;color:#e2e8f0;font-size:13px;outline:none;cursor:pointer;appearance:none}
+.habit-select option{background:#0d0d1a;color:#e2e8f0}
+.add-habit-btn{width:100%;padding:10px;background:linear-gradient(135deg,#06b6d4,#0284c7);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:opacity 0.2s}
+.add-habit-btn:hover{opacity:0.85}
+.toggle-habit-form{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:10px 16px;color:#67e8f9;font-weight:700;cursor:pointer;font-size:12px;margin-bottom:12px;width:100%;text-align:center;transition:opacity 0.2s}
+.toggle-habit-form:hover{opacity:0.8}
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+/* SHADOWS */
+.shadow-item{border-radius:10px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shop-item{background:rgba(10,10,25,0.85);border-radius:10px;padding:14px;text-align:center}
+.buy-btn{border-radius:6px;padding:6px 0;font-weight:700;font-size:12px;width:100%;cursor:pointer;border:1px solid;transition:opacity 0.2s}
+.buy-btn:hover:not(:disabled){opacity:0.8}
+.buy-btn:disabled{cursor:not-allowed}
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inv-item{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.25);border-radius:10px;padding:12px;text-align:center}
+.empty-inv{text-align:center;padding:40px;color:#64748b;border:1px dashed rgba(139,92,246,0.2);border-radius:12px}
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
+/* PROFILE TAB */
+.profile-card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:20px;margin-bottom:12px}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;box-shadow:0 0 20px rgba(139,92,246,0.4)}
+.profile-stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(139,92,246,0.1)}
+.profile-stat-row:last-child{border-bottom:none}
+.profile-stat-label{color:#94a3b8;font-size:13px}
+.profile-stat-val{font-weight:700;color:#e2e8f0;font-size:14px}
+.profile-edit-btn{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:8px 16px;color:#c4b5fd;font-weight:700;cursor:pointer;font-size:12px;width:100%;margin-top:12px;transition:opacity 0.2s}
+.profile-edit-btn:hover{opacity:0.8}
+.bmi-card{background:rgba(10,10,25,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center}
+.bmi-value{font-size:36px;font-weight:900;margin:8px 0 4px}
+.bmi-label{font-size:12px;color:#94a3b8}
+.goal-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.goal-chip{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:20px;padding:4px 12px;font-size:11px;color:#c4b5fd;font-weight:600}
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
+/* NAV */
+#bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(5,5,15,0.97);border-top:1px solid rgba(139,92,246,0.3);display:flex;z-index:100}
+.nav-btn{flex:1;padding:10px 2px 8px;background:none;border:none;border-top:2px solid transparent;color:#64748b;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all 0.2s}
+.nav-btn.active{background:rgba(139,92,246,0.2);border-top-color:#8b5cf6;color:#a78bfa}
+.nav-icon{font-size:17px}
+.nav-label{font-size:7px;font-weight:700;letter-spacing:0.5px}
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85)}
+.modal-overlay.show{display:flex}
+.modal-box{text-align:center;padding:40px;border-radius:20px;max-width:340px;width:90%}
+.modal-levelup{border:2px solid #8b5cf6;background:rgba(10,10,30,0.97);box-shadow:0 0 60px rgba(139,92,246,0.6)}
+.modal-penalty{border:2px solid #ef4444;background:rgba(20,5,5,0.98);box-shadow:0 0 60px rgba(239,68,68,0.5)}
 
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .add-habit-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .add-habit-form {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .habit-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        .habit-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .add-btn {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .add-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .habits-container {
-            display: grid;
-            gap: 15px;
-        }
-
-        .habit-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .habit-card:hover {
-            transform: translateX(5px);
-        }
-
-        .habit-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .habit-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .habit-streak {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .check-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .check-box {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-        }
-
-        .check-box:hover {
-            border-color: #667eea;
-            transform: scale(1.1);
-        }
-
-        .check-box.completed {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #667eea;
-            color: white;
-        }
-
-        .check-label {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .habit-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .delete-btn {
-            padding: 8px 20px;
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .delete-btn:hover {
-            background: #ff3838;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
-        }
-
-        .empty-state h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 2em;
-            }
-
-            .days-grid {
-                grid-template-columns: repeat(7, 1fr);
-                gap: 5px;
-            }
-
-            .day-box {
-                font-size: 0.85em;
-            }
-        }
-    </style>
+/* TOASTS */
+#toasts{position:fixed;top:16px;right:16px;z-index:1000;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.toast{background:rgba(10,10,20,0.95);border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;animation:slideIn 0.3s ease,fadeOut 0.5s ease 2.5s forwards}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+.stat-row{margin-bottom:12px}
+.stat-row-header{display:flex;justify-content:space-between;margin-bottom:4px}
+.stat-bar-track{height:7px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:4px;transition:width 0.4s}
+.name-edit{display:flex;gap:8px}
+.name-input{background:rgba(255,255,255,0.1);border:1px solid #8b5cf6;border-radius:6px;padding:4px 8px;color:#fff;font-size:15px;outline:none}
+.name-confirm{background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;cursor:pointer}
+.edit-btn{background:none;border:none;color:#8b5cf6;cursor:pointer;font-size:14px}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.4);border-radius:4px}
+.streak-badge{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:2px 8px;font-size:11px;color:#fcd34d;font-weight:700}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎯 Habit Tracker</h1>
-            <p>Build better habits, one day at a time</p>
-        </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalHabits">0</div>
-                <div class="stat-label">Total Habits</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="completedToday">0</div>
-                <div class="stat-label">Completed Today</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="longestStreak">0</div>
-                <div class="stat-label">Longest Streak</div>
-            </div>
-        </div>
-
-        <div class="add-habit-section">
-            <div class="add-habit-form">
-                <input type="text" class="habit-input" id="habitInput" placeholder="Enter a new habit...">
-                <button class="add-btn" id="addBtn">+ Add Habit</button>
-            </div>
-        </div>
-
-        <div class="habits-container" id="habitsContainer">
-            <div class="empty-state">
-                <h2>No habits yet!</h2>
-                <p>Add your first habit above to get started 🚀</p>
-            </div>
-        </div>
+<!-- ═══ ONBOARDING ═══ -->
+<div id="onboarding">
+  <div class="ob-card">
+    <!-- Step 0: Welcome -->
+    <div class="ob-step active" id="step-0">
+      <div class="ob-logo">⚡</div>
+      <div class="ob-title">SYSTEM AWAKENED</div>
+      <div class="ob-sub">You have been chosen by the System.<br/>Complete your Hunter Registration to begin your journey.</div>
+      <button class="ob-btn" onclick="nextStep(1)">BEGIN REGISTRATION →</button>
     </div>
+    <!-- Step 1: Basic Info -->
+    <div class="ob-step" id="step-1">
+      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+      <div class="ob-title">HUNTER IDENTITY</div>
+      <div class="ob-sub">Tell the System who you are.</div>
+      <div class="ob-field">
+        <label class="ob-label">YOUR NAME</label>
+        <input class="ob-input" id="ob-name" type="text" placeholder="Enter your name..." maxlength="30"/>
+      </div>
+      <div class="ob-row">
+        <div class="ob-field">
+          <label class="ob-label">AGE</label>
+          <input class="ob-input" id="ob-age" type="number" placeholder="Age" min="5" max="120"/>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label">GENDER</label>
+          <select class="ob-select" id="ob-gender">
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <button class="ob-btn" onclick="validateStep1()">NEXT →</button>
+    </div>
+    <!-- Step 2: Body Stats -->
+    <div class="ob-step" id="step-2">
+      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+      <div class="ob-title">BODY MEASUREMENTS</div>
+      <div class="ob-sub">The System requires your physical data to calibrate your stats.</div>
+      <div class="ob-row">
+        <div class="ob-field">
+          <label class="ob-label">HEIGHT (cm)</label>
+          <input class="ob-input" id="ob-height" type="number" placeholder="e.g. 175" min="50" max="300"/>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label">WEIGHT (kg)</label>
+          <input class="ob-input" id="ob-weight" type="number" placeholder="e.g. 70" min="10" max="500"/>
+        </div>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">FITNESS LEVEL</label>
+        <select class="ob-select" id="ob-fitness">
+          <option value="Beginner">Beginner (E-Rank)</option>
+          <option value="Intermediate">Intermediate (C-Rank)</option>
+          <option value="Advanced">Advanced (A-Rank)</option>
+          <option value="Elite">Elite (S-Rank)</option>
+        </select>
+      </div>
+      <button class="ob-btn" onclick="validateStep2()">NEXT →</button>
+      <button class="ob-btn ob-btn-outline" onclick="nextStep(1)">← BACK</button>
+    </div>
+    <!-- Step 3: Goals -->
+    <div class="ob-step" id="step-3">
+      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
+      <div class="ob-title">CHOOSE YOUR PATH</div>
+      <div class="ob-sub">Select your goals. The System will calibrate your daily quests.</div>
+      <div class="ob-goal-grid" id="goal-grid">
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'💪 Build Muscle')"><span class="goal-emoji">💪</span>Build Muscle</button>
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'🏃 Lose Weight')"><span class="goal-emoji">🏃</span>Lose Weight</button>
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'🧘 Mental Focus')"><span class="goal-emoji">🧘</span>Mental Focus</button>
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'⚡ Increase Stamina')"><span class="goal-emoji">⚡</span>Increase Stamina</button>
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'📚 Study / Learn')"><span class="goal-emoji">📚</span>Study / Learn</button>
+        <button class="ob-goal-btn" onclick="toggleGoal(this,'😴 Better Sleep')"><span class="goal-emoji">😴</span>Better Sleep</button>
+      </div>
+      <button class="ob-btn" onclick="validateStep3()">NEXT →</button>
+      <button class="ob-btn ob-btn-outline" onclick="nextStep(2)">← BACK</button>
+    </div>
+    <!-- Step 4: Confirm -->
+    <div class="ob-step" id="step-4">
+      <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div><div class="ob-dot active"></div></div>
+      <div class="ob-logo" style="font-size:48px;margin-bottom:8px">🎯</div>
+      <div class="ob-title">REGISTRATION COMPLETE</div>
+      <div id="ob-summary" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:16px;margin:16px 0;text-align:left;font-size:13px;line-height:2"></div>
+      <button class="ob-btn" onclick="finishOnboarding()">⚡ ENTER THE SYSTEM</button>
+    </div>
+  </div>
+</div>
 
-    <script>
-        let habits = {};
-        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+<!-- ═══ TOASTS ═══ -->
+<div id="toasts"></div>
 
-        function getDateString(date) {
-            return date.toISOString().split('T')[0];
-        }
+<!-- Level Up Modal -->
+<div class="modal-overlay" id="modal-levelup">
+  <div class="modal-box modal-levelup">
+    <div style="font-size:60px">⚡</div>
+    <div style="font-size:36px;font-weight:900;color:#8b5cf6;letter-spacing:4px;margin-top:4px">LEVEL UP!</div>
+    <div style="font-size:22px;margin-top:8px" id="modal-level-text">Level 2</div>
+    <div style="font-weight:700;font-size:18px;margin-top:4px" id="modal-rank-text"></div>
+  </div>
+</div>
 
-        function getLast7Days() {
-            const days = [];
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                days.push(date);
-            }
-            return days;
-        }
+<!-- Penalty Modal -->
+<div class="modal-overlay" id="modal-penalty">
+  <div class="modal-box modal-penalty">
+    <div style="font-size:60px">⚠️</div>
+    <div style="font-size:28px;font-weight:900;color:#ef4444;letter-spacing:3px;margin-top:4px">PENALTY ZONE</div>
+    <div style="color:#fca5a5;margin:12px 0;line-height:1.6">You failed your daily quests.<br/>The System does not forgive weakness.</div>
+    <div style="color:#ef4444;font-weight:700">-3 ALL STATS | -200 HP</div>
+    <button onclick="closePenalty()" style="margin-top:16px;padding:10px 28px;background:#ef4444;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px">ACCEPT PUNISHMENT</button>
+  </div>
+</div>
 
-        function calculateStreak(completedDates) {
-            if (completedDates.length === 0) return 0;
-            
-            const sortedDates = completedDates.sort((a, b) => new Date(b) - new Date(a));
-            let streak = 0;
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            for (let i = 0; i < sortedDates.length; i++) {
-                const checkDate = new Date(today);
-                checkDate.setDate(checkDate.getDate() - i);
-                const checkDateString = getDateString(checkDate);
-                
-                if (sortedDates.includes(checkDateString)) {
-                    streak++;
-                } else {
-                    break;
-                }
-            }
-            
-            return streak;
-        }
+<!-- ═══ MAIN APP ═══ -->
+<div id="app">
+  <!-- Header -->
+  <div class="header-card">
+    <div class="header-top">
+      <div>
+        <div id="name-display" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px;font-weight:900" id="player-name">Hunter</span>
+          <button class="edit-btn" onclick="startEditName()">✏️</button>
+        </div>
+        <div id="name-edit" class="name-edit" style="display:none">
+          <input class="name-input" id="name-input" type="text"/>
+          <button class="name-confirm" onclick="confirmName()">✓</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+          <span class="rank-badge" id="rank-badge">E-Rank</span>
+          <span style="color:#94a3b8;font-size:13px" id="level-text">Lv.1</span>
+          <span class="streak-badge" id="streak-badge">🔥 0 day streak</span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="color:#f59e0b;font-weight:700;font-size:16px" id="gold-display">💰 200</div>
+        <div style="color:#94a3b8;font-size:11px">Gold</div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="bar-label"><span>EXP</span><span id="xp-label">0 / 200</span></div>
+      <div class="bar-track"><div class="bar-fill xp-fill" id="xp-bar" style="width:0%"></div></div>
+    </div>
+    <div class="bars-grid">
+      <div>
+        <div class="bar-label"><span>❤️ HP</span><span id="hp-label">1000/1000</span></div>
+        <div class="bar-track" style="margin-bottom:0"><div class="bar-fill hp-fill" id="hp-bar" style="width:100%"></div></div>
+      </div>
+      <div>
+        <div class="bar-label"><span>💙 MP</span><span id="mp-label">500/500</span></div>
+        <div class="bar-track" style="margin-bottom:0"><div class="bar-fill mp-fill" id="mp-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
 
-        function updateStats() {
-            const totalHabits = Object.keys(habits).length;
-            const today = getDateString(new Date());
-            let completedToday = 0;
-            let longestStreak = 0;
+  <!-- SYSTEM TAB -->
+  <div id="tab-system">
+    <div class="card" style="text-align:center">
+      <div style="font-size:12px;color:#8b5cf6;letter-spacing:3px;margin-bottom:8px">⚡ SYSTEM AWAKENED ⚡</div>
+      <div style="font-size:28px;font-weight:900" id="sys-rank">E-Rank Hunter</div>
+      <div style="color:#94a3b8;font-size:13px;margin-top:4px" id="sys-sub">Level 1 • 1 Shadows</div>
+      <div class="stats-grid" id="stats-grid"></div>
+    </div>
+    <div class="action-grid">
+      <button class="action-btn" style="background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#93c5fd" onclick="resetDailies()">🔄 Reset Dailies</button>
+      <button class="action-btn" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);color:#fca5a5" onclick="triggerPenalty()">⚠️ Trigger Penalty</button>
+      <button class="action-btn" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#86efac" onclick="restoreAll()">💊 Restore HP/MP</button>
+      <button class="action-btn" style="background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.4);color:#c4b5fd" onclick="train()">⚡ Train (+100 XP)</button>
+    </div>
+  </div>
 
-            Object.values(habits).forEach(habit => {
-                if (habit.completed.includes(today)) {
-                    completedToday++;
-                }
-                const streak = calculateStreak(habit.completed);
-                if (streak > longestStreak) {
-                    longestStreak = streak;
-                }
-            });
+  <!-- QUESTS TAB -->
+  <div id="tab-quests" style="display:none">
+    <!-- Add Habit -->
+    <div style="margin-top:4px">
+      <button class="toggle-habit-form" onclick="toggleHabitForm()" id="habit-toggle-btn">+ ADD CUSTOM HABIT</button>
+      <div id="habit-form" style="display:none">
+        <div class="add-habit-form">
+          <div style="color:#06b6d4;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px">✨ NEW HABIT</div>
+          <input class="habit-input" id="habit-name" type="text" placeholder="Habit name (e.g. Drink 2L water)..." maxlength="50"/>
+          <input class="habit-input" id="habit-desc" type="text" placeholder="Description (optional)..." maxlength="80"/>
+          <div class="habit-row">
+            <div>
+              <div style="font-size:10px;color:#06b6d4;font-weight:700;letter-spacing:1px;margin-bottom:5px">XP REWARD</div>
+              <select class="habit-select" id="habit-xp">
+                <option value="50">50 XP (Easy)</option>
+                <option value="100" selected>100 XP (Normal)</option>
+                <option value="150">150 XP (Hard)</option>
+                <option value="200">200 XP (Epic)</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:10px;color:#06b6d4;font-weight:700;letter-spacing:1px;margin-bottom:5px">STAT BOOST</div>
+              <select class="habit-select" id="habit-stat">
+                <option value="STR">STR (Strength)</option>
+                <option value="AGI">AGI (Agility)</option>
+                <option value="VIT">VIT (Vitality)</option>
+                <option value="INT">INT (Intelligence)</option>
+                <option value="PER">PER (Perception)</option>
+                <option value="LUK">LUK (Luck)</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-habit-btn" onclick="addHabit()">⚡ ADD HABIT TO SYSTEM</button>
+        </div>
+      </div>
+    </div>
+    <!-- Custom Habits -->
+    <div id="custom-habits-section" style="display:none">
+      <div style="color:#06b6d4;font-weight:700;font-size:12px;letter-spacing:2px;margin:8px 0 8px">✨ MY HABITS</div>
+      <div id="custom-habits"></div>
+    </div>
+    <!-- Daily Quests -->
+    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin:12px 0 8px">📋 DAILY QUESTS</div>
+    <div id="daily-quests"></div>
+    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin:16px 0 8px">⚔️ MAIN QUESTS</div>
+    <div id="main-quests"></div>
+  </div>
 
-            document.getElementById('totalHabits').textContent = totalHabits;
-            document.getElementById('completedToday').textContent = completedToday;
-            document.getElementById('longestStreak').textContent = longestStreak;
-        }
+  <!-- STATS TAB -->
+  <div id="tab-stats" style="display:none">
+    <div class="card">
+      <div class="section-title">📊 PLAYER STATS</div>
+      <div id="stat-bars"></div>
+    </div>
+    <div class="card">
+      <div class="section-title">🏆 COMBAT POWER</div>
+      <div style="font-size:32px;font-weight:900;text-align:center" id="cp-value">0</div>
+      <div style="color:#94a3b8;text-align:center;font-size:12px;margin-top:4px">Overall Combat Power</div>
+    </div>
+  </div>
 
-        function renderHabits() {
-            const container = document.getElementById('habitsContainer');
-            
-            if (Object.keys(habits).length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h2>No habits yet!</h2>
-                        <p>Add your first habit above to get started 🚀</p>
-                    </div>
-                `;
-                updateStats();
-                return;
-            }
+  <!-- SHADOWS TAB -->
+  <div id="tab-shadows" style="display:none">
+    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="shadow-title">👥 SHADOW ARMY — 1/8</div>
+    <div id="shadow-list"></div>
+  </div>
 
-            container.innerHTML = '';
-            const last7Days = getLast7Days();
+  <!-- SHOP TAB -->
+  <div id="tab-shop" style="display:none">
+    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="shop-title">🏪 SYSTEM SHOP</div>
+    <div class="shop-grid" id="shop-grid"></div>
+  </div>
 
-            Object.entries(habits).forEach(([id, habit]) => {
-                const today = getDateString(new Date());
-                const isCompletedToday = habit.completed.includes(today);
-                
-                const card = document.createElement('div');
-                card.className = 'habit-card';
+  <!-- INVENTORY TAB -->
+  <div id="tab-inventory" style="display:none">
+    <div style="color:#8b5cf6;font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:12px" id="inv-title">🎒 INVENTORY — 0 items</div>
+    <div id="inv-grid"></div>
+  </div>
 
-                card.innerHTML = `
-                    <div class="habit-header">
-                        <div class="habit-title">${habit.name}</div>
-                    </div>
-                    <div class="check-container">
-                        <div class="check-box ${isCompletedToday ? 'completed' : ''}" data-habit-id="${id}">
-                            ${isCompletedToday ? '✓' : ''}
-                        </div>
-                        <div class="check-label">Mark as completed today</div>
-                    </div>
-                    <div class="habit-actions">
-                        <button class="delete-btn" data-habit-id="${id}">Delete</button>
-                    </div>
-                `;
+  <!-- PROFILE TAB -->
+  <div id="tab-profile" style="display:none">
+    <div class="profile-card">
+      <div class="profile-avatar" id="profile-avatar">🧑</div>
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:18px;font-weight:900" id="profile-name-display">Hunter</div>
+        <div style="color:#94a3b8;font-size:12px;margin-top:2px" id="profile-rank-display">E-Rank • Level 1</div>
+      </div>
+      <div class="profile-stat-row"><span class="profile-stat-label">👤 Name</span><span class="profile-stat-val" id="p-name">—</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">🎂 Age</span><span class="profile-stat-val" id="p-age">—</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">⚧ Gender</span><span class="profile-stat-val" id="p-gender">—</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">📏 Height</span><span class="profile-stat-val" id="p-height">—</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">⚖️ Weight</span><span class="profile-stat-val" id="p-weight">—</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">💪 Fitness Level</span><span class="profile-stat-val" id="p-fitness">—</span></div>
+      <button class="profile-edit-btn" onclick="openEditProfile()">✏️ EDIT PROFILE</button>
+    </div>
+    <div class="bmi-card" id="bmi-card">
+      <div class="section-title" style="text-align:center">📊 BODY STATS</div>
+      <div class="bmi-value" id="bmi-value">—</div>
+      <div class="bmi-label" id="bmi-label">BMI</div>
+      <div style="color:#94a3b8;font-size:11px;margin-top:4px" id="bmi-status">Enter height & weight to calculate</div>
+    </div>
+    <div class="profile-card">
+      <div class="section-title">🎯 MY GOALS</div>
+      <div class="goal-chips" id="goal-chips"></div>
+    </div>
+    <div class="profile-card">
+      <div class="section-title">📈 PROGRESS SUMMARY</div>
+      <div class="profile-stat-row"><span class="profile-stat-label">✅ Quests Done</span><span class="profile-stat-val" id="p-quests-done">0</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">🔥 Habit Streak</span><span class="profile-stat-val" id="p-streak">0 days</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">👥 Shadows</span><span class="profile-stat-val" id="p-shadows">1/8</span></div>
+      <div class="profile-stat-row"><span class="profile-stat-label">💰 Gold Earned</span><span class="profile-stat-val" id="p-gold-total">0</span></div>
+    </div>
+  </div>
+</div>
 
-                container.appendChild(card);
-            });
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="modal-profile-edit">
+  <div style="background:rgba(10,10,25,0.98);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:28px;max-width:380px;width:90%;max-height:90vh;overflow-y:auto">
+    <div style="font-size:16px;font-weight:900;color:#8b5cf6;letter-spacing:2px;margin-bottom:20px;text-align:center">✏️ EDIT PROFILE</div>
+    <div class="ob-field"><label class="ob-label">NAME</label><input class="ob-input" id="edit-name" type="text"/></div>
+    <div class="ob-row">
+      <div class="ob-field"><label class="ob-label">AGE</label><input class="ob-input" id="edit-age" type="number" min="5" max="120"/></div>
+      <div class="ob-field"><label class="ob-label">GENDER</label><select class="ob-select" id="edit-gender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
+    </div>
+    <div class="ob-row">
+      <div class="ob-field"><label class="ob-label">HEIGHT (cm)</label><input class="ob-input" id="edit-height" type="number" min="50" max="300"/></div>
+      <div class="ob-field"><label class="ob-label">WEIGHT (kg)</label><input class="ob-input" id="edit-weight" type="number" min="10" max="500"/></div>
+    </div>
+    <div class="ob-field"><label class="ob-label">FITNESS LEVEL</label><select class="ob-select" id="edit-fitness"><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option><option value="Elite">Elite</option></select></div>
+    <button class="ob-btn" onclick="saveProfileEdit()" style="margin-top:4px">SAVE CHANGES</button>
+    <button class="ob-btn ob-btn-outline" onclick="closeProfileEdit()">CANCEL</button>
+  </div>
+</div>
 
-            updateStats();
-        }
+<!-- Bottom Nav -->
+<nav id="bottom-nav">
+  <button class="nav-btn active" onclick="switchTab('system',this)"><span class="nav-icon">⚡</span><span class="nav-label">SYSTEM</span></button>
+  <button class="nav-btn" onclick="switchTab('quests',this)"><span class="nav-icon">📋</span><span class="nav-label">QUESTS</span></button>
+  <button class="nav-btn" onclick="switchTab('stats',this)"><span class="nav-icon">📊</span><span class="nav-label">STATS</span></button>
+  <button class="nav-btn" onclick="switchTab('shadows',this)"><span class="nav-icon">👥</span><span class="nav-label">SHADOWS</span></button>
+  <button class="nav-btn" onclick="switchTab('shop',this)"><span class="nav-icon">🏪</span><span class="nav-label">SHOP</span></button>
+  <button class="nav-btn" onclick="switchTab('inventory',this)"><span class="nav-icon">🎒</span><span class="nav-label">BAG</span></button>
+  <button class="nav-btn" onclick="switchTab('profile',this)"><span class="nav-icon">👤</span><span class="nav-label">PROFILE</span></button>
+</nav>
 
-        function addHabit() {
-            const input = document.getElementById('habitInput');
-            const habitName = input.value.trim();
-            
-            if (habitName) {
-                const id = Date.now().toString();
-                habits[id] = {
-                    name: habitName,
-                    completed: []
-                };
-                
-                input.value = '';
-                renderHabits();
-            }
-        }
+<script>
+// ═══ CONSTANTS ═══
+const RANK_COLORS={E:"#9ca3af",D:"#22c55e",C:"#3b82f6",B:"#a855f7",A:"#f59e0b",S:"#ef4444",SS:"#f97316",SSS:"#ec4899",NL:"#06b6d4",SM:"#8b5cf6"};
+const RANK_LABELS={E:"E",D:"D",C:"C",B:"B",A:"A",S:"S",SS:"SS",SSS:"SSS",NL:"National Level",SM:"Shadow Monarch"};
+const STAT_COLORS={STR:"#ef4444",AGI:"#22c55e",VIT:"#f59e0b",INT:"#3b82f6",PER:"#06b6d4",LUK:"#ec4899"};
+const TYPE_COLORS={consumable:"#22c55e",weapon:"#ef4444",special:"#8b5cf6",stat:"#3b82f6",legendary:"#ec4899"};
 
-        // Add habit button click
-        document.getElementById('addBtn').addEventListener('click', function() {
-            addHabit();
-        });
+const SHADOWS_DATA=[
+  {id:1,name:"Igris",rank:"Marshal",grade:"S",power:9200,type:"Knight",emoji:"⚔️",unlocked:false},
+  {id:2,name:"Beru",rank:"Marshal",grade:"S",power:9800,type:"Assassin",emoji:"🦂",unlocked:false},
+  {id:3,name:"Tank",rank:"General",grade:"A",power:7400,type:"Tank",emoji:"🛡️",unlocked:false},
+  {id:4,name:"Iron",rank:"General",grade:"A",power:7200,type:"Tank",emoji:"🪖",unlocked:false},
+  {id:5,name:"Greed",rank:"Knight",grade:"B",power:5600,type:"Mage",emoji:"💎",unlocked:false},
+  {id:6,name:"Kaisel",rank:"Knight",grade:"B",power:6100,type:"Mount",emoji:"🐉",unlocked:false},
+  {id:7,name:"Fangs",rank:"Soldier",grade:"C",power:3200,type:"Wolf",emoji:"🐺",unlocked:false},
+  {id:8,name:"Shadow Soldier",rank:"Soldier",grade:"E",power:800,type:"Basic",emoji:"👤",unlocked:true},
+];
 
-        // Add habit on Enter key
-        document.getElementById('habitInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addHabit();
-            }
-        });
+const SHOP_DATA=[
+  {id:1,name:"HP Potion",emoji:"🧪",cost:50,effect:"+500 HP",type:"consumable"},
+  {id:2,name:"MP Potion",emoji:"💙",cost:50,effect:"+300 MP",type:"consumable"},
+  {id:3,name:"Demon King's Sword",emoji:"⚔️",cost:500,effect:"+150 ATK",type:"weapon"},
+  {id:4,name:"Shadow Essence",emoji:"🌑",cost:300,effect:"Unlock Shadow",type:"special"},
+  {id:5,name:"Elixir of Strength",emoji:"💪",cost:200,effect:"+10 STR",type:"stat"},
+  {id:6,name:"Agility Crystal",emoji:"💨",cost:200,effect:"+10 AGI",type:"stat"},
+  {id:7,name:"Shadow Core",emoji:"🫀",cost:1000,effect:"Unlock Elite Shadow",type:"special"},
+  {id:8,name:"Ruler's Authority",emoji:"👑",cost:2000,effect:"+50 all stats",type:"legendary"},
+];
 
-        // Toggle completion for today
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.check-box')) {
-                const checkBox = e.target.closest('.check-box');
-                const habitId = checkBox.getAttribute('data-habit-id');
-                const today = getDateString(new Date());
-                
-                const habit = habits[habitId];
-                const index = habit.completed.indexOf(today);
-                
-                if (index > -1) {
-                    habit.completed.splice(index, 1);
-                } else {
-                    habit.completed.push(today);
-                }
-                
-                renderHabits();
-            }
-        });
+const QUESTS_DATA=[
+  {id:1,title:"100 Push-ups",desc:"Complete 100 push-ups",xp:120,gold:30,stat:"STR",gain:2,type:"daily",done:false},
+  {id:2,title:"10km Run",desc:"Run 10 kilometers",xp:150,gold:40,stat:"AGI",gain:2,type:"daily",done:false},
+  {id:3,title:"100 Sit-ups",desc:"Complete 100 sit-ups",xp:100,gold:25,stat:"VIT",gain:1,type:"daily",done:false},
+  {id:4,title:"Meditate 30 mins",desc:"Focus your mana",xp:80,gold:20,stat:"INT",gain:2,type:"daily",done:false},
+  {id:5,title:"Enter the Dungeon",desc:"Complete a hidden dungeon",xp:500,gold:200,stat:"ALL",gain:5,type:"main",done:false},
+  {id:6,title:"Defeat Gate Boss",desc:"S-Rank gate boss awaits",xp:1000,gold:500,stat:"ALL",gain:10,type:"main",done:false},
+];
 
-        // Delete habit
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('delete-btn')) {
-                const habitId = e.target.getAttribute('data-habit-id');
-                if (confirm('Are you sure you want to delete this habit?')) {
-                    delete habits[habitId];
-                    renderHabits();
-                }
-            }
-        });
+// ═══ STATE ═══
+let state={
+  name:"Hunter",level:1,xp:0,gold:200,hp:1000,mp:500,streak:0,totalGoldEarned:0,questsDone:0,
+  stats:{STR:10,AGI:10,VIT:10,INT:10,PER:10,LUK:5},
+  quests:JSON.parse(JSON.stringify(QUESTS_DATA)),
+  customHabits:[],
+  shadows:JSON.parse(JSON.stringify(SHADOWS_DATA)),
+  inventory:[],
+  profile:{name:'',age:'',gender:'',height:'',weight:'',fitness:'Beginner',goals:[]},
+};
+let selectedGoals=[];
+let currentObStep=0;
 
-        // Initial render
-        renderHabits();
-    </script>
+// ═══ ONBOARDING ═══
+function nextStep(n){
+  document.getElementById('step-'+currentObStep).classList.remove('active');
+  currentObStep=n;
+  document.getElementById('step-'+n).classList.add('active');
+}
+
+function validateStep1(){
+  const name=document.getElementById('ob-name').value.trim();
+  const age=document.getElementById('ob-age').value;
+  if(!name){notify('Please enter your name!','#ef4444');return;}
+  state.profile.name=name;
+  state.profile.age=age||'—';
+  state.profile.gender=document.getElementById('ob-gender').value||'—';
+  state.name=name;
+  nextStep(2);
+}
+
+function validateStep2(){
+  state.profile.height=document.getElementById('ob-height').value||'—';
+  state.profile.weight=document.getElementById('ob-weight').value||'—';
+  state.profile.fitness=document.getElementById('ob-fitness').value;
+  // Apply fitness bonus
+  const bonuses={Beginner:0,Intermediate:5,Advanced:10,Elite:20};
+  const bonus=bonuses[state.profile.fitness]||0;
+  if(bonus>0) Object.keys(state.stats).forEach(k=>{if(k!=='LUK')state.stats[k]+=bonus;});
+  nextStep(3);
+}
+
+function toggleGoal(btn,goal){
+  btn.classList.toggle('selected');
+  if(btn.classList.contains('selected')){
+    if(!selectedGoals.includes(goal))selectedGoals.push(goal);
+  }else{
+    selectedGoals=selectedGoals.filter(g=>g!==goal);
+  }
+}
+
+function validateStep3(){
+  state.profile.goals=selectedGoals.length?selectedGoals:['💪 Build Muscle'];
+  // Show summary
+  const h=state.profile.height!=='—'?state.profile.height+'cm':'?';
+  const w=state.profile.weight!=='—'?state.profile.weight+'kg':'?';
+  document.getElementById('ob-summary').innerHTML=
+    `<div>👤 <b style="color:#c4b5fd">${state.profile.name}</b> &nbsp;|&nbsp; ${state.profile.age} yrs &nbsp;|&nbsp; ${state.profile.gender}</div>`+
+    `<div>📏 Height: <b style="color:#c4b5fd">${h}</b> &nbsp;|&nbsp; ⚖️ Weight: <b style="color:#c4b5fd">${w}</b></div>`+
+    `<div>💪 Fitness: <b style="color:#c4b5fd">${state.profile.fitness}</b></div>`+
+    `<div>🎯 Goals: <b style="color:#c4b5fd">${state.profile.goals.join(', ')}</b></div>`;
+  nextStep(4);
+}
+
+function finishOnboarding(){
+  document.getElementById('onboarding').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  // Apply HP/MP based on stats
+  state.hp=getMaxHp(); state.mp=getMaxMp();
+  renderAll();
+  notify('⚡ System Activated! Welcome, '+state.name+'!','#8b5cf6');
+}
+
+// ═══ HABIT FORM ═══
+function toggleHabitForm(){
+  const form=document.getElementById('habit-form');
+  const btn=document.getElementById('habit-toggle-btn');
+  const visible=form.style.display!=='none';
+  form.style.display=visible?'none':'block';
+  btn.textContent=visible?'+ ADD CUSTOM HABIT':'✕ CLOSE HABIT FORM';
+}
+
+function addHabit(){
+  const name=document.getElementById('habit-name').value.trim();
+  if(!name){notify('Please enter a habit name!','#ef4444');return;}
+  const desc=document.getElementById('habit-desc').value.trim();
+  const xp=parseInt(document.getElementById('habit-xp').value);
+  const stat=document.getElementById('habit-stat').value;
+  const gold=Math.floor(xp/4);
+  const habit={
+    id:Date.now(),title:name,desc:desc||'Custom habit',xp,gold,stat,gain:1,
+    type:'habit',done:false,streak:0
+  };
+  state.customHabits.push(habit);
+  document.getElementById('habit-name').value='';
+  document.getElementById('habit-desc').value='';
+  toggleHabitForm();
+  notify(`✨ Habit "${name}" added to System!`,'#06b6d4');
+  renderAll();
+}
+
+function deleteHabit(id){
+  state.customHabits=state.customHabits.filter(h=>h.id!==id);
+  notify('🗑️ Habit removed','#94a3b8');
+  renderAll();
+}
+
+// ═══ RENDER ═══
+function renderAll(){
+  renderHeader();renderSystem();renderQuests();renderStats();
+  renderShadows();renderShop();renderInventory();renderProfile();
+}
+
+function renderHeader(){
+  const r=getRank(state.level),rc=RANK_COLORS[r],mhp=getMaxHp(),mmp=getMaxMp(),xpn=getXpNeeded();
+  document.getElementById('player-name').textContent=state.name;
+  document.getElementById('name-input').value=state.name;
+  const b=document.getElementById('rank-badge');
+  b.textContent=RANK_LABELS[r]+'-Rank';b.style.background=rc;
+  document.getElementById('level-text').textContent='Lv.'+state.level;
+  document.getElementById('gold-display').textContent='💰 '+state.gold.toLocaleString();
+  document.getElementById('streak-badge').textContent='🔥 '+state.streak+' day streak';
+  document.getElementById('xp-label').textContent=state.xp+' / '+xpn;
+  document.getElementById('xp-bar').style.width=Math.min((state.xp/xpn)*100,100)+'%';
+  document.getElementById('hp-label').textContent=state.hp+'/'+mhp;
+  document.getElementById('hp-bar').style.width=Math.min((state.hp/mhp)*100,100)+'%';
+  document.getElementById('mp-label').textContent=state.mp+'/'+mmp;
+  document.getElementById('mp-bar').style.width=Math.min((state.mp/mmp)*100,100)+'%';
+}
+
+function renderSystem(){
+  const r=getRank(state.level),rc=RANK_COLORS[r];
+  const sr=document.getElementById('sys-rank');
+  sr.textContent=RANK_LABELS[r]+'-Rank Hunter';sr.style.color=rc;
+  document.getElementById('sys-sub').textContent='Level '+state.level+' • '+state.shadows.filter(s=>s.unlocked).length+' Shadows';
+  const g=document.getElementById('stats-grid');g.innerHTML='';
+  for(const[k,v]of Object.entries(state.stats))
+    g.innerHTML+=`<div class="stat-box"><div class="stat-key">${k}</div><div class="stat-val">${v}</div></div>`;
+}
+
+function renderQuests(){
+  // Custom habits
+  const ch=document.getElementById('custom-habits');
+  const cs=document.getElementById('custom-habits-section');
+  cs.style.display=state.customHabits.length?'block':'none';
+  ch.innerHTML='';
+  state.customHabits.forEach(h=>{
+    ch.innerHTML+=`<div class="quest-item habit ${h.done?'done':''}">
+      <div class="quest-header">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:14px;color:${h.done?'#86efac':'#e2e8f0'}">${h.done?'✅':'✨'} ${h.title}</div>
+          <div style="color:#94a3b8;font-size:12px;margin-top:3px">${h.desc}</div>
+          <div class="quest-tags">
+            <span class="tag tag-xp">+${h.xp} XP</span>
+            <span class="tag tag-gold">+${h.gold} 💰</span>
+            <span class="tag tag-stat">+1 ${h.stat}</span>
+            <span class="tag tag-habit">HABIT</span>
+            ${h.streak>0?`<span class="streak-badge">🔥 ${h.streak}</span>`:''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          ${!h.done?`<button class="complete-btn" onclick="completeHabit(${h.id})">DONE</button>`:'<span style="color:#86efac;font-size:20px;margin-left:10px">✓</span>'}
+          <button class="delete-btn" onclick="deleteHabit(${h.id})">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  // System quests
+  ['daily','main'].forEach(type=>{
+    const el=document.getElementById(type+'-quests');el.innerHTML='';
+    state.quests.filter(q=>q.type===type).forEach(q=>{
+      el.innerHTML+=`<div class="quest-item ${q.done?'done':'pending'}">
+        <div class="quest-header">
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px;color:${q.done?'#86efac':'#e2e8f0'}">${q.done?'✅':'◻️'} ${q.title}</div>
+            <div style="color:#94a3b8;font-size:12px;margin-top:3px">${q.desc}</div>
+            <div class="quest-tags">
+              <span class="tag tag-xp">+${q.xp} XP</span>
+              <span class="tag tag-gold">+${q.gold} 💰</span>
+              <span class="tag tag-stat">+${q.gain} ${q.stat}</span>
+            </div>
+          </div>
+          ${!q.done?`<button class="complete-btn" onclick="completeQuest(${q.id})">DONE</button>`:''}
+        </div>
+      </div>`;
+    });
+  });
+}
+
+function renderStats(){
+  const bars=document.getElementById('stat-bars');bars.innerHTML='';
+  for(const[k,v]of Object.entries(state.stats)){
+    const c=STAT_COLORS[k]||'#8b5cf6';
+    bars.innerHTML+=`<div class="stat-row">
+      <div class="stat-row-header"><span style="font-weight:700;font-size:13px;color:${c}">${k}</span><span style="font-weight:700">${v}</span></div>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.min((v/999)*100,100)}%;background:${c};box-shadow:0 0 6px ${c}88"></div></div>
+    </div>`;
+  }
+  const cp=Object.values(state.stats).reduce((a,b)=>a+b,0)*state.level*12;
+  const cpEl=document.getElementById('cp-value');
+  cpEl.textContent=cp.toLocaleString();cpEl.style.color=RANK_COLORS[getRank(state.level)];
+}
+
+function renderShadows(){
+  const unlocked=state.shadows.filter(s=>s.unlocked).length;
+  document.getElementById('shadow-title').textContent=`👥 SHADOW ARMY — ${unlocked}/${state.shadows.length}`;
+  const list=document.getElementById('shadow-list');list.innerHTML='';
+  state.shadows.forEach(s=>{
+    const gc=RANK_COLORS[s.grade]||'#9ca3af';
+    list.innerHTML+=`<div class="shadow-item" style="background:${s.unlocked?'rgba(10,10,30,0.9)':'rgba(5,5,10,0.7)'};border:1px solid ${s.unlocked?gc+'55':'rgba(255,255,255,0.08)'};opacity:${s.unlocked?1:0.5};filter:${s.unlocked?'none':'grayscale(70%)'}">
+      <div style="font-size:32px">${s.unlocked?s.emoji:'❓'}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:15px;color:${s.unlocked?'#e2e8f0':'#64748b'}">${s.unlocked?s.name:'???'}</div>
+        <div style="color:#94a3b8;font-size:12px">${s.type} • ${s.rank}</div>
+        ${s.unlocked?`<div style="display:flex;gap:6px;margin-top:4px">
+          <span style="background:${gc}33;color:${gc};padding:1px 8px;border-radius:10px;font-size:11px;font-weight:700">${s.grade}</span>
+          <span style="background:rgba(139,92,246,0.2);color:#c4b5fd;padding:1px 8px;border-radius:10px;font-size:11px">PWR: ${s.power.toLocaleString()}</span>
+        </div>`:''}
+      </div>
+      ${!s.unlocked?'<div style="color:#64748b;font-size:22px">🔒</div>':''}
+    </div>`;
+  });
+}
+
+function renderShop(){
+  document.getElementById('shop-title').textContent=`🏪 SYSTEM SHOP — 💰 ${state.gold.toLocaleString()}`;
+  const grid=document.getElementById('shop-grid');grid.innerHTML='';
+  SHOP_DATA.forEach(item=>{
+    const c=TYPE_COLORS[item.type]||'#94a3b8',can=state.gold>=item.cost;
+    grid.innerHTML+=`<div class="shop-item" style="border:1px solid ${c}33">
+      <div style="font-size:30px;margin-bottom:6px">${item.emoji}</div>
+      <div style="font-weight:700;font-size:13px">${item.name}</div>
+      <div style="color:#94a3b8;font-size:11px;margin:4px 0 6px">${item.effect}</div>
+      <div style="font-size:10px;font-weight:700;color:${c};margin-bottom:8px">${item.type.toUpperCase()}</div>
+      <button class="buy-btn" onclick="buyItem(${item.id})" ${can?'':'disabled'}
+        style="background:${can?c+'22':'rgba(255,255,255,0.04)'};border-color:${can?c:'rgba(255,255,255,0.1)'};color:${can?c:'#64748b'}">
+        💰 ${item.cost}
+      </button>
+    </div>`;
+  });
+}
+
+function renderInventory(){
+  document.getElementById('inv-title').textContent=`🎒 INVENTORY — ${state.inventory.length} items`;
+  const grid=document.getElementById('inv-grid');
+  if(!state.inventory.length){
+    grid.innerHTML=`<div class="empty-inv"><div style="font-size:40px;margin-bottom:12px">🎒</div><div>Your inventory is empty.<br/>Buy items from the shop.</div></div>`;
+    return;
+  }
+  grid.innerHTML='';
+  state.inventory.forEach(item=>{
+    grid.innerHTML+=`<div class="inv-item"><div style="font-size:28px">${item.emoji}</div><div style="font-weight:700;font-size:12px;margin-top:4px">${item.name}</div><div style="color:#94a3b8;font-size:11px;margin-top:2px">${item.effect}</div></div>`;
+  });
+}
+
+function renderProfile(){
+  const r=getRank(state.level),rc=RANK_COLORS[r];
+  const p=state.profile;
+  document.getElementById('profile-name-display').textContent=p.name||state.name;
+  document.getElementById('profile-rank-display').textContent=RANK_LABELS[r]+'-Rank • Level '+state.level;
+  document.getElementById('profile-rank-display').style.color=rc;
+  // Avatar emoji based on gender
+  const avatarMap={Male:'🧑',Female:'👩',Other:'🧑'};
+  document.getElementById('profile-avatar').textContent=avatarMap[p.gender]||'🧑';
+  document.getElementById('p-name').textContent=p.name||'—';
+  document.getElementById('p-age').textContent=p.age?p.age+' years':'—';
+  document.getElementById('p-gender').textContent=p.gender||'—';
+  document.getElementById('p-height').textContent=p.height&&p.height!=='—'?p.height+' cm':'—';
+  document.getElementById('p-weight').textContent=p.weight&&p.weight!=='—'?p.weight+' kg':'—';
+  document.getElementById('p-fitness').textContent=p.fitness||'—';
+  // BMI
+  if(p.height&&p.weight&&p.height!=='—'&&p.weight!=='—'){
+    const hm=parseFloat(p.height)/100,wkg=parseFloat(p.weight);
+    if(hm>0&&wkg>0){
+      const bmi=(wkg/(hm*hm)).toFixed(1);
+      const bmiEl=document.getElementById('bmi-value');
+      bmiEl.textContent=bmi;
+      let status='',color='#e2e8f0';
+      if(bmi<18.5){status='Underweight';color='#3b82f6';}
+      else if(bmi<25){status='Normal ✓';color='#22c55e';}
+      else if(bmi<30){status='Overweight';color='#f59e0b';}
+      else{status='Obese';color='#ef4444';}
+      bmiEl.style.color=color;
+      document.getElementById('bmi-status').textContent=status;
+    }
+  }
+  // Goals
+  const gc=document.getElementById('goal-chips');gc.innerHTML='';
+  (p.goals||[]).forEach(g=>{gc.innerHTML+=`<span class="goal-chip">${g}</span>`;});
+  // Progress
+  const totalDone=state.quests.filter(q=>q.done).length+state.customHabits.filter(h=>h.done).length;
+  document.getElementById('p-quests-done').textContent=state.questsDone;
+  document.getElementById('p-streak').textContent=state.streak+' days';
+  document.getElementById('p-shadows').textContent=state.shadows.filter(s=>s.unlocked).length+'/'+state.shadows.length;
+  document.getElementById('p-gold-total').textContent=state.totalGoldEarned.toLocaleString();
+}
+
+// ═══ ACTIONS ═══
+function completeQuest(id){
+  const q=state.quests.find(x=>x.id===id);if(!q||q.done)return;
+  state.gold+=q.gold;state.xp+=q.xp;state.totalGoldEarned+=q.gold;state.questsDone++;
+  let leveled=false;
+  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
+  if(q.stat==='ALL')Object.keys(state.stats).forEach(k=>{if(k!=='LUK')state.stats[k]+=q.gain;});
+  else if(state.stats[q.stat]!==undefined)state.stats[q.stat]+=q.gain;
+  q.done=true;
+  if(leveled)showLevelUp();
+  notify(`✅ +${q.xp} XP  +${q.gold} Gold`,'#22c55e');
+  renderAll();
+}
+
+function completeHabit(id){
+  const h=state.customHabits.find(x=>x.id===id);if(!h||h.done)return;
+  state.gold+=h.gold;state.xp+=h.xp;state.totalGoldEarned+=h.gold;state.questsDone++;
+  state.streak++;
+  let leveled=false;
+  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
+  if(state.stats[h.stat]!==undefined)state.stats[h.stat]+=h.gain;
+  h.done=true;h.streak=(h.streak||0)+1;
+  if(leveled)showLevelUp();
+  notify(`✨ Habit done! +${h.xp} XP  🔥 ${state.streak} streak`,'#06b6d4');
+  renderAll();
+}
+
+function buyItem(id){
+  const item=SHOP_DATA.find(x=>x.id===id);if(!item)return;
+  if(state.gold<item.cost){notify('❌ Not enough gold!','#ef4444');return;}
+  state.gold-=item.cost;
+  if(item.type==='special'){
+    const locked=state.shadows.find(s=>!s.unlocked);
+    if(locked){locked.unlocked=true;notify(`👥 ${locked.name} extracted!`,'#8b5cf6');}
+    else{notify('All shadows already unlocked!','#f59e0b');state.gold+=item.cost;renderAll();return;}
+  }else if(item.type==='stat'){
+    const map={'Elixir of Strength':'STR','Agility Crystal':'AGI'};
+    const s=map[item.name];if(s)state.stats[s]+=10;
+    notify(`📈 ${item.effect}`,'#f59e0b');
+  }else if(item.type==='legendary'){
+    Object.keys(state.stats).forEach(k=>state.stats[k]+=50);
+    notify('👑 Legendary power obtained!','#ec4899');
+  }else if(item.name==='HP Potion'){
+    state.hp=Math.min(state.hp+500,getMaxHp());notify('❤️ +500 HP!','#ef4444');
+  }else if(item.name==='MP Potion'){
+    state.mp=Math.min(state.mp+300,getMaxMp());notify('💙 +300 MP!','#3b82f6');
+  }else notify(`🛍️ Got ${item.name}!`,'#3b82f6');
+  state.inventory.push({...item,uid:Date.now()});
+  renderAll();
+}
+
+function resetDailies(){
+  state.quests.forEach(q=>{if(q.type==='daily')q.done=false;});
+  state.customHabits.forEach(h=>h.done=false);
+  notify('🔄 Daily quests & habits reset!','#06b6d4');renderAll();
+}
+
+function triggerPenalty(){
+  const inc=state.quests.filter(q=>q.type==='daily'&&!q.done);
+  const incH=state.customHabits.filter(h=>!h.done);
+  if(!inc.length&&!incH.length){notify('✅ No penalty! All done!','#22c55e');return;}
+  Object.keys(state.stats).forEach(k=>state.stats[k]=Math.max(1,state.stats[k]-3));
+  state.hp=Math.max(1,state.hp-200);state.streak=0;
+  document.getElementById('modal-penalty').classList.add('show');
+  notify('⚠️ PENALTY! Stats -3!','#ef4444');renderAll();
+}
+
+function closePenalty(){document.getElementById('modal-penalty').classList.remove('show');}
+
+function restoreAll(){
+  state.hp=getMaxHp();state.mp=getMaxMp();
+  notify('💊 Fully restored!','#22c55e');renderAll();
+}
+
+function train(){
+  state.xp+=100;let leveled=false;
+  while(state.xp>=getXpNeeded()){state.xp-=getXpNeeded();state.level++;leveled=true;}
+  if(leveled)showLevelUp();else notify('+100 XP gained!','#8b5cf6');
+  renderAll();
+}
+
+// ═══ PROFILE EDIT ═══
+function openEditProfile(){
+  const p=state.profile;
+  document.getElementById('edit-name').value=p.name||state.name;
+  document.getElementById('edit-age').value=p.age&&p.age!=='—'?p.age:'';
+  document.getElementById('edit-gender').value=p.gender||'Male';
+  document.getElementById('edit-height').value=p.height&&p.height!=='—'?p.height:'';
+  document.getElementById('edit-weight').value=p.weight&&p.weight!=='—'?p.weight:'';
+  document.getElementById('edit-fitness').value=p.fitness||'Beginner';
+  document.getElementById('modal-profile-edit').classList.add('show');
+}
+
+function closeProfileEdit(){document.getElementById('modal-profile-edit').classList.remove('show');}
+
+function saveProfileEdit(){
+  const name=document.getElementById('edit-name').value.trim();
+  if(name)state.profile.name=name,state.name=name;
+  state.profile.age=document.getElementById('edit-age').value||'—';
+  state.profile.gender=document.getElementById('edit-gender').value;
+  state.profile.height=document.getElementById('edit-height').value||'—';
+  state.profile.weight=document.getElementById('edit-weight').value||'—';
+  state.profile.fitness=document.getElementById('edit-fitness').value;
+  closeProfileEdit();
+  notify('✅ Profile updated!','#22c55e');
+  renderAll();
+}
+
+// ═══ HELPERS ═══
+function showLevelUp(){
+  const r=getRank(state.level),rc=RANK_COLORS[r];
+  document.getElementById('modal-level-text').textContent='Level '+state.level;
+  const mrt=document.getElementById('modal-rank-text');
+  mrt.textContent=RANK_LABELS[r]+'-Rank';mrt.style.color=rc;
+  document.getElementById('modal-levelup').classList.add('show');
+  setTimeout(()=>document.getElementById('modal-levelup').classList.remove('show'),2500);
+}
+
+function switchTab(tab,btn){
+  ['system','quests','stats','shadows','shop','inventory','profile'].forEach(t=>
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function notify(msg,color='#8b5cf6'){
+  const toasts=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  t.style.border=`1px solid ${color}`;t.style.color=color;
+  t.style.boxShadow=`0 0 16px ${color}44`;
+  toasts.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+function startEditName(){
+  document.getElementById('name-display').style.display='none';
+  document.getElementById('name-edit').style.display='flex';
+  document.getElementById('name-input').focus();
+}
+
+function confirmName(){
+  const v=document.getElementById('name-input').value.trim();
+  if(v){state.name=v;state.profile.name=v;}
+  document.getElementById('name-display').style.display='flex';
+  document.getElementById('name-edit').style.display='none';
+  renderAll();
+}
+
+document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmName();});
+
+const getMaxHp=()=>1000+state.stats.VIT*10;
+const getMaxMp=()=>500+state.stats.INT*5;
+const getXpNeeded=()=>state.level*200;
+function getRank(l){
+  if(l>=90)return"SM";if(l>=70)return"NL";if(l>=50)return"SSS";
+  if(l>=40)return"SS";if(l>=30)return"S";if(l>=20)return"A";
+  if(l>=15)return"B";if(l>=10)return"C";if(l>=5)return"D";return"E";
+}
+</script>
 </body>
 </html>
