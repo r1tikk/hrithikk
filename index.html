@@ -362,6 +362,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         <div class="prof-row"><span class="prof-lbl">⚖️ Weight</span><span class="prof-val" id="p-weight">—</span></div>
         <div class="prof-row"><span class="prof-lbl">💪 Fitness</span><span class="prof-val" id="p-fitness">—</span></div>
         <button class="btn-ep" onclick="openEditProfile()">✏️ EDIT PROFILE</button>
+        <button class="btn-ep" style="margin-top:8px;background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#fca5a5" onclick="clearData()">🗑️ RESET ALL DATA</button>
       </div>
       <div class="bmi-box">
         <div class="sec-title" style="text-align:center">📊 BODY ANALYSIS</div>
@@ -875,9 +876,52 @@ function switchTab(tab,btn){
 }
 
 /* =============================================
+   SAVE / LOAD  (localStorage — no server needed)
+   ============================================= */
+const SAVE_KEY = 'solo_leveling_save';
+
+function saveData() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(S));
+  } catch(e) {
+    console.warn('Save failed:', e);
+  }
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;               // first launch — use defaults
+    const saved = JSON.parse(raw);
+    // Merge saved data into S (keeps any new keys added in future updates)
+    S = Object.assign({}, S, saved);
+    // Always ensure stats object is complete (in case new stats added later)
+    S.stats = Object.assign({STR:10,AGI:10,VIT:10,INT:10,PER:10,LUK:5}, saved.stats || {});
+  } catch(e) {
+    console.warn('Load failed, using defaults:', e);
+  }
+}
+
+function clearData() {
+  if (!confirm('⚠️ Reset ALL progress? This cannot be undone.')) return;
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
+
+// Auto-save after every render
+const _render = render;
+render = function() { _render(); saveData(); };
+
+/* =============================================
    INIT
    ============================================= */
-render();
+loadData();   // load saved state first
+render();     // then paint the UI
+
+// Show save indicator on first load if data was found
+if (localStorage.getItem(SAVE_KEY)) {
+  setTimeout(() => toast('💾 Progress loaded!', 'var(--purple-light)'), 400);
+}
 </script>
 </body>
 </html>
