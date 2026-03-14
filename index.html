@@ -880,8 +880,16 @@ function switchTab(tab,btn){
    ============================================= */
 const SAVE_KEY = 'solo_leveling_save';
 
+function todayStr() {
+  // Returns "YYYY-MM-DD" in local time
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
 function saveData() {
   try {
+    // Always stamp the last-saved date so we can detect a new day on load
+    S.lastSaveDate = todayStr();
     localStorage.setItem(SAVE_KEY, JSON.stringify(S));
   } catch(e) {
     console.warn('Save failed:', e);
@@ -891,16 +899,52 @@ function saveData() {
 function loadData() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return;               // first launch — use defaults
+    if (!raw) return;
     const saved = JSON.parse(raw);
-    // Merge saved data into S (keeps any new keys added in future updates)
     S = Object.assign({}, S, saved);
-    // Always ensure stats object is complete (in case new stats added later)
     S.stats = Object.assign({STR:10,AGI:10,VIT:10,INT:10,PER:10,LUK:5}, saved.stats || {});
   } catch(e) {
     console.warn('Load failed, using defaults:', e);
   }
 }
+
+/* ── DAILY RESET ──────────────────────────────
+   Called right after loadData().
+   If the saved date is before today, reset all
+   daily quests & habits automatically.
+   Main quests are NEVER auto-reset (permanent).
+   ─────────────────────────────────────────── */
+function checkDailyReset() {
+  const today = todayStr();
+  const lastDate = S.lastSaveDate || null;
+
+  if (!lastDate || lastDate === today) return; // same day — nothing to do
+
+  // It's a new day!
+  const daysMissed = daysBetween(lastDate, today);
+
+  // Reset daily quest completion flags
+  S.quests.forEach(q => { if (q.type === 'daily') q.done = false; });
+  // Reset habit completion flags (streaks survive — they track cumulative days done)
+  S.habits.forEach(h => h.done = false);
+
+  // Streak logic: if they missed 1+ days without completing all habits, break streak
+  const hadIncomplete = S.habits.length > 0 || S.quests.some(q => q.type === 'daily');
+  if (daysMissed > 1 && hadIncomplete) {
+    S.streak = 0; // missed a full day — streak broken
+  }
+
+  S.lastSaveDate = today;
+  _dailyResetMsg = daysMissed; // flag to show toast after render
+}
+
+function daysBetween(dateStrA, dateStrB) {
+  const a = new Date(dateStrA);
+  const b = new Date(dateStrB);
+  return Math.round((b - a) / (1000 * 60 * 60 * 24));
+}
+
+let _dailyResetMsg = 0; // >0 means we just did a daily reset
 
 function clearData() {
   if (!confirm('⚠️ Reset ALL progress? This cannot be undone.')) return;
@@ -915,13 +959,21 @@ render = function() { _render(); saveData(); };
 /* =============================================
    INIT
    ============================================= */
-loadData();   // load saved state first
-render();     // then paint the UI
+loadData();         // 1. load saved state
+checkDailyReset();  // 2. auto-reset if it's a new day
+render();           // 3. paint UI
 
-// Show save indicator on first load if data was found
-if (localStorage.getItem(SAVE_KEY)) {
-  setTimeout(() => toast('💾 Progress loaded!', 'var(--purple-light)'), 400);
-}
+// Show appropriate toast after a short delay
+setTimeout(() => {
+  if (_dailyResetMsg > 0) {
+    const msg = _dailyResetMsg === 1
+      ? '🌅 New day! Daily quests have been reset. Good luck, Hunter!'
+      : `😴 You were away ${_dailyResetMsg} days! Quests reset — get back to work!`;
+    toast(msg, 'var(--gold)');
+  } else if (localStorage.getItem(SAVE_KEY)) {
+    toast('💾 Progress loaded!', 'var(--purple-light)');
+  }
+}, 400);
 </script>
 </body>
 </html>
