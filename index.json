@@ -1,343 +1,1612 @@
-{
-  "categories": [
-    {
-      "id": "recently-viewed",
-      "name": "Recently Viewed",
-      "description": "Products you've viewed recently",
-      "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&h=400&fit=crop&crop=center&q=85",
-      "isRecentlyViewed": true
-    },
-    {
-      "id": "clothing",
-      "name": "Clothing",
-      "description": "Fashion for everyone",
-      "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=400&fit=crop&crop=center&q=85"
-    },
-    {
-      "id": "electronics",
-      "name": "Electronics",
-      "description": "Latest gadgets and devices",
-      "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&h=400&fit=crop&crop=center&q=85"
-    },
-    {
-      "id": "home-appliances",
-      "name": "Home Appliances",
-      "description": "Make your home smart",
-      "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&crop=center&q=85"
-    },
-    {
-      "id": "books",
-      "name": "Books",
-      "description": "Knowledge at your fingertips",
-      "image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop&crop=center&q=85"
-    },
-    {
-      "id": "sports",
-      "name": "Sports & Fitness",
-      "description": "Stay active and healthy",
-      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center&q=85"
-    }
-  ],
-  "products": [
-    {
-      "id": 1,
-      "name": "Wireless Headphones",
-      "brand": "TechSound",
-      "category": "electronics",
-      "price": 2999,
-      "originalPrice": 3999,
-      "discount": 25,
-      "rating": 4.5,
-      "description": "High-quality wireless headphones with noise cancellation and 30-hour battery life.",
-      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "White", "Blue"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 2,
-      "name": "Cotton T-Shirt",
-      "brand": "FashionWear",
-      "category": "clothing",
-      "price": 599,
-      "originalPrice": 999,
-      "discount": 40,
-      "rating": 4.2,
-      "description": "Comfortable 100% cotton t-shirt perfect for everyday wear.",
-      "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Red", "Blue", "Green", "Black"],
-      "sizes": ["S", "M", "L", "XL"],
-      "inStock": true
-    },
-    {
-      "id": 3,
-      "name": "Smart TV 43 inch",
-      "brand": "ViewTech",
-      "category": "electronics",
-      "price": 25999,
-      "originalPrice": 29999,
-      "discount": 13,
-      "rating": 4.7,
-      "description": "43-inch 4K Ultra HD Smart TV with HDR and built-in streaming apps.",
-      "image": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 4,
-      "name": "Air Fryer",
-      "brand": "KitchenPro",
-      "category": "home-appliances",
-      "price": 4999,
-      "originalPrice": 6999,
-      "discount": 29,
-      "rating": 4.4,
-      "description": "Healthy cooking made easy with this 5L capacity air fryer.",
-      "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "White"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 5,
-      "name": "JavaScript Programming Book",
-      "brand": "TechBooks",
-      "category": "books",
-      "price": 899,
-      "originalPrice": 1299,
-      "discount": 31,
-      "rating": 4.6,
-      "description": "Complete guide to JavaScript programming for beginners to advanced.",
-      "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": [],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 6,
-      "name": "Yoga Mat",
-      "brand": "FitLife",
-      "category": "sports",
-      "price": 1299,
-      "originalPrice": 1999,
-      "discount": 35,
-      "rating": 4.3,
-      "description": "Premium quality yoga mat with excellent grip and cushioning.",
-      "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Purple", "Green", "Blue"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 7,
-      "name": "Smartphone",
-      "brand": "TechMobile",
-      "category": "electronics",
-      "price": 15999,
-      "originalPrice": 19999,
-      "discount": 20,
-      "rating": 4.5,
-      "description": "Latest smartphone with 64MP camera and 5000mAh battery.",
-      "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Blue", "White"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 8,
-      "name": "Denim Jeans",
-      "brand": "StyleWear",
-      "category": "clothing",
-      "price": 1499,
-      "originalPrice": 2499,
-      "discount": 40,
-      "rating": 4.1,
-      "description": "Classic fit denim jeans made from premium quality fabric.",
-      "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Blue", "Black"],
-      "sizes": ["28", "30", "32", "34", "36"],
-      "inStock": true
-    },
-    {
-      "id": 9,
-      "name": "Bluetooth Speaker",
-      "brand": "SoundWave",
-      "category": "electronics",
-      "price": 1899,
-      "originalPrice": 2499,
-      "discount": 24,
-      "rating": 4.4,
-      "description": "Portable Bluetooth speaker with 360-degree sound and waterproof design.",
-      "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Red", "Blue"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 10,
-      "name": "Running Shoes",
-      "brand": "SportMax",
-      "category": "sports",
-      "price": 3999,
-      "originalPrice": 5999,
-      "discount": 33,
-      "rating": 4.6,
-      "description": "Professional running shoes with advanced cushioning and breathable mesh.",
-      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "White", "Red"],
-      "sizes": ["7", "8", "9", "10", "11"],
-      "inStock": true
-    },
-    {
-      "id": 11,
-      "name": "Coffee Maker",
-      "brand": "BrewMaster",
-      "category": "home-appliances",
-      "price": 6999,
-      "originalPrice": 8999,
-      "discount": 22,
-      "rating": 4.5,
-      "description": "Automatic coffee maker with programmable settings and thermal carafe.",
-      "image": "https://images.unsplash.com/photo-1545665277-5937489579f2?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Silver"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 12,
-      "name": "Leather Jacket",
-      "brand": "StyleCraft",
-      "category": "clothing",
-      "price": 4999,
-      "originalPrice": 7999,
-      "discount": 37,
-      "rating": 4.3,
-      "description": "Genuine leather jacket with classic biker styling and premium finish.",
-      "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Brown"],
-      "sizes": ["S", "M", "L", "XL"],
-      "inStock": true
-    },
-    {
-      "id": 13,
-      "name": "Fitness Tracker",
-      "brand": "HealthTech",
-      "category": "electronics",
-      "price": 2499,
-      "originalPrice": 3499,
-      "discount": 29,
-      "rating": 4.2,
-      "description": "Advanced fitness tracker with heart rate monitoring and GPS tracking.",
-      "image": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Blue", "Pink"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 14,
-      "name": "Cooking Recipe Book",
-      "brand": "ChefMaster",
-      "category": "books",
-      "price": 1299,
-      "originalPrice": 1899,
-      "discount": 32,
-      "rating": 4.7,
-      "description": "Collection of 500+ delicious recipes from around the world.",
-      "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": [],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 15,
-      "name": "Dumbbells Set",
-      "brand": "PowerFit",
-      "category": "sports",
-      "price": 3499,
-      "originalPrice": 4999,
-      "discount": 30,
-      "rating": 4.4,
-      "description": "Adjustable dumbbells set with multiple weight plates for home workouts.",
-      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 16,
-      "name": "Blender",
-      "brand": "BlendPro",
-      "category": "home-appliances",
-      "price": 2999,
-      "originalPrice": 3999,
-      "discount": 25,
-      "rating": 4.3,
-      "description": "High-speed blender perfect for smoothies, soups, and healthy drinks.",
-      "image": "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Black", "Red", "White"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 17,
-      "name": "Casual Sneakers",
-      "brand": "ComfortWalk",
-      "category": "clothing",
-      "price": 1999,
-      "originalPrice": 2999,
-      "discount": 33,
-      "rating": 4.1,
-      "description": "Comfortable casual sneakers perfect for everyday wear.",
-      "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["White", "Black", "Gray"],
-      "sizes": ["7", "8", "9", "10", "11"],
-      "inStock": true
-    },
-    {
-      "id": 18,
-      "name": "Laptop",
-      "brand": "TechMax",
-      "category": "electronics",
-      "price": 45999,
-      "originalPrice": 54999,
-      "discount": 16,
-      "rating": 4.6,
-      "description": "High-performance laptop with 16GB RAM and 512GB SSD storage.",
-      "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Silver", "Space Gray"],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 19,
-      "name": "Self-Help Book",
-      "brand": "WisdomPress",
-      "category": "books",
-      "price": 799,
-      "originalPrice": 1199,
-      "discount": 33,
-      "rating": 4.4,
-      "description": "Transformative self-help book for personal development and success.",
-      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": [],
-      "sizes": [],
-      "inStock": true
-    },
-    {
-      "id": 20,
-      "name": "Resistance Bands",
-      "brand": "FlexFit",
-      "category": "sports",
-      "price": 899,
-      "originalPrice": 1299,
-      "discount": 31,
-      "rating": 4.2,
-      "description": "Complete resistance bands set for full-body workouts at home.",
-      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center&q=85",
-      "colors": ["Multi-color"],
-      "sizes": [],
-      "inStock": true
-    }
-  ]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopkart</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f6f6f6;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: #111;
+            padding: 15px 40px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav h1 {
+            font-size: 28px;
+        }
+
+        .nav-logo {
+            height: 40px; /* Adjust as needed */
+            width: auto;
+        }
+
+        nav button {
+            background: #ff6600;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        /* LOGIN MODAL */
+        .login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .login-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #e55a00;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #ff6600;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .close-login {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-login:hover {
+            color: #111;
+        }
+
+        .form-message {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        /* HERO BANNER */
+        .hero {
+            height: 55vh;
+            background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-shadow: 2px 2px 8px black;
+        }
+
+        .hero h2 {
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-top: 8px;
+        }
+
+        /* SEARCH BAR */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 25px;
+        }
+
+        .search-container input {
+            width: 400px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        /* FILTER SECTION */
+        .filter-section {
+            padding: 20px 30px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        .filter-group select:hover {
+            border-color: #ff6600;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        .reset-filter {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .reset-filter:hover {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+        }
+
+        /* PRODUCTS */
+        .products {
+            padding: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product {
+            background: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: .3s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+
+        .product img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product button {
+            width: 48%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 2%;
+        }
+
+        .product button:last-child {
+            margin-right: 0;
+        }
+
+        .product .buy-btn {
+            background: #ff6600;
+        }
+
+        .product .buy-btn:hover {
+            background: #e55a00;
+        }
+
+        .product button:hover {
+            opacity: 0.9;
+        }
+
+        /* CART SIDEBAR */
+        .cart {
+            position: fixed;
+            right: -350px;
+            top: 0;
+            width: 350px;
+            height: 100vh;
+            background: #fff;
+            padding: 20px;
+            box-shadow: -3px 0 8px rgba(0,0,0,0.3);
+            transition: 0.4s ease;
+            z-index: 20;
+        }
+
+        .cart.active {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            gap: 6px;
+            margin-top: 5px;
+        }
+
+        .controls button {
+            padding: 5px 10px;
+            border: none;
+            background: #222;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn {
+            background: red;
+        }
+
+        .checkout {
+            margin-top: 20px;
+            width: 100%;
+            background: #ff6600;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+        .back-btn {
+    background: #111;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 15px;
 }
+.back-btn:hover {
+    background: #333;
+}
+
+        /* FOOTER */
+        footer {
+            background: #111;
+            color: #fff;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ff6600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ff6600;
+        }
+
+        .footer-section p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #ff6600;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 18px;
+        }
+
+        .social-icons a:hover {
+            background: #e55a00;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+        }
+
+        /* ADDRESS MODAL */
+        .address-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .address-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .address-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .address-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: 0.3s;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        .address-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .address-btn:hover {
+            background: #e55a00;
+        }
+
+        .close-address {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-address:hover {
+            color: #111;
+        }
+
+        /* ORDER DETAILS SECTION */
+        .order-details {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .order-details h4 {
+            color: #ff6600;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .order-details p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .edit-address-btn {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .edit-address-btn:hover {
+            background: #e55a00;
+        }
+
+        .remove-address-btn {
+            margin-top: 10px;
+            margin-left: 8px;
+            padding: 8px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .remove-address-btn:hover {
+            background: #c82333;
+        }
+
+        /* PAYMENT MODAL */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .payment-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .payment-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+            font-size: 28px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f9f9f9;
+        }
+
+        .payment-option:hover {
+            border-color: #ff6600;
+            background: #fff9f5;
+        }
+
+        .payment-option input[type="radio"] {
+            margin-right: 15px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .payment-option-content {
+            flex: 1;
+        }
+
+        .payment-option-content h4 {
+            margin: 0 0 5px 0;
+            color: #111;
+        }
+
+        .payment-option-content p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .payment-icon {
+            font-size: 28px;
+            margin-left: 15px;
+        }
+
+        .payment-option input[type="radio"]:checked + .payment-option-content {
+            color: #ff6600;
+        }
+
+        .payment-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .payment-btn:hover {
+            background: #e55a00;
+        }
+
+        .close-payment {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-payment:hover {
+            color: #111;
+        }
+
+        /* CARD DETAILS MODAL */
+        .card-details-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .card-details-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-details-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card-details-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+            font-size: 28px;
+        }
+
+        .card-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-preview .card-number {
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin: 15px 0;
+        }
+
+        .card-preview .card-holder {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+
+        .card-preview .card-expiry {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .close-card-details {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-card-details:hover {
+            color: #111;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <h1 style="margin: 0; font-size: 28px; color: #ff6600;">🛍️ Shopkart</h1>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="openLoginModal()" style="background: #111; border: 1px solid #ff6600;">🔐 Login</button>
+            <button onclick="toggleCart()">🛒 Cart (<span id='cart-count'>0</span>)</button>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER -->
+    <section class="hero">
+        <h2>Shopkart</h2>
+        <p>Your Favorite Online Store</p>
+    </section>
+
+    <!-- SEARCH -->
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search products..." onkeyup="applyFilters()">
+    </div>
+
+    <!-- FILTER SECTION -->
+    <div class="filter-section">
+        <div class="filter-group">
+            <label for="categoryFilter">Category:</label>
+            <select id="categoryFilter" onchange="applyFilters()">
+                <option value="">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Accessories">Accessories</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="priceFilter">Price Range:</label>
+            <select id="priceFilter" onchange="applyFilters()">
+                <option value="">All Prices</option>
+                <option value="0-20">$0 - $20</option>
+                <option value="20-50">$20 - $50</option>
+                <option value="50-100">$50 - $100</option>
+                <option value="100-">$100+</option>
+            </select>
+        </div>
+
+        <button class="reset-filter" onclick="resetFilters()">Reset Filters</button>
+    </div>
+
+    <!-- PRODUCTS -->
+    <section class="products">
+        <div class="product-grid" id="product-list"></div>
+    </section>
+
+    <!-- LOGIN MODAL -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-container">
+            <span class="close-login" onclick="closeLoginModal()">&times;</span>
+            <h2>Login</h2>
+            <div class="form-message" id="loginMessage"></div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="signup-link">
+                Don't have an account? <a onclick="openSignupModal()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGNUP MODAL -->
+    <div class="login-modal" id="signupModal">
+        <div class="login-container">
+            <span class="close-login" onclick="closeSignupModal()">&times;</span>
+            <h2>Sign Up</h2>
+            <div class="form-message" id="signupMessage"></div>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+                <button type="submit" class="login-btn">Sign Up</button>
+            </form>
+            <div class="signup-link">
+                Already have an account? <a onclick="openLoginModal()">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART -->
+    <div class="cart" id="cart">
+    <button class="back-btn" onclick="toggleCart()">⬅ Back</button>
+    <h2>Your Cart</h2>
+
+        <!-- ORDER DETAILS -->
+        <div class="order-details" id="orderDetails">
+            <h4>📦 Delivery Address</h4>
+            <p id="addressDisplay">No address saved. Click "Buy Now" to add address.</p>
+            <button class="edit-address-btn" onclick="openAddressModal()">Edit Address</button>
+            <button class="remove-address-btn" onclick="removeAddress()">Remove</button>
+            
+            <h4 style="margin-top: 15px;">💳 Payment Method</h4>
+            <p id="paymentDisplay">No payment method selected.</p>
+            <button class="edit-address-btn" onclick="openPaymentModal()">Change Payment</button>
+            <button class="remove-address-btn" onclick="removePaymentMethod()">Remove</button>
+        </div>
+
+        <div id="cart-items"></div>
+        <h3>Total: $<span id="total">0</span></h3>
+        <button class="checkout">Checkout</button>
+    </div>
+
+    <!-- ADDRESS MODAL -->
+    <div class="address-modal" id="addressModal">
+        <div class="address-container">
+            <span class="close-address" onclick="closeAddressModal()">&times;</span>
+            <h2>Delivery Address</h2>
+            <form onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="street">Street Address</label>
+                    <input type="text" id="street" required placeholder="Enter street address">
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" required placeholder="Enter city">
+                </div>
+                <div class="form-group">
+                    <label for="state">State/Province</label>
+                    <input type="text" id="state" required placeholder="Enter state">
+                </div>
+                <div class="form-group">
+                    <label for="zip">Zip/Postal Code</label>
+                    <input type="text" id="zip" required placeholder="Enter zip code">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" required placeholder="Enter country">
+                </div>
+                <button type="submit" class="address-btn">Continue to Checkout</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-container">
+            <span class="close-payment" onclick="closePaymentModal()">&times;</span>
+            <h2>💳 Choose Payment Method</h2>
+            <form onsubmit="processPayment(event)">
+                <div class="payment-options">
+                    <!-- UPI Option -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="upi" required>
+                        <div class="payment-option-content">
+                            <h4>UPI Payment</h4>
+                            <p>Google Pay, PhonePe, Paytm, BHIM</p>
+                        </div>
+                        <div class="payment-icon">📱</div>
+                    </label>
+
+                    <!-- Debit Card Option -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="debit" required>
+                        <div class="payment-option-content">
+                            <h4>Debit Card</h4>
+                            <p>Visa, Mastercard, Rupay</p>
+                        </div>
+                        <div class="payment-icon">💳</div>
+                    </label>
+
+                    <!-- Credit Card Option -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="credit" required>
+                        <div class="payment-option-content">
+                            <h4>Credit Card</h4>
+                            <p>Visa, Mastercard, American Express</p>
+                        </div>
+                        <div class="payment-icon">🏦</div>
+                    </label>
+                </div>
+                <button type="submit" class="payment-btn">Proceed with Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CARD DETAILS MODAL -->
+    <div class="card-details-modal" id="cardDetailsModal">
+        <div class="card-details-container">
+            <span class="close-card-details" onclick="closeCardDetailsModal()">&times;</span>
+            <h2 id="cardTypeTitle">💳 Debit Card Details</h2>
+            
+            <!-- Card Preview -->
+            <div class="card-preview">
+                <div style="font-size: 12px; opacity: 0.8;">CARD NUMBER</div>
+                <div class="card-number" id="cardPreview">•••• •••• •••• ••••</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div>
+                        <div style="font-size: 11px; opacity: 0.8;">CARD HOLDER</div>
+                        <div id="cardHolderPreview" style="font-size: 14px; margin-top: 5px;">YOUR NAME</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 11px; opacity: 0.8;">EXPIRES</div>
+                        <div id="cardExpiryPreview" style="font-size: 14px; margin-top: 5px;">MM/YY</div>
+                    </div>
+                </div>
+            </div>
+
+            <form onsubmit="saveCardDetails(event)">
+                <div class="form-group full">
+                    <label for="cardHolderName">Card Holder Name</label>
+                    <input type="text" id="cardHolderName" required placeholder="Enter name as shown on card" oninput="updateCardPreview()">
+                </div>
+
+                <div class="form-group full">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" required placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cardExpiry">Expiry Date (MM/YY)</label>
+                        <input type="text" id="cardExpiry" required placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardCVV">CVV/CVC</label>
+                        <input type="text" id="cardCVV" required placeholder="123" maxlength="4" inputmode="numeric">
+                    </div>
+                </div>
+
+                <div class="form-group full" style="margin-top: 25px;">
+                    <button type="submit" class="payment-btn">Complete Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Shopkart</h3>
+                <p>Shopkart is your ultimate destination for quality products at unbeatable prices. We provide a seamless shopping experience with fast delivery and excellent customer service.</p>
+                <div class="social-icons">
+                    <a href="#" title="Facebook">f</a>
+                    <a href="#" title="Twitter">𝕏</a>
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="LinkedIn">in</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#shop">Shop</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Customer Support</h3>
+                <ul>
+                    <li><a href="#shipping">Shipping Info</a></li>
+                    <li><a href="#returns">Returns & Exchanges</a></li>
+                    <li><a href="#warranty">Warranty</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#terms">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> support@shophub.com</p>
+                <p><strong>Phone:</strong> +1 (800) 123-4567</p>
+                <p><strong>Address:</strong> 123 Commerce Street, Shopping City, SC 12345</p>
+                <p><strong>Hours:</strong> Mon-Fri: 9AM-6PM EST</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Shopkart. All Rights Reserved. | Designed with ❤️ for you</p>
+        </div>
+    </footer>
+
+    <script>
+        // LOGIN & SIGNUP FUNCTIONS
+        function openLoginModal() {
+            closeSignupModal();
+            document.getElementById("loginModal").classList.add("active");
+        }
+
+        function closeLoginModal() {
+            document.getElementById("loginModal").classList.remove("active");
+        }
+
+        function openSignupModal() {
+            closeLoginModal();
+            document.getElementById("signupModal").classList.add("active");
+        }
+
+        function closeSignupModal() {
+            document.getElementById("signupModal").classList.remove("active");
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const messageDiv = document.getElementById("loginMessage");
+            
+            // Get registered users from localStorage
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            // Check if user exists
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                messageDiv.className = "form-message success";
+                messageDiv.innerText = "✓ Login successful! Welcome back!";
+                localStorage.setItem("currentUser", JSON.stringify(user));
+                
+                setTimeout(() => {
+                    closeLoginModal();
+                    document.getElementById("email").value = "";
+                    document.getElementById("password").value = "";
+                    messageDiv.className = "form-message";
+                }, 1500);
+            } else {
+                messageDiv.className = "form-message error";
+                messageDiv.innerText = "✗ Invalid email or password!";
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            const messageDiv = document.getElementById("signupMessage");
+            
+            // Get existing users from localStorage
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                messageDiv.className = "form-message error";
+                messageDiv.innerText = "✗ Email already registered!";
+                return;
+            }
+            
+            // Add new user
+            const newUser = { id: users.length + 1, name, email, password };
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("currentUser", JSON.stringify(newUser));
+            
+            messageDiv.className = "form-message success";
+            messageDiv.innerText = "✓ Account created successfully!";
+            
+            setTimeout(() => {
+                closeSignupModal();
+                document.getElementById("signup-name").value = "";
+                document.getElementById("signup-email").value = "";
+                document.getElementById("signup-password").value = "";
+                messageDiv.className = "form-message";
+            }, 1500);
+        }
+
+        const products = [
+        
+          { id: 1, name: "Smart Watch", price: 59, img: "https://images.samsung.com/is/image/samsung/p6pim/in/f2507/gallery/in-galaxy-watch8-l330-sm-l330nzsains-thumb-547660161" },
+            { id: 2, name: "Shoes", price: 79, img: "https://assets.myntassets.com/w_412,q_30,dpr_3,fl_progressive,f_webp/assets/images/2025/JUNE/17/XdVforSW_cfacd00a9a9c44c3a810862f0990453d.jpg" },
+            { id: 3, name: "Headphones", price: 49, img: "https://media.istockphoto.com/id/1185081321/photo/black-bluetooth-headphone-isolated-on-white-background-with-clipping-path-image-closeup.jpg?s=612x612&w=0&k=20&c=N4ytMnu-tdiu5MKwiCy4ODRaP5PVEkN9TdxJy-74yFk=" },
+            { id: 4, name: "Backpack", price: 39, img: "https://m.media-amazon.com/images/I/31BFu0elHGL._SR290,290_.jpg" },
+             {id:5, name:"Sunglasses", price:29, img:"data:image/jpeg;base64,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", category:"Fashion", desc:"Classic UV-protective shades."},
+            {id:6, name:"Portable Speaker", price:45, img:"https://m.media-amazon.com/images/I/21ehUBpWZML._SR290,290_.jpg", category:"Electronics", desc:"Water-resistant speaker with punchy bass."},
+            {id:7, name:"Beanie Hat", price:18, img:"data:image/jpeg;base64,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", category:"Fashion", desc:"Cozy beanie for chilly days."},
+            {id:8, name:"Travel Mug", price:22, img:"data:image/jpeg;base64,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", category:"Accessories", desc:"Keeps drinks hot for hours."}
+            
+         
+          
+    
+        ];
+        
+
+
+
+        let cart = [];
+
+        const productList = document.getElementById("product-list");
+
+        function loadProducts() {
+            productList.innerHTML = "";
+            products.forEach(p => {
+                productList.innerHTML += `
+                    <div class="product">
+                        <img src="${p.img}">
+                        <h3>${p.name}</h3>
+                        <p>$${p.price}</p>
+                        <button onclick="addToCart(${p.id})">Add to Cart</button>
+                        <button class="buy-btn" onclick="buyNow(${p.id})">Buy Now</button>
+                    </div>
+                `;
+            });
+        }
+
+        loadProducts();
+        updateCart();
+        displayAddressDetails();
+
+        function addToCart(id) {
+            const item = cart.find(p => p.id === id);
+
+            if (item) {
+                item.qty++;
+            } else {
+                const product = products.find(p => p.id === id);
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCart();
+        }
+
+        function buyNow(id) {
+            const item = cart.find(p => p.id === id);
+
+            if (item) {
+                item.qty++;
+            } else {
+                const product = products.find(p => p.id === id);
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCart();
+            // Always show address form (pre-filled with saved data if exists)
+            openAddressModal();
+        }
+
+        function updateCart() {
+            document.getElementById("cart-count").innerText = cart.length;
+
+            let total = 0;
+            let html = "";
+
+            cart.forEach((c, index) => {
+                total += c.price * c.qty;
+
+                html += `
+                    <div class="cart-item">
+                        <img src="${c.img}">
+                        <div style="flex:1;">
+                            <strong>${c.name}</strong><br>
+                            $${c.price} × ${c.qty}
+                            <div class="controls">
+                                <button onclick="changeQty(${index}, 1)">+</button>
+                                <button onclick="changeQty(${index}, -1)">-</button>
+                                <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById("cart-items").innerHTML = html;
+            document.getElementById("total").innerText = total;
+            displayAddressDetails();
+        }
+
+        function changeQty(index, amount) {
+            cart[index].qty += amount;
+
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+
+            updateCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById("cart").classList.toggle("active");
+            displayAddressDetails();
+        }
+
+        function displayAddressDetails() {
+            const savedAddress = JSON.parse(sessionStorage.getItem("userAddress"));
+            const addressDisplay = document.getElementById("addressDisplay");
+            const paymentData = JSON.parse(localStorage.getItem("paymentMethod"));
+            const paymentDisplay = document.getElementById("paymentDisplay");
+            
+            if (savedAddress && savedAddress.fullname) {
+                addressDisplay.innerHTML = `
+                    <strong>${savedAddress.fullname}</strong><br>
+                    📱 ${savedAddress.phone}<br>
+                    📍 ${savedAddress.street}<br>
+                    ${savedAddress.city}, ${savedAddress.state} ${savedAddress.zip}<br>
+                    🌍 ${savedAddress.country}
+                `;
+            } else {
+                addressDisplay.innerHTML = "No address saved. Click \"Edit Address\" to add one.";
+            }
+            
+            if (paymentData && paymentData.display) {
+                paymentDisplay.innerHTML = `<strong>${paymentData.display}</strong>`;
+            } else {
+                paymentDisplay.innerHTML = "No payment method selected.";
+            }
+        }
+
+        // ADDRESS MODAL FUNCTIONS
+        function openAddressModal() {
+            // Load saved address from sessionStorage if exists
+            const savedAddress = JSON.parse(sessionStorage.getItem("userAddress")) || {};
+            document.getElementById("fullname").value = savedAddress.fullname || "";
+            document.getElementById("phone").value = savedAddress.phone || "";
+            document.getElementById("street").value = savedAddress.street || "";
+            document.getElementById("city").value = savedAddress.city || "";
+            document.getElementById("state").value = savedAddress.state || "";
+            document.getElementById("zip").value = savedAddress.zip || "";
+            document.getElementById("country").value = savedAddress.country || "";
+            
+            document.getElementById("addressModal").classList.add("active");
+        }
+
+        function closeAddressModal() {
+            document.getElementById("addressModal").classList.remove("active");
+        }
+
+        function saveAddress(event) {
+            event.preventDefault();
+            
+            const address = {
+                fullname: document.getElementById("fullname").value,
+                phone: document.getElementById("phone").value,
+                street: document.getElementById("street").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zip: document.getElementById("zip").value,
+                country: document.getElementById("country").value
+            };
+            
+            // Save address to sessionStorage (clears on page refresh)
+            sessionStorage.setItem("userAddress", JSON.stringify(address));
+            
+            // Close address modal and show payment modal
+            closeAddressModal();
+            openPaymentModal();
+        }
+
+        function removeAddress() {
+            if (confirm("Are you sure you want to remove the saved delivery address?")) {
+                sessionStorage.removeItem("userAddress");
+                displayAddressDetails();
+                alert("✓ Delivery address removed successfully!");
+            }
+        }
+
+        // PAYMENT MODAL FUNCTIONS
+        function openPaymentModal() {
+            document.getElementById("paymentModal").classList.add("active");
+        }
+
+        function closePaymentModal() {
+            document.getElementById("paymentModal").classList.remove("active");
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const paymentMethods = {
+                'upi': '📱 UPI Payment',
+                'debit': '💳 Debit Card',
+                'credit': '🏦 Credit Card'
+            };
+            
+            // If card payment, open card details modal
+            if (paymentMethod === 'debit' || paymentMethod === 'credit') {
+                closePaymentModal();
+                openCardDetailsModal(paymentMethod);
+                return;
+            }
+            
+            // For UPI, proceed directly
+            localStorage.setItem("paymentMethod", JSON.stringify({
+                method: paymentMethod,
+                display: paymentMethods[paymentMethod],
+                timestamp: new Date().toLocaleString()
+            }));
+            
+            alert(`✅ Payment method selected: ${paymentMethods[paymentMethod]}\n\nProceeding to UPI gateway...`);
+            closePaymentModal();
+            toggleCart();
+        }
+
+        // CARD DETAILS FUNCTIONS
+        function openCardDetailsModal(cardType) {
+            const title = cardType === 'debit' ? '💳 Debit Card Details' : '🏦 Credit Card Details';
+            document.getElementById("cardTypeTitle").innerText = title;
+            
+            // Load saved card details from sessionStorage if exists
+            const savedCard = JSON.parse(sessionStorage.getItem("cardDetails")) || {};
+            document.getElementById("cardHolderName").value = savedCard.holder || "";
+            document.getElementById("cardNumber").value = savedCard.number || "";
+            document.getElementById("cardExpiry").value = savedCard.expiry || "";
+            document.getElementById("cardCVV").value = savedCard.cvv || "";
+            
+            // Store card type
+            document.getElementById("cardDetailsModal").dataset.cardType = cardType;
+            
+            document.getElementById("cardDetailsModal").classList.add("active");
+        }
+
+        function closeCardDetailsModal() {
+            document.getElementById("cardDetailsModal").classList.remove("active");
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '');
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            input.value = formattedValue;
+            updateCardPreview();
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            input.value = value;
+            updateCardPreview();
+        }
+
+        function updateCardPreview() {
+            const cardNumber = document.getElementById("cardNumber").value.replace(/\s/g, '');
+            const lastFour = cardNumber.slice(-4);
+            const masked = '•••• •••• •••• ' + (lastFour || '••••');
+            document.getElementById("cardPreview").innerText = masked;
+            
+            const holder = document.getElementById("cardHolderName").value || 'YOUR NAME';
+            document.getElementById("cardHolderPreview").innerText = holder.toUpperCase();
+            
+            const expiry = document.getElementById("cardExpiry").value || 'MM/YY';
+            document.getElementById("cardExpiryPreview").innerText = expiry;
+        }
+
+        function saveCardDetails(event) {
+            event.preventDefault();
+            
+            const cardType = document.getElementById("cardDetailsModal").dataset.cardType;
+            const paymentMethods = {
+                'debit': '💳 Debit Card',
+                'credit': '🏦 Credit Card'
+            };
+            
+            const cardDetails = {
+                type: cardType,
+                holder: document.getElementById("cardHolderName").value,
+                number: document.getElementById("cardNumber").value,
+                expiry: document.getElementById("cardExpiry").value,
+                cvv: document.getElementById("cardCVV").value,
+                lastFour: document.getElementById("cardNumber").value.slice(-4)
+            };
+            
+            // Save card details to sessionStorage (clears on page refresh)
+            sessionStorage.setItem("cardDetails", JSON.stringify(cardDetails));
+            localStorage.setItem("paymentMethod", JSON.stringify({
+                method: cardType,
+                display: paymentMethods[cardType] + ' •••• ' + cardDetails.lastFour,
+                timestamp: new Date().toLocaleString()
+            }));
+            
+            alert(`✅ Card details saved!\n\n${paymentMethods[cardType]}\nCard ending in ${cardDetails.lastFour}\n\nProceeding to payment...`);
+            
+            closeCardDetailsModal();
+            toggleCart();
+        }
+
+        function removePaymentMethod() {
+            if (confirm("Are you sure you want to remove the saved payment method?")) {
+                localStorage.removeItem("paymentMethod");
+                sessionStorage.removeItem("cardDetails");
+                displayAddressDetails();
+                alert("✓ Payment method removed successfully!");
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const loginModal = document.getElementById("loginModal");
+            const signupModal = document.getElementById("signupModal");
+            const addressModal = document.getElementById("addressModal");
+            
+            if (event.target === loginModal) {
+                closeLoginModal();
+            }
+            if (event.target === signupModal) {
+                closeSignupModal();
+            }
+            if (event.target === addressModal) {
+                closeAddressModal();
+            }
+            if (event.target === document.getElementById("paymentModal")) {
+                closePaymentModal();
+            }
+            if (event.target === document.getElementById("cardDetailsModal")) {
+                closeCardDetailsModal();
+            }
+        }
+
+        /* SEARCH FUNCTION */
+        function searchProduct() {
+            let val = document.getElementById("search").value.toLowerCase();
+
+            productList.innerHTML = "";
+
+            products
+                .filter(p => p.name.toLowerCase().includes(val))
+                .forEach(p => {
+                    productList.innerHTML += `
+                        <div class="product">
+                            <img src="${p.img}">
+                            <h3>${p.name}</h3>
+                            <p>$${p.price}</p>
+                            <button onclick="addToCart(${p.id})">Add to Cart</button>
+                            <button class="buy-btn" onclick="buyNow(${p.id})">Buy Now</button>
+                        </div>
+                    `;
+                });
+        }
+    </script>
+
+</body>
+</html>
